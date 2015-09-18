@@ -12,15 +12,15 @@ defaults:
     scope:
       path: "" # empty string for all files
     values:
-      title: "Mobile Development with PhoneGap, AngularJS and REST API"
+      title: "Building meumobi: SaaS Platform for Mobile Projects"
 
-description: "haring Experience about Mobile Development with PhoneGap, AngularJS and REST API"
+description: "Sharing Experience about Mobile Development with PhoneGap, AngularJS and REST API"
 author:
   name: meumobi
   email: contact@meumobi.com
   github: meumobi
   twitter: meumobi
-  bio: Sharing mobile Experiences
+  bio: Sharing mobile Experience
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 
 rss_path: feed.xml

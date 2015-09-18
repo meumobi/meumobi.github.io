@@ -12,3 +12,6 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 http://news.softpedia.com/news/Misconceptions-About-Responsive-Web-Design-483639.shtml?utm_source=mobilewebweekly&utm_medium=email
+
+http://www.soasta.com/blog/23-stats-mobile-web-performance-monitoring
+http://www.theverge.com/2015/7/20/9002721/the-mobile-web-sucks

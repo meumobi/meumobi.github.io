@@ -11,3 +11,5 @@ author:
   bio: Sharing mobile Experiences
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
+
+https://www.firebase.com/docs/web/libraries/angular/quickstart.html
