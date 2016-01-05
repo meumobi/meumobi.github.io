@@ -46,7 +46,7 @@ More details about [localStorage management on iOS]:
 > Since the Documents directory is specific for each app, it will be automatically saved to iCloud.
 
 ## How to fix it
-To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in the config.xml file.
+To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in config.xml to allow only local backups via iTunes sync. Set to "none" prevent web storage backups.
 
 ```xml
 <preference name="BackupWebStorage" value="local"/ >
@@ -57,7 +57,7 @@ OBS: An issue is open about:
 - PhoneGap Build Community issue: http://community.phonegap.com/nitobi/topics/backupwebstorage_and_ios
 
 [Apple's Q&A]: https://developer.apple.com/library/ios/qa/qa1719/_index.html
-[Cordova iOS Configuration]: https://cordova.apache.org/docs/en/4.0.0/guide_platforms_ios_config.md.html
+[Cordova iOS Configuration]: https://cordova.apache.org/docs/en/latest/guide/platforms/ios/config.html
 [localStorage management on iOS]: http://stackoverflow.com/questions/7813258/does-phonegap-localstorage-save-to-icloud
 [Cordova File Plugin]: https://github.com/apache/cordova-plugin-file
 [infoMobi]: http://infomobi.strikingly.com
