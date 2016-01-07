@@ -21,7 +21,7 @@ $ service sendmail status
 ```
 # Install OpenDKIM
 ```sh
-$ aptitude install opendkim opdendkim-tools
+$ aptitude install opendkim opendkim-tools
 ```
 
 Create new directory for your keys
