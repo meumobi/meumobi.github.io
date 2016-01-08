@@ -42,6 +42,8 @@ ui-employee@0.0.0 /Users/victor/Dvpt/PROJECTS/ui-Employee
 
 Don't forget to use "-g" option to check global package.
 
+Use --depth 0 option to not display dependencies.
+
 # Lastest available version of package: npm view (alias info)
 The [npm view] command shows data about a package and prints it to the stream. 
 For latest available version use following command:
@@ -63,26 +65,30 @@ $ npm view phonegap description
 PhoneGap command-line interface and node.js library.
 ```
 
+# Check for outdated packages: npm outdated
+The [npm outdated] command will check the registry to see if any (or, specific) installed packages are currently outdated.
+
+```bash
+$ npm outdated -g
+Package            Current  Wanted  Latest  Location
+bower                1.6.5   1.7.2   1.7.2  
+cordova              5.2.0   5.4.1   5.4.1  
+ios-deploy           1.8.3   1.8.4   1.8.4  
+ios-sim              4.1.1   5.0.6   5.0.6  
+jscs                 2.6.0   2.8.0   2.8.0  
+json2csv            2.11.0   3.0.2   3.0.2  
+npm                  3.5.0   3.5.4   3.5.3  
+npm-check-updates    2.5.4   2.5.6   2.5.6  
+phonegap             5.3.8   5.4.0   5.4.0  
+update               0.3.6   0.4.1   0.4.1  
+yo                   1.5.0   1.6.0   1.6.0
+$
+```
 # Update a package: npm update
-This [npm update] command will update all the packages listed to the latest version (specified by the tag config), respecting [semantic versioning parser].
+The [npm update] command will update all the packages listed to the latest version (specified by the tag config), respecting [semantic versioning parser].
 
 # Uninstall Package: npm uninstall
 [npm uninstall]
-
-# Check if exist new version of packages: npm-check-updates
-
-```bash
-$ sudo npm install -g npm-check-updates
-$ ncu
- gulp-ignore       ^1.2.0  →  ^2.0.1 
- gulp-mobilizer    ^0.0.2  →  ^0.0.3 
- gulp-ng-annotate  ^0.2.0  →  ^1.1.0 
- gulp-replace      ^0.4.0  →  ^0.5.4 
- gulp-rimraf       ^0.1.0  →  ^0.2.0 
- run-sequence      ^0.3.6  →  ^1.1.5 
- streamqueue       ^0.1.1  →  ^1.1.1 
-$ 
-```
 
 # Difference between tilde(~) and caret(^) in package.json
 In the simplest terms, the tilde matches the most recent minor version (the middle number). ~1.2.3 will match all 1.2.x versions but will miss 1.3.0.
@@ -108,8 +114,17 @@ The difference between “reasonably close” and “compatible” can be traced
 
 Only major versions are allowed to break compatibility, so a developer should be able to switch between minors and patches with ease.
 
+# Where does npm install packages?: npm root
+You can run [npm root] to see where libraries are installed. Add -g option for global libraries.
+
+# Known Issues
+- [npm outdated failes with 404 if module is not in the registry](https://github.com/npm/npm/issues/8752)
+- [change to `latest` behavior causes strangeness in npm's own repo](https://github.com/npm/npm/issues/10409)
+
+[npm root]: https://docs.npmjs.com/cli/root
 [semantic versioning parser]: https://github.com/isaacs/node-semver
 [npm update]: https://docs.npmjs.com/cli/update
+[npm outdated]: https://docs.npmjs.com/cli/outdated
 [npm uninstall]: https://docs.npmjs.com/cli/uninstall
 [npm ls]: https://docs.npmjs.com/cli/ls
 [npm view]: https://docs.npmjs.com/cli/view
