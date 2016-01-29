@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Keep SSH session alive
-categories: [Tips & Tricks]
+categories: [Tips and Tricks]
 tags: [ssh]
 author:
   name: Victor Dias
