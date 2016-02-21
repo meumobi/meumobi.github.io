@@ -13,4 +13,9 @@ $( document ).ready(function() {
 	
 	contact_list.mouseleave(function(){ scontacts.fadeOut(); });
 
+	// prevent line-breaks in links and make open in new tab
+	$('div.article_body a').not('[rel="footnote"], [rev="footnote"]').html(function(i, str) {
+	    return str.replace(/ /g,'&nbsp;');
+	}).attr('target','_blank');
+
 });
