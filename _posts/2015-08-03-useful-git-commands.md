@@ -113,11 +113,12 @@ $ git push <remote> <branch> --force
 # How to modify a specified commit in git?
 Assume you have a history that looks like this:
 
+```bash
 $ git log --graph --oneline
 * b42d293 Commit3
 * e8adec4 Commit2
 * faaf19f Commit1
-
+```
 
 I know that I can modify HEAD commit with git commit --amend, but how can I modify Commit2, given that it is not the HEAD commit?
 
@@ -218,7 +219,9 @@ To unstage all due changes, use also reset command withour any file name.
 git reset
 ```
 
-Source: http://stackoverflow.com/questions/348170/undo-git-add-before-commit
+Source: 
+- http://stackoverflow.com/questions/348170/undo-git-add-before-commit
+- https://github.com/blog/2019-how-to-undo-almost-anything-with-git
 
 # Copy working-tree (without .git files)
 Checkout from remote repository
@@ -229,6 +232,16 @@ path-to-repository$ git checkout --work-tree=../tmp/Employee checkout HEAD -- .
 
 Source: http://stackoverflow.com/a/16493707/4982169
 
+# Git clone including submodules
+
+```sh
+git clone --recurse-submodules
+```
+
+Note that --recurse-submodules and --recursive
+Source: http://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules
+
 # Links
 
 - http://rogerdudler.github.io/git-guide/
+- http://www.miximum.fr/enfin-comprendre-git.html
