@@ -60,33 +60,12 @@ $ sudo cordova plugin list |grep cordova-plugin-splashscreen
 cordova-plugin-splashscreen 3.2.0 "Splashscreen"
 ```
 
-# Update your config.xml
-If you want to use only pinned version you should update your config.xml and remove all `spec` attributes. I've decided to use the version 3.2.0 of `cordova-plugin-splashscreen`.
+# PhoneGap Build
+I've tested PhoneGap Build, removing all versions of Core Cordova plugins from config.xml. PGB installed latest versions instead of pinned ones. So I've raised a PGB issue ["Installed plugin version is different than expected pinned version "](http://community.phonegap.com/nitobi/topics/installed-plugin-version-is-different-than-expected-pinned-version) and after few comments with PGB team they updated a [Blog post about how phonegap release works](https://unbot.wordpress.com/2016/02/01/how-cordova-and-phonegap-releases-work/) and add a chapter "Clear Up Confusion on Pinning"
 
-```xml
-	<plugin name="cordova-plugin-battery-status" />
-	<plugin name="cordova-plugin-camera" />
-	<plugin name="cordova-plugin-console" />
-	<plugin name="cordova-plugin-contacts" />
-	<plugin name="cordova-plugin-device" />
-	<plugin name="cordova-plugin-device-motion" />
-	<plugin name="cordova-plugin-dialogs" />
-	<plugin name="cordova-plugin-file" />	
-	<plugin name="cordova-plugin-file-transfer" />
-	<plugin name="cordova-plugin-geolocation" />
-	<plugin name="cordova-plugin-globalization" />
-	<plugin name="cordova-plugin-inappbrowser" />
-	<plugin name="cordova-plugin-insomnia" />
-	<plugin name="cordova-plugin-media" />
-	<plugin name="cordova-plugin-media-capture" />
-	<plugin name="cordova-plugin-network-information" />
-	<plugin name="cordova-plugin-splashscreen" spec="3.2.0"/>
-	<plugin name="cordova-plugin-statusbar" />
-	<plugin name="cordova-plugin-vibration" />
-	<plugin name="cordova-plugin-whitelist" />
-```
+> NOW THE CONFUSION: Previous to version 6.0.0 Plugins were not “pinned” to Tools Release. This is a new policy. As should be expected, Phonegap Build  has not implemented this policy – YET; even though the recently decide to use cli-6.0.0 (but not as the default build).
 
 # Conclusion
-So, as you can see the pinned version allows Cordova to automatically update the Core Cordova plugins when needed and guarantee a minimum of tests of compatibility. But you should continue to be aware with major and minor releases of plugins to be sure you don't need updates.
+So, as you can see the pinned version allows Cordova to automatically update the Core Cordova plugins when needed and guarantee a minimum of tests of compatibility. But you should continue to be aware with major and minor releases of plugins to be sure you don't need to update your code.
 
-Unfortunatly there's no `cordova plugins check` or `cordova plugins outdated` as it exists for [npm outdated]({% post_url 2015-11-11-useful-npm-commands %}). It should help us to know which plugins have a new version.
+Unfortunatly there's no `cordova plugins check` or `cordova plugins outdated` as it exists for [npm outdated]({% post_url 2015-11-11-useful-npm-commands %}). It should help us to know which plugins have a new version. I recommend the post of [@raymondcamden](https://twitter.com/raymondcamden) ["Checking for platform and plugin updates in your Cordova project"](http://www.raymondcamden.com/2015/11/04/checking-for-platform-and-plugin-updates-in-your-cordova-project/) to dive deeper on this subject.
