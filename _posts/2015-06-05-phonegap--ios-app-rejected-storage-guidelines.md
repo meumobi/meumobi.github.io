@@ -51,6 +51,11 @@ To disable web storage backup to iCloud, set the BackupWebStorage preference to 
 ```xml
 <preference name="BackupWebStorage" value="local"/ >
 ```
+
+For more information please read "iOS Data Storage Guidelines" at:
+	https://developer.apple.com/icloud/documentation/data-storage/
+	
+
 OBS: An issue is open about:
 
 - PhoneGap Build GitHub: https://github.com/phonegap/build/issues/338
