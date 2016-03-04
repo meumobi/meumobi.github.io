@@ -42,7 +42,7 @@ ui-employee@0.0.0 /Users/victor/Dvpt/PROJECTS/ui-Employee
 
 Don't forget to use "-g" option to check global package.
 
-Use --depth 0 option to not display dependencies.
+Use `--depth 0` option to not display dependencies.
 
 # Lastest available version of package: npm view (alias info)
 The [npm view] command shows data about a package and prints it to the stream. 
@@ -113,6 +113,27 @@ The difference between “reasonably close” and “compatible” can be traced
 ― semver.org
 
 Only major versions are allowed to break compatibility, so a developer should be able to switch between minors and patches with ease.
+
+# Upgrade your package.json dependencies to the latest versions
+[npm-check-updates](https://github.com/tjunnone/npm-check-updates) is a command-line tool that allows you to upgrade your package.json or bower.json dependencies to the latest versions, regardless of existing version constraints.
+
+npm-check-updates maintains your existing semantic versioning policies, i.e., it will upgrade your "express": "^4.11.2" dependency to "express": "^5.0.0" when express 5.0.0 is released.
+
+```bash
+$ sudo npm install -g npm-check-updates
+$ ncu
+
+ font-awesome                              4.2  →     4.5 
+ bootstrap                                 3.2  →     3.3 
+ js-md5                                  1.1.0  →   1.1.1 
+ angular-carousel                       ~0.3.x  →  ~1.0.x 
+ angular-translate                      ~2.7.2  →  ~2.8.1 
+ angular-translate-loader-static-files  ~2.7.2  →  ~2.8.1 
+ angular-translate-storage-local        ~2.7.2  →  ~2.8.1 
+ angular-translate-handler-log          ~2.7.2  →  ~2.8.1 
+```
+
+Run with -u to upgrade bower.json
 
 # Where does npm install packages?: npm root
 You can run [npm root] to see where libraries are installed. Add -g option for global libraries.
