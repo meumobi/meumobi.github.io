@@ -154,6 +154,3 @@ It uses the open source [D3FC](http://scottlogic.github.io/d3fc/), a collection 
 See an example of [Candlestick series using D3FC](https://d3fc.io/components/series/candlestick.html).
 
 I didn't investigate yet but maybe the [yuilibrary](http://yuilibrary.com/yui/docs/charts/) can provide nice tools to achieve it also.
-
-http://www.revistari.com.br/201/1084
-
