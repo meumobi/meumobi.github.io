@@ -124,9 +124,9 @@ I know that I can modify HEAD commit with git commit --amend, but how can I modi
 
 Interactive rebase with --autosquash is something useful when you need to fixup previous commits deeper in the history. It's especially handy when you have more than one commit you need to edit.
 
-From the documentation:
+From the man git-rebase page:
+
 > --autosquash  
-  
 When the commit log message begins with "squash! …​" (or "fixup! …​"), and there is a commit whose title begins with the same …​, automatically modify the todo list of rebase -i so that the commit marked for squashing comes right after the commit to be modified
 
 If you have changes that you want to amend to Commit2 then commit your changes using:
@@ -149,6 +149,7 @@ pick b42d293 Commit3
 ```
 
 All you need to do is save and exit
+
 # How to have git log show filenames ?
 
 ```sh
