@@ -12,7 +12,7 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 npm is the package manager for javascript. The npm command-line tool is bundled with Node.js. If you have it installed, then you already have npm too. If not, go download [Node.js].  
-You can browser packages on [http://www.npmjs.com](https://www.npmjs.com/)
+You can browse packages on [http://www.npmjs.com](https://www.npmjs.com/)
 ![npm-logo]({{ site.BASE_PATH }}/assets/media/npm-logo.svg)
 
 # Install a package: npm install
