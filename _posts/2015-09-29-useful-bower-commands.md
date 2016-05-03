@@ -20,7 +20,7 @@ See
 http://andy-carter.com/blog/a-beginners-guide-to-package-manager-bower-and-using-gulp-to-manage-components
 
 # Check installed version
-$ bower --version
+`$ bower --version`
 
 # Search component: bower search
 
@@ -155,6 +155,7 @@ bower validate      1.0.0 against https://github.com/Maistho/angular-imgcache.js
 
 ```
 
-# Goign further
-- http://www.zell-weekeat.com/bower/
-- http://blog.teamtreehouse.com/getting-started-bower
+# Going further
+
+- [http://www.zell-weekeat.com/bower/](http://www.zell-weekeat.com/bower/)
+- [http://blog.teamtreehouse.com/getting-started-bower](http://blog.teamtreehouse.com/getting-started-bower)
