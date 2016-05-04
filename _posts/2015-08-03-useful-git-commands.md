@@ -17,9 +17,9 @@ If, like me, you are lost in git command's world, here my ultimate cheatsheet I 
 # Stashing your Work
 
 So there you are, working on a new feature, modifying files in the working directory and/or index and you find out you need to fix a bug on a different branch. You can’t just switch to a different branch and lose all your work.
-http://www.gitguys.com/topics/temporarily-stashing-your-work/
+Source: [http://www.gitguys.com/topics/temporarily-stashing-your-work/](http://www.gitguys.com/topics/temporarily-stashing-your-work/)
 
-### Add Files to the Index
+## Add Files to the Index
 
 We first need to add the new files to the index.
 No need to add updates to the index since that paths were already in the index: Git will notice that the working directory version is newer than the index and will stash them.
@@ -28,7 +28,7 @@ No need to add updates to the index since that paths were already in the index: 
 $ git add NEW_FILE
 ```
 
-### Stash Time
+## Stash Time
 
 Now we’re ready for the stashing:
 
@@ -42,7 +42,6 @@ HEAD is now at 8d8b865 Initial commit
 
 Now we can do anything we want, such as git checkout other-branch, make modifications, fix bugs, and commit the fix to that branch.
 
-
 ### Stash pop and Working Directory is Back
 
 When we’re ready to continue where we left off, above, we simply type git stash pop and our “stashed” working directory is back where it was when we had typed git stash:
@@ -51,8 +50,7 @@ When we’re ready to continue where we left off, above, we simply type git stas
 $ git stash pop
 ```
 
-
-# How to clone git repository with specific revision/changeset ?
+### How to clone git repository with specific revision/changeset ?
 
 ```sh
 $ git clone $URL
@@ -64,10 +62,12 @@ To again go back to the most recent commit
 ```sh
 $ git checkout master
 ```
+
 # How do I revert all local changes in Git
 ```sh
 $ git checkout .
 ```
+
 # To create a branch
 ...and switch to it at the same time, you can run the git checkout command with the -b switch:
 
@@ -82,8 +82,10 @@ This is shorthand for:
 $ git branch iss53 // Create a branch iss53
 $ git checkout iss53 // Switch to branch iss53
 ```
+
 # Amend your last commit
 If you ever find that you accidentally left something out of your last commit, be it a file, an extra change to a file that you just committed or a wrong comment,  don't worry. It can easily be fixed.
+
 ### Commit has not been pushed online
 ```sh
 $ git commit --amend -m "New commit message"
@@ -98,7 +100,8 @@ $ git commit --amend
 …however, this can make multi-line commit messages or small corrections more cumbersome to enter.
 Make sure you don't have any working copy changes before doing this or they can get committed too.
 
-Source: https://nathanhoad.net/git-amend-your-last-commit
+Source: [https://nathanhoad.net/git-amend-your-last-commit](https://nathanhoad.net/git-amend-your-last-commit)
+
 ### Commit has been already pushed to your remote branch
 
 If you've already pushed your commit up to your remote branch
@@ -120,13 +123,13 @@ $ git log --graph --oneline
 * faaf19f Commit1
 ```
 
-I know that I can modify HEAD commit with git commit --amend, but how can I modify Commit2, given that it is not the HEAD commit?
+I know that I can modify HEAD commit with `git commit --amend`, but how can I modify Commit2, given that it is not the HEAD commit?
 
-Interactive rebase with --autosquash is something useful when you need to fixup previous commits deeper in the history. It's especially handy when you have more than one commit you need to edit.
+Interactive rebase with `--autosquash` is something useful when you need to fixup previous commits deeper in the history. It's especially handy when you have more than one commit you need to edit.
 
 From the man git-rebase page:
 
-> --autosquash  
+> `--autosquash`  
 When the commit log message begins with "squash! …​" (or "fixup! …​"), and there is a commit whose title begins with the same …​, automatically modify the todo list of rebase -i so that the commit marked for squashing comes right after the commit to be modified
 
 If you have changes that you want to amend to Commit2 then commit your changes using:
@@ -221,17 +224,23 @@ git reset
 ```
 
 Source: 
-- http://stackoverflow.com/questions/348170/undo-git-add-before-commit
-- https://github.com/blog/2019-how-to-undo-almost-anything-with-git
+- [http://stackoverflow.com/questions/348170/undo-git-add-before-commit](http://stackoverflow.com/questions/348170/undo-git-add-before-commit)
+- [https://github.com/blog/2019-how-to-undo-almost-anything-with-git](https://github.com/blog/2019-how-to-undo-almost-anything-with-git)
 
 # Copy working-tree (without .git files)
 Checkout from remote repository
+
+```bash
 git checkout --work-tree=tmp/ --git-dir="https://github.com/meumobi/ConferenceTracker.git"
+```
 
 Checkout files of current git repository
-path-to-repository$ git checkout --work-tree=../tmp/Employee checkout HEAD -- .
 
-Source: http://stackoverflow.com/a/16493707/4982169
+```bash
+path-to-repository$ git checkout --work-tree=../tmp/Employee checkout HEAD -- .
+```
+
+Source: [http://stackoverflow.com/a/16493707/4982169](http://stackoverflow.com/a/16493707/4982169)
 
 # Git clone including submodules
 
@@ -239,10 +248,10 @@ Source: http://stackoverflow.com/a/16493707/4982169
 git clone --recurse-submodules
 ```
 
-Note that --recurse-submodules and --recursive
-Source: http://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules
+Note that `--recurse-submodules` and `--recursive` are equivalent aliases.
+Source: [http://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules](http://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules)
 
 # Links
 
-- http://rogerdudler.github.io/git-guide/
-- http://www.miximum.fr/enfin-comprendre-git.html
+- [http://rogerdudler.github.io/git-guide/](http://rogerdudler.github.io/git-guide/)
+- [http://www.miximum.fr/enfin-comprendre-git.html](http://www.miximum.fr/enfin-comprendre-git.html)
