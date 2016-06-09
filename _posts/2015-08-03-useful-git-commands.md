@@ -83,6 +83,29 @@ $ git branch iss53 // Create a branch iss53
 $ git checkout iss53 // Switch to branch iss53
 ```
 
+# Changing an older commit message
+You can use interactive rebase, then force push to change the commit history.
+
+On the command line, navigate to the repository that contains the commit you want to amend.
+Use the git rebase -i HEAD~n command to display a list of the last n commits in your default text editor.
+
+1. Replace `pick` with `reword` before each commit message you want to change.
+2. Save and close the commit list file.
+3. In each resulting commit file, type the new commit message, save the file, and close it.
+4. Force-push the amended commits.
+
+```bash
+$ git rebase -i HEAD~3
+pick d575f9c ENHANCEMENT: Closes #73, add SANB aditional contact
+reword caa46b3 FEATURE: Closes #183, add one-signal Push provider support
+pick 7ef0ace Update release notes
+
+...
+$ git push --force
+```
+
+Source: [https://help.github.com/articles/changing-a-commit-message/](https://help.github.com/articles/changing-a-commit-message/)
+
 # Amend your last commit
 If you ever find that you accidentally left something out of your last commit, be it a file, an extra change to a file that you just committed or a wrong comment,  don't worry. It can easily be fixed.
 
@@ -250,6 +273,20 @@ git clone --recurse-submodules
 
 Note that `--recurse-submodules` and `--recursive` are equivalent aliases.
 Source: [http://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules](http://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules)
+
+# Rollback to an old Git commit
+
+you just want your working copy to reflect a specific commit? Use git checkout and the commit hash.
+Use git checkout <commit> -b <branchname> to checkout into a branch, or git checkout <commit> . to checkout into the current branch.
+	
+$ git checkout 1a9b1267d1c2d66b8ff668ee79a21fc261008d68 -b rel-05-apr
+Switched to a new branch 'rel-05-apr'
+$ git branch
+  master
+* rel-05-apr
+$
+
+Source: [http://stackoverflow.com/questions/2007662/rollback-to-an-old-git-commit-in-a-public-repo](http://stackoverflow.com/questions/2007662/rollback-to-an-old-git-commit-in-a-public-repo)
 
 # Links
 
