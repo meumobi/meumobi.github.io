@@ -1,0 +1,1 @@
+http://googlewebmastercentral.blogspot.com.br/2015/09/mobile-friendly-web-pages-using-app.html

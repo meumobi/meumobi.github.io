@@ -15,3 +15,9 @@ http://news.softpedia.com/news/Misconceptions-About-Responsive-Web-Design-483639
 
 http://www.soasta.com/blog/23-stats-mobile-web-performance-monitoring
 http://www.theverge.com/2015/7/20/9002721/the-mobile-web-sucks
+http://blog.hubspot.com/marketing/9-mobile-web-design-principles
+https://www.youtube.com/watch?v=1Erp7dtKvpw
+
+https://zoompf.com/blog/2015/04/how-to-keep-your-site-fast-for-mobile-friendly
+http://webperformance.io/mobile-friendly-data
+https://www.smashingmagazine.com/2016/01/responsive-image-breakpoints-generation/?utm_source=mobilewebweekly&utm_medium=email

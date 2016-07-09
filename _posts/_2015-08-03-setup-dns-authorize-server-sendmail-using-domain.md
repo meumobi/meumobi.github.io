@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Setup your DNS to Authorize your Server to Send Mail using your Domain.
+title: How do I stop my emails being flagged as spam ?
 categories: [Sendmail]
 tags: [SPF, DKIM]
 author:
@@ -11,6 +11,8 @@ author:
   bio: Sharing mobile Experiences
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
+How do I stop my emails being flagged as spam ? The response should be:
+Setup your DNS to Authorize your Server to Send Mail using your Domain and not be considered as Spam.
 
 When recipients receive your emails, their spam filters automatically poke your domain to see if email sender is not forged. In order to do that filters check 3 effective email signatures:
 
@@ -46,13 +48,23 @@ I've updated following reverses:
 elefante 176.31.249.79	from ks387594.kimsufi.com to meumobi.com
 arpoador 37.187.106.27	from [EMPTY] to int-meumobi.com.
 
+## X-Authentication-Warning
+If you change the sender of e-mail, you should see "X-Authentication-Warning" header on Original email Source, see below an example
 
-https://www.rosehosting.com/blog/install-and-configure-opendkim-on-debian-squeeze/
+`X-Authentication-Warning: host.domain.com: www-data set sender to no-reply@domain.com using -f`
+
+### Configure trusted-users in sendmail
+You can stop that header appearing by configuring user (www-data on example above) as a trusted user in [sendmail], allowed to change the sender on an e-mail. Assuming your sendmail is standard and version is > 8.13, the simplest way is usually to add www-data to /etc/mail/trusted-users (one username per line). And add the optional FEATURE named use_ct_file in submit.mc. 
+
+### Alternative solution: Use a SMTP client/library in your application
+Use a SMTP client/library in your application and send your mails directly to the SMTP gateway. You will not send them thru sendmail, which add this line.
+
+[sendmail](http://www.sendmail.com/sm/open_source/docs/configuration_readme/) 
 http://www.kitterman.com/getspf2.py
 http://mxtoolbox.com/dkim.aspx
-http://opendkim.org/docs.html
+https://dmarc.org/presentations/Email-Authentication-Basics-2015Q2.pdf
 http://support.postmarkapp.com/customer/portal/articles/64736-how-can-i-check-if-my-dkim-and-spf-records-are-valid-
-https://www.sendmail.com/sm/open_source/dkim/
+
 https://www.mail-tester.com/spf-dkim-check
 https://support.google.com/mail/answer/81126
 http://dkimvalidator.com/

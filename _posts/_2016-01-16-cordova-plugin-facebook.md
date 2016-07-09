@@ -1,0 +1,1 @@
+https://github.com/jeduan/cordova-plugin-facebook4

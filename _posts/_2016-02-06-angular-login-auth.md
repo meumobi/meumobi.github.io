@@ -1,0 +1,2 @@
+http://stackoverflow.com/questions/20969835/angularjs-login-and-authentication-in-each-route-and-controller
+http://fdietz.github.io/recipes-with-angular-js/urls-routing-and-partials/listening-on-route-changes-to-implement-a-login-mechanism.html
