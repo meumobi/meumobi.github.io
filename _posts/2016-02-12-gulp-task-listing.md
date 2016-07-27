@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Provide an auto task listing for your gulpfile
-categories: [Tips and Tricks]
+categories: [Tips and tricks]
 tags: [gulp]
 author:
   name: Victor Dias
