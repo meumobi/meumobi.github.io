@@ -72,7 +72,7 @@ What this means:
 ## Issues Using YQL and Open Data Tables
 
 ### Unreachable datatables.org raises HTTP/1.0 400 Bad Request
-We've faced serious issues with YQL data tables. The main issue was the availability of [datatables.org](datatables.org). When datatables.org is unreachable, YQL is unable to retrieve data.
+We've faced serious issues with YQL data tables. The main issue was the availability of [datatables.org](http://datatables.org). When datatables.org is unreachable, YQL is unable to retrieve data.
 
 If you use the [YQL console](https://developer.yahoo.com/yql/console/?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(%22YHOO%22)) you'll have the following response `No definition found for Table yahoo.finance.quotes`.
 
