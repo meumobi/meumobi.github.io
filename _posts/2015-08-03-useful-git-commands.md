@@ -183,6 +183,7 @@ $ git log --stat
 ```
 
 # Mark Release Points with Tags
+
 ## Lightweight Tags
 To create a lightweight tag, this is basically the commit checksum stored in a file – no other information is kept, use following command:
 
