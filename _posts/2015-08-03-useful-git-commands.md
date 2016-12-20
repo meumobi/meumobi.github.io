@@ -50,7 +50,7 @@ When we’re ready to continue where we left off, above, we simply type git stas
 $ git stash pop
 ```
 
-### How to clone git repository with specific revision/changeset ?
+# How to clone git repository with specific revision/changeset ?
 
 ```sh
 $ git clone $URL
@@ -200,6 +200,17 @@ By default, the git push command doesn’t transfer tags to remote servers. You 
 $ git push origin rel-1.2.7
 ```
 
+## Checkout a Specific Tag
+`$ git clone` will give you the whole repository.
+
+After the clone, you can list the tags with `$ git tag -l` and then checkout a specific tag:
+
+`$ git checkout tags/<tag_name>`
+
+Even better, checkout and create a branch (otherwise you will be on a branch named after the revision number of tag):
+
+`$ git checkout tags/<tag_name> -b <branch_name>`
+
 # Automatically convert line endings correctly for your platform
 In git-config, set core.autocrlf to true to make git automatically convert line endings correctly for your platform.
 
@@ -288,6 +299,14 @@ $ git branch
 $
 
 Source: [http://stackoverflow.com/questions/2007662/rollback-to-an-old-git-commit-in-a-public-repo](http://stackoverflow.com/questions/2007662/rollback-to-an-old-git-commit-in-a-public-repo)
+
+# Rename branch (locally and remotely)
+
+```bash
+git branch -m old_branch new_branch         # Rename branch locally    
+git push origin :old_branch                 # Delete the old branch    
+git push --set-upstream origin new_branch   # Push the new branch, set local branch to track the new remote
+```
 
 # Links
 

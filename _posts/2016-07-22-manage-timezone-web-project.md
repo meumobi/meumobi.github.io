@@ -88,9 +88,11 @@ The definition of ambiguity is up to you, we've seen two ways, geo-location or d
 **If the event has no location, a conference call for example, you can no matter about ambiguity**.
 
 # How to manipulate time in pure JS?
+If you try to manipulate time in pur JS, using [Standard built-in Date object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) you'll find issues with browser compatibility. Following link above you'll a browser compatibility status it needed.  
+It's why we recommend using a lib for that, the most famous is [moment.js](http://momentjs.com/). We'll use it with its "add-on" [moment-timezone.js](http://momentjs.com/timezone/).
 
 ## Get UTC time
-We'll use the [Standard built-in Date object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date), a time value that is the number of milliseconds since 1 January, 1970 UTC.
+We've saved on db the unix timestamp of the event, that represents the number of seconds since 1 January, 1970 UTC.
 
 ```javascript
 var date = new Date();
@@ -117,6 +119,9 @@ else if (navigator.language) {
 ```
 
 ## Localize the time
+
+By default, moment objects are created in the [local time zone](http://momentjs.com/timezone/docs/#/using-timezones/default-timezone/).
+
 Use [date.toLocaleTimeString](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleTimeString) with following options:
 
 - locale = "pt-BR";
@@ -127,10 +132,32 @@ console.log(date.toLocaleTimeString("pt-BR", {hour:'numeric', minute:'numeric', 
 > 09:00 BRST
 ```
 
-## Guessing user zone: moment.js
-By this way you can display the tz but can't know if the device tz is or not different than event one. In order to do that we need an extra lib. The most famous is [moment.js](http://momentjs.com/) and [moment-timezone.js](http://momentjs.com/timezone/). 
+## Guessing user zone
 
-moment provides `moment.tz.guess()` to get user tz. Then, if exists, you can compare the event and device's user tz and display the abbr if an ambiguity exists.
+### moment.tz().guess()
+moment.js provides `moment.tz.guess()` to get user tz. Then, if exists, you can compare the event and device's user tz and display the abbr if an ambiguity exists.
+
+```javascript
+console.log(moment.tz(moment.tz.guess()).format('z'));
+> BRT
+```
+
+But be aware that [it's just a guess. It might guess wrong](https://github.com/moment/moment/issues/162#issuecomment-182539707).
+
+### cordova-plugin-globalization
+If you use Cordova you can use [cordova-plugin-globalization](https://github.com/apache/cordova-plugin-globalization#navigatorglobalizationgetdatepattern), this plugin obtains information and performs operations specific to the user's locale, language, and timezone.
+
+```javascript
+function checkDatePattern() {
+    navigator.globalization.getDatePattern(
+        function (date) { 
+          alert('Timezone Abbr: ' + date.timezone + '\n'); },
+          // Displays "GMT-03:00"
+        function () { alert('Error getting timezone\n'); },
+        { formatLength: 'short', selector: 'date and time' }
+    );
+}
+```
 
 ## Resume
 

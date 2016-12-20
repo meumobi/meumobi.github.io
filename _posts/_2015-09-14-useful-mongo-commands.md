@@ -1,9 +1,17 @@
 
+db.skins.update({_id: ObjectId("57d8d93f9a645d9e354a7b7d")}, {$set: {tokens:{"contact_screen_title": "Fala com a comunicação interna"}}})
+
+db.skins.update({_id: ObjectId("57d9dd439a645dcf774a7b7d")}, {$set: {layout_alternatives:{"tab_2 (Category Id)": 7263}, colors:{defaultBg:"#FF8C04"}, main_color: "FF8C04", thumbnails: ["/images/themes/infomobi-1.png"], assets: {android_custom_icon:"/images/themes/infomobi-1.png"}}})
+
+, {colors:{defaultBg:"#FF8C04"}}
 
 > db.visitors.find({devices:{$elemMatch:{uuid: "08408D59-EB33-47F8-9CD7-DC41125E78EE"}}})
-db.extensions.update({priority: 1}, {$set:{priority: 0}}, {multi: true})
-db.items.update({_id: ObjectId("5566104870179660238b4673")}, {$set:{published: ISODate("2014-12-17T19:34:00Z")}})
-db.items.update({_id: 'http://respostassustentaveis.com.br/feed/rss/'}, {$set:{"enabled": true, priority: 1}})
+
+> db.extensions.update({priority: 1}, {$set:{priority: 0}}, {multi: true})
+
+> db.items.update({_id: ObjectId("5566104870179660238b4673")}, {$set:{published: ISODate("2014-12-17T19:34:00Z")}})
+
+> db.items.update({_id: 'http://respostassustentaveis.com.br/feed/rss/'}, {$set:{"enabled": true, priority: 1}})
 
 > db.collection.aggregate([{ $group: {_id: { email: "$email" }, uniqueIds: { $addToSet: "$_id" }, count: { $sum: 1 }}}, { $match: { count: { $gte: 2 }}}, { $sort : { count : -1} }, { $limit : 10 }]);
 { "result" : [ ], "ok" : 1 }
@@ -16,6 +24,9 @@ db.items.remove({guid: "http://ri.triunfo.com/Show.aspx?idMateria=Z9aa6YijZ8fqmg
 db.items.find({medias:{$elemMatch:{type: "video/mp4"}}})
 
 > db.items.find({parent_id: 7072}).map(function(a) { return a.guid }).sort()
+
+# List all collections
+`> db.getCollectionNames()`
 
 # Find MongoDB records where array field is not empty
 db.visitors.find({devices: {$exists: true, $ne: []}})
@@ -49,6 +60,9 @@ db.visitors.find({devices:{$elemMatch:{model: /GT/}}})
 want the query to be case-insensitive ? use "i" option, like shown below:
 
 db.users.find({name: /ro$/i})
+
+# How to query mongodb with “Not like”?
+> db.visitors.find({email: {$not: /@katrium.com.br/}, site_id: 515})
 
 # Update a record
 > db.items.update({_id: 'http://respostassustentaveis.com.br/feed/rss/'}, {$set:{"enabled": true, priority: 1}})

@@ -104,7 +104,7 @@ Source: [http://wern-ancheta.com/blog/2015/04/05/getting-started-with-the-yahoo-
 
 # Yahoo webservice API
 
-/!\ Update 2016-12-20: Seems that Yahoo has interrupted this webservice on middle of 2016
+/!\ Update 2016-12-20: Seems that [Yahoo has interrupted this webservice](http://stackoverflow.com/questions/38355075/has-yahoo-finance-web-service-disappeared-api-changed-down-temporarily) on middle of 2016
 
 The Yahoo finance webservice API is pretty straight forward comparing to both solutions above.
 I've never found any official documentation about, but if you want to fetch stock quotes you'll obtain following response:
@@ -173,4 +173,6 @@ I didn't investigate yet but maybe the [yuilibrary](http://yuilibrary.com/yui/do
 There are plenty of [Online Services to get quotes](http://www.programmableweb.com/news/96-stocks-apis-bloomberg-nasdaq-and-etrade/2013/05/22), but I don't know any free and stable.
 
 
-[openexchangerates](https://openexchangerates.org/) seems a low cost and simple to integrate solution. Let me know on comment if you have suggestions.
+[openexchangerates](https://openexchangerates.org/) seems simple to integrate and has an affordable price.
+
+Let me know on comment if you have other suggestions.

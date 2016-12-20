@@ -28,4 +28,7 @@ the only HTML5 feature difference is IndexedDB support.
 if (window.indexedDB) { alert('WKWebView'); } else { alert('UIWebView'); }
 ``
 
-http://stackoverflow.com/questions/28795476/detect-if-page-is-loaded-inside-wkwebview-in-javascript
+http://stackoverflow.com/a/30495399/4982169
+http://stackoverflow.com/questions/36477450/even-basic-ionic-project-with-cordova-wkwebview-engine-plugin-produces-white-scr
+
+http://www.initlabs.com/projects/webview-app

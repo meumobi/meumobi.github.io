@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to write reusable JS packages with Bower
+title: How to write reusable packages with Bower
 categories: [angular]
 tags: [bower]
 author:

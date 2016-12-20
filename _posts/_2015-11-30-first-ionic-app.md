@@ -1,3 +1,7 @@
+> Ionic also automatically detects the device OS an app is running on and styles its UI elements to fit the look, feel, and design guidelines of that platform
+
+Source: https://www.neumob.com/create-robust-hybrid-mobile-apps-qa-alex-muramoto-ionic
+
 $ ionic start meuConference
 ******************************************************
  Dependency warning - for the CLI to run correctly,      

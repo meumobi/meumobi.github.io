@@ -269,6 +269,9 @@ http://www.gajotres.net/ionic-framework-tutorial-8-page-navigation/
 > The key is not to hide navigation, allow direct access, don’t conflict with navigation gestures, and present feedback on the icon it’s related to.
 Source: https://lmjabreu.com/post/why-and-how-to-avoid-hamburger-menus/
 
+### Mobile Form Usability
+https://uxplanet.org/mobile-form-usability-2279f672917d#.p1yw2jyhd
+
 ## Navigation bar
 
 ## Tab bar

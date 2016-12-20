@@ -1,11 +1,11 @@
 https://devdactic.com/gulp-tasks-save-time-money/
 
 // gulp-load-plugins will automatically load all the other registered plugins which have the gulp- prefix.
-// then use 'plugins.whatever' to use your other plugins
+// then use '$.whatever' to use your other plugins
 // /!\ Couldn't be used if plugin name contains "-" after glup- prefix, ie: 'gulp-angular-filesort'
-plugins = require('gulp-load-plugins')();
+$ = require('gulp-load-plugins')();
 
-We can then use the included plugins as plugins.rename() and plugins.rubySass() (note the camel casing of ‘rubySass’ as the dependency is hyphenated).
+We can then use the included plugins as $.rename() and $.rubySass() (note the camel casing of ‘rubySass’ as the dependency is hyphenated).
 
 I say ‘kind of’ because it is actually **lazy loading** the plugins so they are not loaded until you use them. This is good because if you are just running one specific task in your gulpfile it will only load the plugins used by it rather than loading a list of plugins defined at the top of the file, as is often done, many of which may not be required by the particular task.
 
@@ -18,8 +18,9 @@ I say ‘kind of’ because it is actually **lazy loading** the plugins so they 
 // See Lint Options: http://jshint.com/docs/options/
 gulp.task('lint', function() {
 	return gulp.src('./src/js/**/*.js')
-	.pipe(plugins.jshint())
-	.pipe(plugins.jshint.reporter('jshint-stylish'));
+	.pipe($.jshint())
+	.pipe($.jshint.reporter('jshint-stylish'));
+  .pipe($.jshint.reporter('fail'));
 });
 
 // Look up the .jshintrc configuration file
@@ -28,7 +29,7 @@ gulp.task('lint', function() {
 // http://addyosmani.com/blog/fixmyjs/
 gulp.task('fixjs', function() {
 	return gulp.src("./src/js/**/*.js")
-	.pipe(plugins.fixmyjs({legacy: true}))
+	.pipe($.fixmyjs({legacy: true}))
 	.pipe(gulp.dest("./src/js/"));
 });
 
@@ -36,18 +37,18 @@ gulp.task('fixjs', function() {
 // http://jscs.info/
 gulp.task('jscs', function() {
 	return gulp.src("./src/js/**/*.js")
-	.pipe(plugins.jscs())
-	.pipe(plugins.jscs.reporter())
-	.pipe(plugins.jscs({fix: true}))
-	//.pipe(plugins.jscs.reporter('fail'))
+	.pipe($.jscs())
+	.pipe($.jscs.reporter())
+	.pipe($.jscs({fix: true}))
+	//.pipe($.jscs.reporter('fail'))
 	.pipe(gulp.dest("./src/js/"));
 });
 
 // https://github.com/pgilad/gulp-todo
 gulp.task('todo', function() {
 	return gulp.src("./src/js/**/*.js")
-	.pipe(plugins.todo({ fileName: 'todo.md' }))
-	//.pipe(plugins.todo.reporter('json', {fileName: 'todo.json'}))
+	.pipe($.todo({ fileName: 'todo.md' }))
+	//.pipe($.todo.reporter('json', {fileName: 'todo.json'}))
 	.pipe(gulp.dest('./'));
 });
 

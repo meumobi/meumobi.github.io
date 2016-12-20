@@ -1,0 +1,1 @@
+http://cordova.apache.org/announcements/2016/03/22/new-plugin-fetching.html

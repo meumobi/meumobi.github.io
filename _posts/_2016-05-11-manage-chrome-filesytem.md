@@ -15,7 +15,7 @@ http://answer199.diary.to/archives/1038961843.html
 
 I've tried but found it...
 
-Google Chrome Extension: https://chrome.google.com/webstore/detail/html5-filesystem-explorer/nhnjmpbdkieehidddbaeajffijockaea
+Google Chrome Extension: https://chrome.google.com/webstore/detail/html5-filesystem-explorer/chkmbbajnboncdmkigkgpjdhppcjhlcc
 
 
 # Cordova File Plugin 1.0.0 introduces cdvfile: URL scheme
