@@ -100,9 +100,12 @@ Or here:
 
 `http://finance.yahoo.com/d/quotes.csv?s={SYMBOLS}&f={DATA THAT WE WANT}`
 
-Source: http://wern-ancheta.com/blog/2015/04/05/getting-started-with-the-yahoo-finance-api/
+Source: [http://wern-ancheta.com/blog/2015/04/05/getting-started-with-the-yahoo-finance-api/](http://wern-ancheta.com/blog/2015/04/05/getting-started-with-the-yahoo-finance-api/)
 
 # Yahoo webservice API
+
+/!\ Update 2016-12-20: Seems that Yahoo has interrupted this webservice on middle of 2016
+
 The Yahoo finance webservice API is pretty straight forward comparing to both solutions above.
 I've never found any official documentation about, but if you want to fetch stock quotes you'll obtain following response:
 
@@ -145,6 +148,17 @@ I've never found any official documentation about, but if you want to fetch stoc
 You can request multiple quotes using separated commas params:
 `http://finance.yahoo.com/webservice/v1/symbols/YHOO,AAPL/quote?format=json&view=detail`
 
+# Historical data
+For historical data you can use something like:
+
+`http://ichart.finance.yahoo.com/table.csv?s=WU&a=11&b=15&c=2016&d=11&e=19&f=2016&g=d&ignore=.csv`
+
+where the FROM date is: &a=11&b=15&c=2016
+and the TO date is: &d=11&e=19&f=2016
+Be careful, fields a and d use index of month and not number, then for December use 11, and for January use 00.
+
+This API does not provide quote of current day.
+
 # Creating a Yahoo Finance chart
 Some nice posts provide tips and tricks to create Yahoo Finance charts. One of them is the ["Yahoo Finance Chart"](http://bl.ocks.org/ColinEberhardt/8feaa6deaf7a5e276c49) by [Colin Eberhardt](https://twitter.com/ColinEberhardt). 
 
@@ -154,3 +168,9 @@ It uses the open source [D3FC](http://scottlogic.github.io/d3fc/), a collection 
 See an example of [Candlestick series using D3FC](https://d3fc.io/components/series/candlestick.html).
 
 I didn't investigate yet but maybe the [yuilibrary](http://yuilibrary.com/yui/docs/charts/) can provide nice tools to achieve it also.
+
+# Alternatives
+There are plenty of [Online Services to get quotes](http://www.programmableweb.com/news/96-stocks-apis-bloomberg-nasdaq-and-etrade/2013/05/22), but I don't know any free and stable.
+
+
+[openexchangerates](https://openexchangerates.org/) seems a low cost and simple to integrate solution. Let me know on comment if you have suggestions.
