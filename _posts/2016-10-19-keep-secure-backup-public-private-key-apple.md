@@ -16,7 +16,7 @@ All apps must be code signed and provisioned to launch on a device. You create s
 ![keychain]({{ site.BASE_PATH }}/assets/media/keychain/certificates_2x.png)
 
 **If the private key is lost, you’ll have to create an entirely new identity** to sign code. Private keys are stored only in the keychain and can’t be retrieved if lost.
-Without the private keys, you can’t sign apps using the certificates, , **so you'll not be able to update anymore an already published App!**
+Without the private keys, you can’t sign apps using the certificates, **so you'll not be able to update anymore an already published App!**
 
 If you want to code sign your app using another Mac, you export your Xcode developer profile on the Mac you used to create your certificates and import it on the other Mac. You can also share distribution certificates among multiple team agents using this feature.
 

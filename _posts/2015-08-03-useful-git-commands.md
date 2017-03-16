@@ -226,6 +226,8 @@ git reset --soft HEAD^     # use --soft if you want to keep your changes
 git reset --hard HEAD^     # use --hard if you don't care about keeping the changes
 ```
 
+You also can *undo last n commits* using `git reset --soft HEAD~n`
+
 # Undo a public commit
 If you have already made your commits public, you will want to create a new commit which will "revert" the changes you made in your previous commit (current HEAD).
 
@@ -290,13 +292,15 @@ Source: [http://stackoverflow.com/questions/3796927/how-to-git-clone-including-s
 
 you just want your working copy to reflect a specific commit? Use git checkout and the commit hash.
 Use git checkout <commit> -b <branchname> to checkout into a branch, or git checkout <commit> . to checkout into the current branch.
-	
+
+```	
 $ git checkout 1a9b1267d1c2d66b8ff668ee79a21fc261008d68 -b rel-05-apr
 Switched to a new branch 'rel-05-apr'
 $ git branch
   master
 * rel-05-apr
 $
+```
 
 Source: [http://stackoverflow.com/questions/2007662/rollback-to-an-old-git-commit-in-a-public-repo](http://stackoverflow.com/questions/2007662/rollback-to-an-old-git-commit-in-a-public-repo)
 
@@ -308,7 +312,33 @@ git push origin :old_branch                 # Delete the old branch
 git push --set-upstream origin new_branch   # Push the new branch, set local branch to track the new remote
 ```
 
+# How to release a patch for a previous version
+
+> It seems that there is a concept of a "support" branch in git flow. This is used to add a hotfix to an earlier release
+
+Source: [handle hotfix of an earlier release](http://stackoverflow.com/a/33052352/4982169)
+
+````bash
+git checkout 6.0
+git checkout -b support/6.x
+git checkout -b hotfix/6.0.1
+```
+... make your fix, then:
+
+```bash
+git checkout support/6.x
+git merge hotfix/6.0.1
+git branch -d hotfix/6.0.1
+git tag 6.0.1
+```
+How do we release a patch for a previous version
+https://github.com/GitTools/GitVersion/issues/128
+
+Support branches are not really covered in GitFlow, but are essential if you need to maintain multiple major versions at the same time. You could use support branches for supporting minor releases as well.
+https://gitversion.readthedocs.io/en/latest/git-branching-strategies/gitflow-examples/
+
 # Links
 
 - [http://rogerdudler.github.io/git-guide/](http://rogerdudler.github.io/git-guide/)
 - [http://www.miximum.fr/enfin-comprendre-git.html](http://www.miximum.fr/enfin-comprendre-git.html)
+- [Essential Git commands – Andy Walpole](https://andywalpole.me/blog/148397/essential-git-commands)
