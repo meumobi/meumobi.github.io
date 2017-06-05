@@ -56,7 +56,7 @@ By this way you can dynamically set value when adding plugin:
 
 Find [here](https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin/commit/6dca5e49c15ce31c4d8e7a7a253d27b3103dc730) a good example of usage
 
-See section [config-file](http://cordova.apache.org/docs/en/latest/plugin_ref/spec.html#config-file) of plugin.xml documentation for more details.
+See section [config-file](http://cordova.apache.org/docs/en/latest/plugin_ref/spec.html#config-file) of plugin.xml documentation for more details. And if you'd like to go further I recommend this good tutorial [PhoneGap Lab: Using Plugins End to End](http://phonegap.com/workshop-plugins/index.html).
 
 # Use Cordova Hook and plist npm package
 

@@ -11,7 +11,7 @@ author:
   bio: Sharing mobile Experiences
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
-npm is the package manager for javascript. The npm command-line tool is bundled with Node.js. If you have it installed, then you already have npm too. If not, go download [Node.js].  
+npm is the package manager for javascript. The npm command-line tool is bundled with Node.js. If you have it installed, then you already have npm too. If not, download [Node.js].  
 You can browse packages on [http://www.npmjs.com](https://www.npmjs.com/)
 ![npm-logo]({{ site.BASE_PATH }}/assets/media/npm-logo.svg)
 
@@ -137,6 +137,19 @@ Run with -u to upgrade bower.json
 
 # Where does npm install packages?: npm root
 You can run [npm root] to see where libraries are installed. Add -g option for global libraries.
+
+# Uninstall node and npm from Mac OSX
+## If installed w/ brew
+$ brew uninstall node
+
+## If installed with the binary from Nodejs.org
+```
+$ sudo rm -rf /usr/local/{bin/{node,npm},lib/node_modules/npm,lib/node,share/man/*/node.*}
+```
+
+## Uninstall only npm
+`sudo npm uninstall npm -g`
+https://docs.npmjs.com/misc/removing-npm
 
 # Known Issues
 - [npm outdated failes with 404 if module is not in the registry](https://github.com/npm/npm/issues/8752)

@@ -329,13 +329,83 @@ git checkout -b hotfix/6.0.1
 git checkout support/6.x
 git merge hotfix/6.0.1
 git branch -d hotfix/6.0.1
+git push origin --delete hotfix/6.0.1 #If you need to remove remotely
 git tag 6.0.1
 ```
+
 How do we release a patch for a previous version
 https://github.com/GitTools/GitVersion/issues/128
 
 Support branches are not really covered in GitFlow, but are essential if you need to maintain multiple major versions at the same time. You could use support branches for supporting minor releases as well.
 https://gitversion.readthedocs.io/en/latest/git-branching-strategies/gitflow-examples/
+
+# Merge branch into master
+
+The usual approach while developing is
+
+```
+git checkout master
+git pull
+git checkout enhance/improve-events-display
+git log master..
+git merge origin/enhance/improve-events-display # to update your local enhance/improve-events-display from the fetch in the pull earlier
+```
+
+When you're ready to merge back into master
+
+```
+git checkout master
+git log ..enhance/improve-events-display
+git merge enhance/improve-events-display
+git push
+```
+
+Source: http://stackoverflow.com/a/5608860
+
+# Delete branch locally and remotely
+After merge if you want to delete local branch,
+
+```
+$ git branch -d enhance/improve-events-display
+```
+
+and remote,
+
+```
+$ git push origin --delete enhance/improve-events-display
+```
+
+# Delete tag locally and remotely
+If you want to delete local tag,
+
+```
+$ git tag -d v0.0.1
+```
+
+and remote,
+
+```
+$ git push origin --delete v0.0.1
+```
+
+# Fetch all git branches
+
+When you clone a repository all the information of the branches is actually downloaded but the branches are hidden. With the command
+
+```
+$ git branch -a
+```
+
+you can show all the branches of the repository, and with the command
+
+```
+$ git checkout -b branchname origin/branchname
+```
+you can then "download" them manually one at a time.
+
+Sources: 
+- http://stackoverflow.com/questions/10312521/how-to-fetch-all-git-branches
+- https://gist.github.com/tamtamchik/2869690
 
 # Links
 

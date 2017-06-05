@@ -58,6 +58,10 @@ Use `--save` or `--save-dev` options to update bower.json
 $ bower install angular-animate#1.5.x --save-dev
 ```
 
+# See versions of all installed bower components
+
+`grep "version\"\:" bower_components/*/.bower.json`
+
 ## Install a specific version
 Alternately, if you want to install the older version of the library, you can run the command followed with the version number, this way:
 
