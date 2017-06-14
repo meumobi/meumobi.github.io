@@ -36,10 +36,10 @@ The [toLocaleString()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/R
 var number = 1000.90;
 
 // German uses comma as decimal separator and period for thousands
-console.log(number.toLocaleString('de-DE')); // → 1.000,789
+console.log(number.toLocaleString('de-DE')); // → 1.000,90
 ```
 
-# Standardize with php: number_format
+# Standardize with php: number_format()
 [number_format](http://php.net/manual/en/function.number-format.php) format a number with grouped thousands and separator for the decimal point. It's not explicitly documented; [number_format also rounds](http://php.net/manual/en/function.number-format.php#88424).
 
 ```php
