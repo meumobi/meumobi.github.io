@@ -222,13 +222,27 @@ $ git config core.autocrlf true
 To restore everything back to the way it was prior to the last commit, we need to reset to the commit before HEAD:
 
 ```sh
-git reset --soft HEAD^     # use --soft if you want to keep your changes
 git reset --hard HEAD^     # use --hard if you don't care about keeping the changes
 ```
+
+You want to nuke to last commit and never see it again.
+
+```sh
+git reset HEAD^     # use --hard if you don't care about keeping the changes
+```
+
+You tell Git to move the HEAD pointer back one commit. But (unless you use --hard) you leave your files as they were. So now git status shows the changes you had checked into C. You haven't lost a thing!
+
+```sh
+git reset --soft HEAD^     # use --soft if you want to keep your changes
+```
+
+This not only leaves your files alone, it even leaves your index alone. When you do git status, you'll see that the same files are in the index as before. In fact, right after this command, you could do git commit and you'd be redoing the same commit you just had.
 
 You also can *undo last n commits* using `git reset --soft HEAD~n`
 
 # Undo a public commit
+## Revert commit
 If you have already made your commits public, you will want to create a new commit which will "revert" the changes you made in your previous commit (current HEAD).
 
 ```sh
@@ -243,6 +257,19 @@ git log
     commit 102: restoring the file I removed by accident
     commit 101: removing a file we dont need
     commit 100: adding a file that we need
+```
+
+Reverting a commit means to create a new commit that undoes all changes that were made in the bad commit. Just like above, the bad commit remains there, but it no longer affects the current master and any future commits on top of it.
+
+## Rewrite history
+If you want to rewrite the history, I recommend to read the post [Git HowTo: revert a commit already pushed to a remote repository](http://christoph.ruegg.name/blog/git-howto-revert-a-commit-already-pushed-to-a-remote-reposit.html) from [Christoph Rüegg](https://twitter.com/cdrnet)
+
+```sh
+git rewrite history vs revert commit
+$ git rebase -i 56424e4^
+Replace ‘pick’ by ‘remove’ on commit line to be removed
+$ git rebase --continue
+$ git push -f
 ```
 
 # Undo 'git add' before commit
