@@ -48,3 +48,11 @@ $num = "1,000.90";
 
 echo number_format(str_replace(",","",$num), 2, '.', ''); // → 1000.90
 ```
+
+If you convert an integer, without decimals, you can use [intval()](http://php.net/manual/en/function.intval.php)
+
+```php
+$num = "1 000";
+
+echo intval(preg_replace('/[^0-9]/', '', $num)) // -> 1000
+````
