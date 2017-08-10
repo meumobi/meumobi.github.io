@@ -180,7 +180,7 @@ module.exports = {
 ...
 
     copyEnvConfig: {
-        src: ['{{SRC}}/app/config/env.json', '{{SRC}}/app/config/config.*.json'],
+        src: ['{{SRC}}/app/config/**/*.json'],
         dest: '{{WWW}}/app/config'
     }
 }
@@ -230,3 +230,5 @@ export class NewsPage {
 # Furthermore
 
 If you prefer a smaller and straight forward solution I recommend this [solution](https://stackoverflow.com/a/39577841/4982169). Less job for smaller project.
+
+Another solid way use [Webpack’s built in EnvironmentPlugin](https://webpack.js.org/plugins/environment-plugin/) to expose Ionic’s IONIC_ENV environment variable to our code, see roblouie post [here](http://roblouie.com/article/296/ionic-2-environment-variables-the-best-way/). By this way the env vars are loaded on build, different of loading them on App start.
