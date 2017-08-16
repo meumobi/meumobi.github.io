@@ -213,4 +213,10 @@ table th {
   font-weight: 600;
 }
 
+.gist table tr {
+  border: none;
+}
 
+pre {
+  background-color: #f5f5f5 !important;
+}
