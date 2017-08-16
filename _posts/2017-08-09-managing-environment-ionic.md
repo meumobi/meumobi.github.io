@@ -54,127 +54,19 @@ The best pratice we've found use the Angular const [APP_INITIALIZER](https://ang
 
 `./src/app/config/app.config.ts`
 
-```typescript
-import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-
-class EnvData {
-    env: string;
-}
-
-@Injectable()
-export class AppConfig {
-
-    private config: Object = null;
-    private env: Object = null;
-
-    public configPath = "./app/config/";
-
-    constructor(private http: Http) {
-
-    }
-
-    public get(key: any) {
-        let res: any = this.config || [];
-        key.split('.').forEach(
-          k => {
-            if (res && res[k]) {
-              res = res[k]
-            } else {
-              res = null;
-            }
-          }
-        );
-
-        return res;
-    }
-
-    /**
-     * Use to get the data found in the first file (env file)
-     */
-    public getEnv(key: any) {
-        return this.env[key];
-    }
-
-    /**
-     * This method:
-     *   a) Loads "env.json" to get the current working environment (e.g.: 'production', 'development')
-     *   b) Loads "config.[env].json" to get all env's variables (e.g.: 'config.development.json')
-     */
-    public load() {
-        return new Promise((resolve, reject) => {
-            this.http.get(this.configPath + 'env.json')
-                .map(res => res.json())
-                .catch((error: any): any => {
-                    console.log('Configuration file "env.json" could not be read');
-                    resolve(error);
-                    //return Observable.throw(error.json().error || 'Server error');
-                })
-                .subscribe((envResponse: EnvData) => {
-                    this.env = envResponse;
-                    let request: any = null;
-
-                    this.http.get(this.configPath + 'config.' + envResponse.env + '.json')
-                      .map(res => res.json())
-                      .catch((error: any) => {
-                          console.error('Error reading ' + envResponse.env + ' configuration file');
-                          resolve(error);
-                          console.log(error);
-                          return Observable.throw(error || 'Server error');
-                      })
-                      .subscribe((responseData) => {
-                          this.config = responseData;
-                          resolve(true);
-                      });
-                });
-        });
-    }
-}
-```
+{% gist elbidone/bf0b949b162e7b721f5a6a2f9f07a37c app.config.ts %}
 
 ## Update app.module.ts
 
 Open your existing module and add the following two lines to your list of providers an initConfig function.
 
-```typescript
-import { APP_INITIALIZER } 	from '@angular/core';
-import { AppConfig } 		from './config/app.config'; 
-import { HttpModule }      	from '@angular/http';
-
-...
-export function initConfig(config: AppConfig){
- return () => config.load() 
-}
-
-...
-@NgModule({
-    imports: [
-        ...
-        HttpModule
-    ],
-    ...
-    providers: [
-        ...
-        AppConfig,
-        { 
-			provide: APP_INITIALIZER, 
-			useFactory: initConfig, 
-			deps: [AppConfig], 
-			multi: true }
-    ],
-    ...
-});
-```
+{% gist elbidone/bf0b949b162e7b721f5a6a2f9f07a37c app.module.ts %}
 
 ## Copy config files to build dir
 
 If you previously have copied the default `@ionic/app-scripts/config/copy.config.js` from Ionic update it, adding `copyEnvConfig` key/value (see below), else copy it to `./config/copy.config.js`.
 
-```javascript
-
+{% highlight javacript %}
 module.exports = {
 
 ...
@@ -184,13 +76,14 @@ module.exports = {
         dest: '{{WWW}}/app/config'
     }
 }
-```
+{% endhighlight %}
 
 ## Edit package.json to overwrite ionic_copy
 
 And edit the package.json to consider your own copy script instead of ionic one. 
 
-```json
+{% highlight json %}
+
 {
 	"name": "my-app",
 	"version": "0.0.1",
@@ -202,13 +95,13 @@ And edit the package.json to consider your own copy script instead of ionic one.
 	
 	...
 }
-```
+{% endhighlight %}
 
 ## In Any Angular2 class
 
 And finally to get config values on any Angular class, import `app.config.ts` and enjoy it!
 
-```typescript
+``` typescript
 import { AppConfig } from '../../app/config/app.config';
 
 export class NewsPage {
