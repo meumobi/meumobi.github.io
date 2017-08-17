@@ -37,7 +37,6 @@ The generated screenshots will match App Store's and Google Play's requirements 
 ## Placeit
 The last solution is placeit, known for its mockups to provide nice picks and video with your App. Some [mockups](https://placeit.net/stages/flat-screenshot-os-builder-emitting-shadow-app-smartphone) could be used for App Store and Google Play screenshots.
 
-
 # App Website Builder
 
 ## AppSite
@@ -51,5 +50,12 @@ To quickly build an App website, filling datas from online App Store you can use
 ## AppFollow
 We didn't test [AppFollow](https://appfollow.io/) yet, but it seems good. Feel free to leave a comment if you have some inputs about.
 
-
-
+# Furthermore
+- [screenshotdesigner](https://screenshotdesigner.com)
+  - Create stunning App Store screenshots
+- appFigures for App Store and Play Store sales reports and review tracking in your inbox
+- [DaVinci](https://www.davinciapps.com/)
+  - Apps for designing great App Store screenshots
+- Appsites for creating simple app websites
+- ReviewBot for App Store reviews in Slack
+- AppBot for App Store reviews tracking and analysis

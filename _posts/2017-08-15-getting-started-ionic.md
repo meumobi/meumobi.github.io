@@ -22,7 +22,7 @@ I had a good experience on [Cordova] and [PhoneGap] when I decided to test on a 
 
 > [Ionic 3.0](http://blog.ionic.io/ionic-3-0-has-arrived/) includes support for [Lazy loading](http://blog.ionic.io/ionic-and-lazy-loading-pt-1/):  Conceptually, we’re taking one segment of code, a chunk, and loading it on demand as the app requests it.
 
-# Getting Started
+# Getting started
 
 ## Prerequisites
 We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova].
@@ -90,16 +90,16 @@ $ ionic serve
 
 ![sidemenu starter]({{ site.BASE_PATH }}/assets/media/ionic/sidemenu-starter.png)
 
-## Market Place
+## Market place
 You can also choose to download starter provided and rated by the community on [market.ionic.io].
 
-# Run App on Device
+# Run app on device
 At this stage you can already test your App on device. You have two solutions:
 
 - the easiest is using the [Ionic View App]. You should link your App to Ionic Cloud and download the Ionic View on your device. It works like a nutshell, Ionic View will load your resources, content of www directory, and run it on a native environment.
 - you also can plug your device on your computer, via usb and through ionic-cli run `ionic cordova run android`. In order to work you should have installed on your computer the environment Android and/or iOS.
 
-## Ionic View App
+## Ionic view app
 [Ionic View App] is part of Ionic Cloud Services, to use it you’ll need an Ionic account. [Signup](https://apps.ionic.io/signup) for free.
 In your project directory, run `ionic link`, the prompt should authenticate you and suggest to create a new App on Ionic Cloud Services to link with the current directory.
 
@@ -110,7 +110,23 @@ $ ionic upload
 ...
 ```
 
-# Top Ionic Resources
+## Troubleshooting
+If `ionic upload` raise log `[WARN] No Cordova platforms listed in config.xml. Nothing to prepare.`, you can fix it by running:
+
+```
+$ ionic cordova platform add android -r
+```
+
+It will save a platform, android, on config.xml and though prevent error on [ionic cordova prepare](https://ionicframework.com/docs/cli/cordova/prepare/). 
+
+# Add sidebar menu on blank starter
+As good exercise you can [create a new App from blank starter and add sidemenu](https://forum.ionicframework.com/t/how-to-add-sidebar-menu-to-my-existing-ionic-2-project/56481/2).
+
+# Feeling lost
+
+Don't worry, run `ionic docs` on cli and reach the [official Ionic doc](https://ionicframework.com/docs/api/) in your browser.
+
+# Top Ionic resources
 
 - [Paul Halliday]
 - [Josh Morony]
