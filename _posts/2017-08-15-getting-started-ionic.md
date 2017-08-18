@@ -81,14 +81,12 @@ Go to your newly created project: cd ./hello-world
 $ 
 ```
 
-Now, test it on your browser:
+Now, test it on your browser with [ionic serve](https://ionicframework.com/docs/cli/serve/), try the `--lab` option to see multiple platforms at once.
 
 ```sh
 $ cd ./hello-world
-$ ionic serve
+$ ionic serve --lab
 ```
-
-![sidemenu starter]({{ site.BASE_PATH }}/assets/media/ionic/sidemenu-starter.png)
 
 ## Market place
 You can also choose to download starter provided and rated by the community on [market.ionic.io].
