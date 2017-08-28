@@ -14,7 +14,7 @@ author:
 
 Firebase is an huge platform to work with, it provides ton of services ready to use (hosting, database, push, authentication, etc). It's why it make sense to check it for your new projects. On this post I'll explain how to use the cloud database service.
 I'll start the tutorial from an existing App, if you need some help to create a new Ionic App I recommend to read our post [Implementing the Master-Detail Pattern in Ionic]({% post_url 2017-08-23-implementing-master-detail-ionic %}). If you're familiar with Ionic you can follow steps below in any ready Ionic 2 App.
-![Firebase logo]({{ site.BASE_PATH}}/assets/media/firebase/firebase-logo.png)
+![Ionic Firebase logos]({{ site.BASE_PATH}}/assets/media/firebase/ionic_firebase-logo.gif)
 
 I'll provide a contact interface, contacts page and ContactsProvider, `./src/providers/contacts/contacts.service`, to handle requests to Firebase:
 
