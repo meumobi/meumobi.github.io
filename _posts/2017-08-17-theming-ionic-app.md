@@ -57,3 +57,16 @@ See below the result of customization
 
 
 You can also find all Sass variable of an UI component on its doc, for example [component Tabs](https://ionicframework.com/docs/api/components/tabs/Tabs/#sass-variables).
+
+# Change font
+https://forum.ionicframework.com/t/how-to-change-the-font-of-all-texts-in-ionic/30459/5
+
+# Change font-size
+From your `src/theme/variables.scss` file, set the required value, for example:
+
+```css
+$font-size-base: 1.6rem;
+```
+
+# Furthermore
+- [A Guide to Styling an Ionic Application](https://www.joshmorony.com/a-guide-to-styling-an-ionic-2-application/)

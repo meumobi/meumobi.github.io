@@ -28,13 +28,17 @@ I had a good experience on [Cordova] and [PhoneGap] when I decided to test on a 
 We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova].
 
 ```sh
-$ npm install cordova ionic -g
+$ npm install cordova ionic typescript -g
 ...
-$ npm ls -g cordova ionic npm --depth 0
+$ npm ls -g cordova ionic npm typescript --depth 0
 /usr/local/lib
 ├── cordova@7.0.1 
-├── ionic@3.8.1 
+├── ionic@3.9.2 
 ├── npm@5.0.3 
+├── npm-check-updates@2.10.3
+├── phonegap@6.5.2
+├── typescript@2.3.4 
+└── typings@2.1.1
 ```
 
 ## Starting a project with Ionic CLI
@@ -46,6 +50,12 @@ We'll start with the `sidemenu` starter. The launch could spend a long time beca
 ```sh
 $ ionic start hello-world sidemenu
 ```
+
+That means:
+
+- `ionic start` creates the app.
+- `hello-world` is the name we gave it.
+- `sidemenu` tells the Ionic CLI you want to start with the sidemenu template.
 
 You should see something similar to the following output:
 

@@ -20,10 +20,11 @@ A Master Detail Interface is a common pattern in computer systems where a master
 
 On this tutorial we'll create all components for a clean master/detail implementation:
 
-- contacts page
-- contact-details page
-- models/contact.interface.ts
-- providers/contacts/
+- ./src/pages/
+  - contacts
+  - contact-details
+- ./src/models/contact.interface.ts
+- ./src/providers/contacts/
   - contacts.service.ts
   - contacts.service-mock.ts
   - mock-contacts.ts
@@ -43,8 +44,8 @@ $ ionic g page contact-details
 
 ```bash
 $ ionic g provider contacts
-$ cp src/providers/contacts/contacts.ts src/providers/contacts.service-mock.ts
-$ mv src/providers/contacts/contacts.ts src/providers/contacts.service.ts
+$ cp src/providers/contacts/contacts.ts src/providers/contacts/contacts.service-mock.ts
+$ mv src/providers/contacts/contacts.ts src/providers/contacts/contacts.service.ts
 ```
 
 Ionic provider generator automatically add ContactsProvider on `app.module.ts`.
@@ -53,15 +54,55 @@ So, after renaming the files, we should update the path.
 ### Using Angular 2 barrels
 
 To allow switching of service (mock vs regular) easily we'll use [angular barrels](http://tattoocoder.com/angular2-barrels/).
-We create an `contacts/index.ts` file where we reference the current Service to use:
+We create an `src/providers/contacts/index.ts` file where we reference the current Service to use:
 
 ```javascript
 //export * from './contacts.service';
 export * from './contacts.service-mock';
 ```
 
-And we replace on `app.module.ts` and `pages/contacts/contacts.ts` the import `import { ContactsProvider } from '../providers/contacts/contacts.service-mock' ` to `import { ContactsProvider } from '../providers/contacts/';
-`
+And we replace on `app.module.ts` and `pages/contacts/contacts.ts` the import `import { ContactsProvider } from '../providers/contacts/contacts.service-mock' ` to `import { ContactsProvider } from '../providers/contacts/';`
+
+### Mock Content
+
+`src/providers/contacts/mock-contacts.ts`
+
+```
+let contacts = [
+    {
+        id: "6",
+        firstName: "Miriam",
+        lastName: "Aupont",
+        title: "Senior Broker",
+        landlinePhone: "617-244-3672",
+        mobilePhone: "617-244-3672",
+        email: "miriam@ionicrealty.com",
+        picture: "https://s3-us-west-1.amazonaws.com/sfdc-demo/people/miriam_aupont.jpg"
+    },
+    {
+        id: "7",
+        firstName: "Michelle",
+        lastName: "Lambert",
+        title: "Senior Broker",
+        landlinePhone: "617-244-3672",
+        mobilePhone: "617-244-3672",
+        email: "michelle@ionicrealty.com",
+        picture: "https://s3-us-west-1.amazonaws.com/sfdc-demo/people/michelle_lambert.jpg"
+    },
+    {
+        id: "8",
+        firstName: "Victor",
+        lastName: "Ochoa",
+        title: "Senior Broker",
+        landlinePhone: "617-244-3672",
+        mobilePhone: "617-244-3672",
+        email: "victor@ionicrealty.com",
+        picture: "https://s3-us-west-1.amazonaws.com/sfdc-demo/people/victor_ochoa.jpg"
+    }
+];
+
+export default contacts;
+```
 
 ### Stop using observable, just use promise
 
