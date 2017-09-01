@@ -104,60 +104,13 @@ Source: [http://wern-ancheta.com/blog/2015/04/05/getting-started-with-the-yahoo-
 
 # Yahoo webservice API
 
-/!\ Update 2016-12-20: Seems that [Yahoo has interrupted this webservice](http://stackoverflow.com/questions/38355075/has-yahoo-finance-web-service-disappeared-api-changed-down-temporarily) on middle of 2016
-
-The Yahoo finance webservice API is pretty straight forward comparing to both solutions above.
-I've never found any official documentation about, but if you want to fetch stock quotes you'll obtain following response:
-
-```json
-{  
-  "list":{  
-    "meta":{  
-      "type":"resource-list",
-      "start":0,
-      "count":1
-    },
-    "resources":[  
-      {  
-        "resource":{  
-          "classname":"Quote",
-          "fields":{  
-            "change":"1.320000",
-            "chg_percent":"3.937947",
-            "day_high":"34.990002",
-            "day_low":"34.000000",
-            "issuer_name":"Cielo S.A.",
-            "issuer_name_lang":"Cielo S.A.",
-            "name":"CIELO       ON      NM",
-            "price":"34.840000",
-            "symbol":"CIEL3.SA",
-            "ts":"1458236195",
-            "type":"equity",
-            "utctime":"2016-03-17T17:36:35+0000",
-            "volume":"5405800",
-            "year_high":"46.270000",
-            "year_low":"28.030000"
-          }
-        }
-      }
-    ]
-  }
-}
-```
-
-You can request multiple quotes using separated commas params:
-`http://finance.yahoo.com/webservice/v1/symbols/YHOO,AAPL/quote?format=json&view=detail`
+**/!\ Update 2016-12-20**: Seems that [Yahoo has interrupted this webservice](http://stackoverflow.com/questions/38355075/has-yahoo-finance-web-service-disappeared-api-changed-down-temporarily) on middle of 2016
 
 # Historical data
-For historical data you can use something like:
 
-`http://ichart.finance.yahoo.com/table.csv?s=WU&a=11&b=15&c=2016&d=11&e=19&f=2016&g=d&ignore=.csv`
+**/!\ Update 2017-05-17**: [Historical API has been shut down by Yahoo Finance](https://forums.yahoo.net/t5/Yahoo-Finance-help/Is-Yahoo-Finance-API-broken/m-p/251312/highlight/true#M3123)
 
-where the FROM date is: &a=11&b=15&c=2016
-and the TO date is: &d=11&e=19&f=2016
-Be careful, fields a and d use index of month and not number, then for December use 11, and for January use 00.
-
-This API does not provide quote of current day.
+> This feature was discontinued by the Finance team and they will not be reintroducing that functionality. 
 
 # Creating a Yahoo Finance chart
 Some nice posts provide tips and tricks to create Yahoo Finance charts. One of them is the ["Yahoo Finance Chart"](http://bl.ocks.org/ColinEberhardt/8feaa6deaf7a5e276c49) by [Colin Eberhardt](https://twitter.com/ColinEberhardt). 
