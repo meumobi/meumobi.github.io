@@ -41,7 +41,8 @@ The last solution is placeit, known for its mockups to provide nice picks and vi
 
 ## AppSite
 
-To quickly build an App website, filling datas from online App Store you can use [AppSite](https://appsite.skygear.io/), also produced by [oursky](https://oursky.com/), as shotbot above. It's a simple service with few setting but do the job.
+To quickly build an App website, filling datas from online App Store you can use [AppSite](https://appsite.skygear.io/), also produced by [oursky](https://oursky.com/), as shotbot above. It's a simple service with few setting but do the job. 
+Unlike launchkit we you can only create one site hosted by AppSite. But you can download a zip with the html page and assets to host in your own environment.
 
 ![appsite]({{ site.BASE_PATH }}/assets/media/launchkit/appsite.png)
 

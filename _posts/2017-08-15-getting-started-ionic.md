@@ -14,7 +14,7 @@ author:
 I had a good experience on [Cordova] and [PhoneGap] when I decided to test on a real project the Ionic Framework. At the raising of Ionic 1, I've already tested this framework but was disappointed by performance issues. Now, I have to migrate from Angular 1 to Angular 2/4 (means rebuild my whole code), and regarding new Ionic versions announcements and others [reasons why Ionic 2 is better than Ionic 1](https://www.joshmorony.com/7-reasons-why-ionic-2-is-better-than-ionic-1/), it's a good moment to re-evaluate the framework.
 ![Ionic 2]({{ site.BASE_PATH }}/assets/media/ionic/ionic.jpg)
 
-> With [Ionic 2]((http://blog.ionic.io/announcing-ionic-2-0-0-final/)), we no longer use JavaScript scrolling, so apps now scroll with 60FPS on both Android and iOS. Our new [Virtual Scroll](http://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/) implementation (updated for 2.0 final!) makes it possible to build apps that scroll through very large lists of items (and images!) with a minimal performance hit, along with apps that animate based on scroll events.
+> With [Ionic 2](http://blog.ionic.io/announcing-ionic-2-0-0-final/), we no longer use JavaScript scrolling, so apps now scroll with 60FPS on both Android and iOS. Our new [Virtual Scroll](http://ionicframework.com/docs/api/components/virtual-scroll/VirtualScroll/) implementation (updated for 2.0 final!) makes it possible to build apps that scroll through very large lists of items (and images!) with a minimal performance hit, along with apps that animate based on scroll events.
 
 > An all new rendering pipeline shared with Ionic components reduces layout thrashing and repaints, historically a challenging source of perf issues for web developers.
 
