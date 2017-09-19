@@ -35,8 +35,10 @@ Shotbot has few settings and is only available for App Store (iOS) at the moment
 The generated screenshots will match App Store's and Google Play's requirements at 1242 x 2208 pixels for phones and 2048 x 2732 pixels for tablets.
 
 ## Placeit
-The last solution is placeit, known for its mockups to provide nice picks and video with your App. Some [mockups](https://placeit.net/stages/flat-screenshot-os-builder-emitting-shadow-app-smartphone) could be used for App Store and Google Play screenshots.
+The last solution is placeit, known for its mockups to provide nice picks and video with your App. Some mockups could be used for App Store and Google Play screenshots:
 
+- [white iphone 6s](https://placeit.net/stages/white-iphone-6s-plus-portrait-cut-ios-screenshot-generator)
+- [flat screenshot with shadow](https://placeit.net/stages/flat-screenshot-os-builder-emitting-shadow-app-smartphone)
 # App Website Builder
 
 ## AppSite
