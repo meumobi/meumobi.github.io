@@ -121,7 +121,7 @@ You can upload this json on firebase database through the console:
 ## Results
 After you upload this file, the function will be triggered and set automatically the displayName. If you manually edit firstName or lastName, the displayName will be updated.  
 On [Firebase Console](https://console.firebase.google.com/) in your project/functions you can see the log among another nerd statistics.
-If you have some question just do id.
+If you have some question just do it.
 
 # Furthermore
 - [Get Started with Cloud Functions](https://firebase.google.com/docs/functions/get-started);
