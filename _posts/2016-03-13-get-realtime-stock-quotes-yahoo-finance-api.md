@@ -13,6 +13,8 @@ author:
 ---
 Yahoo finance API seems to be the most popular since Google Finance API has been deprecated (have been discontinued in October 2012). If you want to try another provider, feel free to look at [96 Stocks APIs: Bloomberg, NASDAQ and E*TRADE](http://www.programmableweb.com/news/96-stocks-apis-bloomberg-nasdaq-and-etrade/2013/05/22) article.
 
+**/!\ Update 2017-11-02**: [Yahoo CSV Finance API has been shut down by Yahoo Finance](https://forums.yahoo.net/t5/Yahoo-Finance-help/http-download-finance-yahoo-com-d-quotes-csv-s-GOOG-amp-f/m-p/387662/highlight/true#M6207), see our post to find an alternative [Yahoo finance API discontinued and now ?...]({% post_url 2017-11-07-yahoo-finance-download-API-discontinued %})
+
 # Legality of use of Yahoo! data on commercial website?
 
 ## Yahoo Community Manager response
@@ -92,6 +94,8 @@ Another big issues we've found was the delay of quotes. I've personaly opened an
 > When I check LastTradeTime property, it returns unconsistent hours of trade, for example "12:46pm", next request returns "12:44pm" and next request "2:42pm". All of these 3 requests ran on a period of 2 min.
 
 # Yahoo CSV Finance API
+**/!\ Update 2017-11-02**: [Yahoo CSV Finance API has been shut down by Yahoo Finance](https://forums.yahoo.net/t5/Yahoo-Finance-help/http-download-finance-yahoo-com-d-quotes-csv-s-GOOG-amp-f/m-p/387662/highlight/true#M6207), see our post to find an alternative [Yahoo finance API discontinued and now ?...]({% post_url 2017-11-07-yahoo-finance-download-API-discontinued %})
+
 To make a request to the CSV API, you can either do that from here:
 
 `http://download.finance.yahoo.com/d/quotes.csv?s={SYMBOLS}&f={DATA THAT WE WANT}`
@@ -100,7 +104,7 @@ Or here:
 
 `http://finance.yahoo.com/d/quotes.csv?s={SYMBOLS}&f={DATA THAT WE WANT}`
 
-Source: [http://wern-ancheta.com/blog/2015/04/05/getting-started-with-the-yahoo-finance-api/](http://wern-ancheta.com/blog/2015/04/05/getting-started-with-the-yahoo-finance-api/)
+All data availables could be found at [http://www.jarloo.com/yahoo_finance/](http://www.jarloo.com/yahoo_finance/)
 
 # Yahoo webservice API
 
