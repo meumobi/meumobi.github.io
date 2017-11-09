@@ -13,7 +13,7 @@ author:
 ---
 Yahoo finance API seems to be the most popular since Google Finance API has been deprecated (have been discontinued in October 2012). If you want to try another provider, feel free to look at [96 Stocks APIs: Bloomberg, NASDAQ and E*TRADE](http://www.programmableweb.com/news/96-stocks-apis-bloomberg-nasdaq-and-etrade/2013/05/22) article.
 
-**/!\ Update 2017-11-02**: [Yahoo CSV Finance API has been shut down by Yahoo Finance](https://forums.yahoo.net/t5/Yahoo-Finance-help/http-download-finance-yahoo-com-d-quotes-csv-s-GOOG-amp-f/m-p/387662/highlight/true#M6207), see our post to find an alternative [Yahoo finance API discontinued and now ?...]({% post_url 2017-11-07-yahoo-finance-download-API-discontinued %})
+**/!\ Update 2017-11-02**: [Yahoo finance API discontinued and now ?...]({% post_url 2017-11-07-yahoo-finance-download-API-discontinued %}), see our post to find an alternative.
 
 # Legality of use of Yahoo! data on commercial website?
 
