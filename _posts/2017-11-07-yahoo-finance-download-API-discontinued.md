@@ -106,7 +106,7 @@ Google also provides a csv interface to fetch historical datas, below an example
 # Main Financial Stock APIs
 
 ## EOD EOD Historical Data
-[EOD Historical Data](eodhistoricaldata.com) is a Stock Market Financial and historical data feed APIs.
+[EOD Historical Data](http://eodhistoricaldata.com) is a Stock Market Financial and historical data feed APIs.
 Provides daily historical stock prices (EOD), technical and fundamental data (US only) for almost any stock in the world.
 
 Fair pricing
