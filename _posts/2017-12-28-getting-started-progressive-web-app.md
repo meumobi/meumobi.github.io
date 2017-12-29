@@ -124,4 +124,6 @@ Source: [Progressive Web App (PWA) Usage and tracking with Web Analytics](https:
 
 # Furthermore
 
+- [Anatomy of a Progressive Web App](https://www.slideshare.net/mikelnorth/anatomy-of-a-progressive-web-app)
+
 
