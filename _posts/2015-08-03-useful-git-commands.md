@@ -211,6 +211,25 @@ Even better, checkout and create a branch (otherwise you will be on a branch nam
 
 `$ git checkout tags/<tag_name> -b <branch_name>`
 
+
+# Rename a tag
+Rename a tag old to new:
+
+```sh
+$ git tag new old
+$ git tag -d old
+$ git push origin :refs/tags/old
+$ git push --tags
+```
+
+The colon in the push command removes the tag from the remote repository. If you don't do this, git will create the old tag on your machine when you pull.
+
+Finally, make sure that the other users remove the deleted tag. Please tell them(co-workers) to run the following command:
+
+`git pull --prune --tags`
+
+[Source](https://stackoverflow.com/a/5719854/4982169)
+
 # Automatically convert line endings correctly for your platform
 In git-config, set core.autocrlf to true to make git automatically convert line endings correctly for your platform.
 
@@ -366,6 +385,27 @@ https://github.com/GitTools/GitVersion/issues/128
 Support branches are not really covered in GitFlow, but are essential if you need to maintain multiple major versions at the same time. You could use support branches for supporting minor releases as well.
 https://gitversion.readthedocs.io/en/latest/git-branching-strategies/gitflow-examples/
 
+# Merge Pull Request
+If your repo is https://github.com/johnsmith/hello-world.git
+
+## Step 1: Check out a new branch and test the changes
+From your project repository, check out a new branch and test the changes.
+
+```
+git checkout -b johnsmith-fix/ion2-calendar master
+git pull https://github.com/johnsmith/hello-world.git fix/ion2-calendar
+```
+
+## Step 2: Merge the changes and update on GitHub.
+
+```
+git checkout master
+git merge --no-ff johnsmith-fix/ion2-calendar
+git push origin master
+```
+
+Source: [merging-a-pull-request](https://help.github.com/articles/merging-a-pull-request/)
+
 # Merge branch into master
 
 The usual approach while developing is
@@ -433,6 +473,34 @@ you can then "download" them manually one at a time.
 Sources: 
 - http://stackoverflow.com/questions/10312521/how-to-fetch-all-git-branches
 - https://gist.github.com/tamtamchik/2869690
+
+# Download a specific tag
+
+`$ git clone` will give you the whole repository.
+
+After the clone, you can list the tags with `$ git tag -l` and then checkout a specific tag:
+
+`$ git checkout tags/<tag_name>`
+
+Even better, checkout and create a branch (otherwise you will be on a branch named after the revision number of tag):
+
+`$ git checkout tags/<tag_name> -b <branch_name>`
+
+Source: [https://stackoverflow.com/a/792027/4982169](https://stackoverflow.com/a/792027/4982169)
+
+# Checkout a specific revision
+
+```
+$ git checkout <sha1>
+```
+
+# Overriding remote repository with mine local
+
+If your remote repository contains a bad version, and you have the copy of a good version locally. Running [git push --force](https://www.kernel.org/pub/software/scm/git/docs/git-push.html) command you'll replace everything that's on the remote repository with your local:
+
+```
+$ git push --force
+```
 
 # Links
 

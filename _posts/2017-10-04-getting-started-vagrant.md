@@ -12,7 +12,7 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-[Vagrant](https://www.vagrantup.com) provides easy to configure, reproducible, and portable work environments. It's main objective is to make the "works on my machine" excuse a relic of the past ;-)
+[Vagrant](https://www.vagrantup.com) provides easy to configure, reproducible, and portable work environments. Its main objective is to make the "works on my machine" excuse a relic of the past ;-)
 ![vagrant]({{ site.BASE_PATH }}/assets/media/vagrant/logo-vagrant.png)
 
 

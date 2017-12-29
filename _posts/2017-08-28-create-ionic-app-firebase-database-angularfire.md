@@ -245,4 +245,5 @@ Et voila!!! as exercise you can try to create new contacts within firebase datab
 
 # Furthermore
 - [Building a CRUD Ionic 2 Application with Firebase & AngularFire](https://www.joshmorony.com/building-a-crud-ionic-2-application-with-firebase-angularfire/)
-
+- [Aaron Czichon](http://aaronczichon.de/)
+- [Jave Bratt](https://javebratt.com/tutorials/ionic-firebase/)

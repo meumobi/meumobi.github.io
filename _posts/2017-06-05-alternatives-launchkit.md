@@ -24,11 +24,15 @@ You can login and save your projects there to use them later.
 
 ![appure]({{ site.BASE_PATH }}/assets/media/launchkit/appure.png)
 
+It's free for one App and 7.5 euros/month (US$ 8.2) for 10 Apps, see [pricing](https://appure.io/#PRICING) for more options.
+
 ## Shotbot
 Another alternative is [Shotbot](https://app.shotbot.io/). We know it because this SaaS is produced by [oursky](https://oursky.com/), also known to produce [makeappicon](https://makeappicon.com/), great tool for mobile icons. 
 Shotbot has few settings and is only available for App Store (iOS) at the moment, support for Play Store (Android) is on beta.
 
 ![shotbot]({{ site.BASE_PATH }}/assets/media/launchkit/shotbot.png)
+
+Something annoying of this tool is you can't change template after saving.
 
 ## App Store Screenshot
 [App Store Screenshot](https://www.appstorescreenshot.com) is pretty straight-forward, no login required and few settings.

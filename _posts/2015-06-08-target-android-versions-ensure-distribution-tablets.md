@@ -55,3 +55,6 @@ A similar feature exists for iOS, you can set it on your PGB config.xml
 ```
 
 [PhoneGap Build Preferences]: http://docs.build.phonegap.com/en_US/configuring_preferences.md.html#Preferences
+
+# UPDATE (2017-10-20) - Cordova plugin: cordova-custom-config
+https://github.com/dpa99c/cordova-custom-config

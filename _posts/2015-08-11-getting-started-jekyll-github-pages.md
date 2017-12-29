@@ -140,3 +140,4 @@ Source: [http://mrloh.se/2015/05/bending-markdown-for-jekyll-and-github-pages/](
 
 - [http://joshualande.com/jekyll-github-pages-poole/](http://joshualande.com/jekyll-github-pages-poole/)
 - [http://www.chrisgmyr.com/2015/02/finally-moved-my-blog-to-jekyll/](http://www.chrisgmyr.com/2015/02/finally-moved-my-blog-to-jekyll/)
+- [Build a Jekyll blog in minutes](https://github.com/barryclark/jekyll-now)
