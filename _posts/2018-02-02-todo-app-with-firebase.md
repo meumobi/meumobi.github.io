@@ -13,11 +13,12 @@ author:
 ---
 
 Hi, today we will make a to-do app using just Firebase Database and Firebase Cloud Functions, accessing functions through URL requests.
+![Cloud Functions for Firebase]({{ site.BASE_PATH}}/assets/media/firebase/firebase-cloud-functions-logo.png)
 
 # Recipe
 ## Ingredients
-- 1 [Firebase Project](https://console.firebase.google.com/) (We showed how to [here](http://meumobi.github.io/firebase/2017/10/11/cloud-functions-for-firebase.html))
-- A little bit of enthusiasm and patience
+- 1 [Firebase Project](https://console.firebase.google.com/) (We showed how to [here](http://meumobi.github.io/firebase/2017/10/11/cloud-functions-for-firebase.html));
+- A little bit of enthusiasm and patience;
 
 ## Directions
 We will have 3 cloud functions:
@@ -48,7 +49,7 @@ exports.list = functions.https.onRequest(
 ### Add Function
 ```javascript
 exports.add = functions.https.onRequest(
-	(req,res) => {
+  (req,res) => {
     //getting latestId
     admin.database().ref(`/settings`).once('value')
     .then(snapshot => {
@@ -102,7 +103,7 @@ On console:
 ```bash
 $ firebase deploy --only functions
 ```
-You will receive the URLS to call.
+You will receive the URLS to call:
 ```bash
 ✔  functions[add]: Successful create operation. 
 Function URL (add): https://us-central1-todo-cf.cloudfunctions.net/add
@@ -112,13 +113,13 @@ Function URL (list): https://us-central1-todo-cf.cloudfunctions.net/list
 Function URL (remove): https://us-central1-todo-cf.cloudfunctions.net/remove
 ```
 
-### Tests
-We use an unique parameter text to make easy. 
-To test you can use our URL [https://us-central1-todo-cf.cloudfunctions.net](https://us-central1-todo-cf.cloudfunctions.net)
+## Tests
+- We use an unique parameter text to make easy. 
+- To test you can use our URL [https://us-central1-todo-cf.cloudfunctions.net](https://us-central1-todo-cf.cloudfunctions.net)
 
-[url]/add?text=Finish Blog Post 
-[url]/list
-[url]/remove?text=1
+- [url]/add?text=Finish Blog Post 
+- [url]/list
+- [url]/remove?text=1
 
 ## Atention
 - In this case we don't catch errors neihter logs. So go deep and improve your project.
