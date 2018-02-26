@@ -37,7 +37,7 @@ I already have my code done from another project so now is just copy and paste.
 For this project I only used a provider, but you can use to share components too.
 ![Ionic Module Structure Updated]({{ site.BASE_PATH}}/assets/media/ionic/module-folder2.png)
 
-Show me the code
+### Show me the code
 **src/index.ts**
 ```typescript
 export * from './ionic-meumobi-utils.module';
@@ -76,6 +76,7 @@ $ npm install --save <module-name>[@version]
 ```
 - Update README.md file (explaining how to use your library);
 - Update this fields on **package.json**
+```json
 {
   "name": "ionic-meumobi-utils", //name
   "version": "0.0.6", //version
@@ -108,6 +109,7 @@ $ npm install --save <module-name>[@version]
     ... //updated by npm install --save
   }
 }
+```
 - Create a **npm** account [here](https://www.npmjs.com/signup);
 
 ## Deploy
@@ -154,7 +156,7 @@ export class AppModule {}
 # Furthermore
 - [How to create a angular library](http://www.dzurico.com/how-to-create-an-angular-library/);
 - [Ionic Module Template](https://github.com/ionic-team/ionic-module-template);
-- [Ionic MeuMobi Utils NPM](https://www.npmjs.com/package/ionic-meumobi-utils);
+- [Ionic MeuMobi Utils on npm](https://www.npmjs.com/package/ionic-meumobi-utils);
 
 
 
