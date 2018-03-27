@@ -149,7 +149,21 @@ gulp.task('ionic:watch:before', ['preprocess']);
 ```
 
 CLI pass args to gulp script, then you can pass mode as `ionic build --mode=pwa`. Et voila!
-If you'd like to print debug, unfortunately [none gulp output is show on console](https://github.com/ionic-team/ionic-cli/issues/1989#issuecomment-314272979).
+
+# Build PWA with npm script
+For Ionic/Cordova apps, the CLI will run cordova prepare, which copies the built web assets (www directory) into the Cordova platforms that you’ve installed. I personaly prefer to skip this useless step when I build PWA, and use instead `npm run ionic:build --prod`. For that purpose I've added a npm hook on my `package.json`
+
+```
+  "scripts": {
+    "clean": "ionic-app-scripts clean",
+    "build": "ionic-app-scripts build",
+    "lint": "ionic-app-scripts lint",
+    "preionic:build": "gulp ionic:build:before --mode=pwa",
+    "ionic:build": "ionic-app-scripts build",
+    "ionic:serve": "ionic-app-scripts serve"
+  },
+```
+
 
    [Node.js]: <https://nodejs.org/en/download/>
    [Git]: <http://git-scm.com/download>

@@ -105,7 +105,7 @@ You can also choose to download starter provided and rated by the community on [
 At this stage you can already test your App on device. You have two solutions:
 
 - the easiest is using the [Ionic View App]. You should link your App to Ionic Cloud and download the Ionic View on your device. It works like a nutshell, Ionic View will load your resources, content of www directory, and run it on a native environment.
-- you also can plug your device on your computer, via usb and through ionic-cli run `ionic cordova run android`. In order to work you should have installed on your computer the environment Android and/or iOS.
+- you also can plug your device on your computer, via usb and through ionic-cli run `ionic cordova run android --device`. In order to work you should have installed on your computer the environment Android and/or iOS. Check [Deploying to a Device](https://ionicframework.com/docs/intro/deploying/) for more details
 
 ## Ionic view app
 [Ionic View App] is part of Ionic Cloud Services, to use it you’ll need an Ionic account. [Signup](https://apps.ionic.io/signup) for free.
@@ -119,6 +119,8 @@ $ ionic upload
 ```
 
 ## Troubleshooting
+
+### [WARN] No Cordova platforms listed in config.xml
 If `ionic upload` raise log `[WARN] No Cordova platforms listed in config.xml. Nothing to prepare.`, you can fix it by running:
 
 ```
@@ -126,6 +128,29 @@ $ ionic cordova platform add android -r
 ```
 
 It will save a platform, android, on config.xml and though prevent error on [ionic cordova prepare](https://ionicframework.com/docs/cli/cordova/prepare/). 
+
+### ADB device unauthorized in Android
+
+```
+$ adb devices -l
+List of devices attached
+42001e15fabec200       unauthorized usb:605028352X
+````
+
+Check and uncheck the USB Debugging option in the device. If that doesn't work unplug and plug in the USB. The device should show a message box to ask you to authorize the computer. Click yes and then the device will be authorized.
+
+### Error Could not find an installed version of Gradle either in Android Studio
+
+If you use Mac and have [Homebrew](https://brew.sh/) installed, just ran this command:
+
+`brew install gradle`
+
+For more installs check [Gradle Build Tool](https://gradle.org/install/) website.
+
+Source: [Error Could not find an installed version of Gradle either in Android Studio](https://stackoverflow.com/questions/43480076/ionic-2-error-could-not-find-an-installed-version-of-gradle-either-in-android/44161343#44161343)
+
+### You have not accepted the license agreements of the following SDK components
+Open android Manager and check licenses.
 
 # Add sidebar menu on blank starter
 As good exercise you can [create a new App from blank starter and add sidemenu](https://forum.ionicframework.com/t/how-to-add-sidebar-menu-to-my-existing-ionic-2-project/56481/2).

@@ -67,12 +67,13 @@ Let’s break down this manifest file:
 
 - [Background-color](https://developers.google.com/web/updates/2015/08/using-web-app-manifest-to-set-solid-color-loading-screen): the color will be used by Chrome the instant the web app is launched from the home screen and will remain on the screen until the web app's first render.
 - [Theme_color](https://developers.google.com/web/updates/2015/08/using-manifest-to-set-sitewide-theme-color): the theme color is a hint from your web page that tells the browser what color to tint UI elements such as the address bar.
-- [icons](https://developers.google.com/web/fundamentals/web-app-manifest/#customize_the_icons): when a user adds your site to their home screen, you can define a set of icons for the browser to use. We recommend using [Generic icon generator](https://romannurik.github.io/AndroidAssetStudio/icons-generic.html).
+- [icons](https://developers.google.com/web/fundamentals/web-app-manifest/#customize_the_icons): when a user adds your site to their home screen, you can define a set of icons for the browser to use. We recommend using [Launcher icon generator](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html).
 - [Display](https://developers.google.com/web/fundamentals/web-app-manifest/#customize_the_display_type)
 
 When ready you can use a [Web Manifest Validator](https://manifest-validator.appspot.com/) to check everything is fine.
 
 ## Service workers
+https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
 A [Service worker](https://developers.google.com/web/fundamentals/primers/service-workers/) is a script that your browser runs in the background, separate from a web page, opening the door to features that don't need a web page or user interaction. Today, they already include features like push notifications and background sync. In the future, service workers will support other things like periodic sync or geofencing. 
 
 ### Push notification
@@ -125,5 +126,7 @@ Source: [Progressive Web App (PWA) Usage and tracking with Web Analytics](https:
 # Furthermore
 
 - [Anatomy of a Progressive Web App](https://www.slideshare.net/mikelnorth/anatomy-of-a-progressive-web-app)
+- [MDN web docs: Using Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
+- [Service Workers: Revolution Against the Network!](https://blog.ionicframework.com/service-workers-revolution-against-the-network/)
 
 
