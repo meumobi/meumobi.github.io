@@ -138,5 +138,5 @@ export class ExamplePage {
 - [Using Google Analytics in an Ionic app without a plugin](https://www.27partners.com/2016/07/using-google-analytics-in-an-ionic-app-without-a-plugin/);
 - [Ionic Native Google Analytics Plugin](https://ionicframework.com/docs/native/google-analytics/);
 - [Ionic - Global navigation change event](https://forum.ionicframework.com/t/ionic-global-navigation-change-event/51537/3);
-- [IONIC2 | App Metrics using Google Analytics](https://www.techdiary.io/ionic2-app-metrics-using-google-analytics/);
+- [IONIC2 App Metrics using Google Analytics](https://www.techdiary.io/ionic2-app-metrics-using-google-analytics/);
 - [Angular 4+ using Google Analytics](https://stackoverflow.com/a/46463247/4668126);
