@@ -13,7 +13,6 @@ author:
 ---
 
 One of Meumobi's goals is keep the code clean, readable and maintainable. We have did this manually so far. In order to improve our quality we have been studying how to do this automatically.
-
 ![PHP Logo]({{ site.BASE_PATH}}/assets/media/php.png)
 
 ## Define a coding sytle ##
