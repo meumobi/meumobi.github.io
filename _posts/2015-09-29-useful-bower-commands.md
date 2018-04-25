@@ -159,6 +159,12 @@ bower validate      1.0.0 against https://github.com/Maistho/angular-imgcache.js
 
 ```
 
+# Installing a dependency with Bower from URL
+
+Try `bower install git://github.com/urin/jquery.balloon.js.git#1.0.3 --save` where `1.0.3` is the tag number which you can get by reading tag under releases. Also for URL replace by `git://` in order for system to connect.
+
+[Source](https://stackoverflow.com/a/41864695/4982169)
+
 # Going further
 
 - [http://www.zell-weekeat.com/bower/](http://www.zell-weekeat.com/bower/)
