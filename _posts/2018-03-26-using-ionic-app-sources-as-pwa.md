@@ -136,7 +136,7 @@ gulp.task('preprocess',function(){
 });
 ```
 
-Then now if you run `gulp preprocess --mode=pwa` you'll see a new `index.html` file to appear as required for a PWA. And for a native app run `gulp preprocess --mode=pwa`
+Then now if you run `gulp preprocess --mode=pwa` you'll see a new `index.html` file to appear as required for a PWA. And for a native app run `gulp preprocess --mode=app`
 
 ## Ionic cli and Gulp integration
 Fine, we did it, but now we need to integrate it with ionic commands. Ionic cli provide [hooks](https://ionicframework.com/docs/cli/configuring.html#hooks) to run scripts during CLI events, inclusive gulp scripts
