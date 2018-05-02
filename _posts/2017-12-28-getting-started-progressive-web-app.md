@@ -129,4 +129,5 @@ Source: [Progressive Web App (PWA) Usage and tracking with Web Analytics](https:
 - [MDN web docs: Using Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
 - [Service Workers: Revolution Against the Network!](https://blog.ionicframework.com/service-workers-revolution-against-the-network/)
 
+- [Progressive Web Apps: Bridging the gap between web and mobile apps](https://medium.freecodecamp.org/progressive-web-apps-bridging-the-gap-between-web-and-mobile-apps-a08c76e3e768)
 
