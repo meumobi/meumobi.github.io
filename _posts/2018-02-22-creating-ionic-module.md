@@ -157,6 +157,7 @@ export class AppModule {}
 - [How to create a angular library](http://www.dzurico.com/how-to-create-an-angular-library/);
 - [Ionic Module Template](https://github.com/ionic-team/ionic-module-template);
 - [Ionic MeuMobi Utils on npm](https://www.npmjs.com/package/ionic-meumobi-utils);
+- [How to Publish a Custom Ionic Module With NPM](https://devdactic.com/custom-ionic-module-npm/)
 
 
 
