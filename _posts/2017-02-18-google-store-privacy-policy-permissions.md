@@ -61,4 +61,5 @@ I've compiled below few models:
 
 # Furthermore
 - [Android M and Privacy](http://www.applicationprivacy.org/2015/06/23/android-m-and-privacy-giving-users-control-over-app-permissions/)
+- [termsfeed](https://termsfeed.com/blog/google-play-store-violation-policy-issue-2017/)
 
