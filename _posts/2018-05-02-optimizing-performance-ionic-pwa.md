@@ -13,7 +13,7 @@ author:
 ---
 
 Thanks to latest releases it's easy now with [Ionic v3.x to build a PWA](http://meumobi.github.io/ionic/pwa/2018/03/26/using-ionic-app-sources-as-pwa.html). But as shown on [Lighthouse tool](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk), out of the box performance is not extraordinary. 
-![Ionic PWA Bad Performance]({{ site.BASE_PATH}}/assets/media/ionic/pwa_ionic_lighthouse-1.png)
+![Ionic PWA Bad Performance]({{ site.BASE_PATH}}/assets/media/ionic/Lighthouse_Report-ionic v3 PWA.png)
 
 # Measure performance
 Performance is one of the most important points on the [PWA checklist]((https://developers.google.com/web/progressive-web-apps/checklist)). To understand and improve performance we've decided to work on popular ionic starter blank. We'll not add any feature, but follow some best pratices to try to reach better lighthouse performance rating.
@@ -88,7 +88,7 @@ And finally run the build with ionic cli `$ ionic build --prod` and deploy the a
 
 |Ionic v3: PWA Performance|
 |---|
-|![Ionic v3: PWA Performance]({{ site.BASE_PATH}}/assets/media/ionic/pwa_ionic_v3 lighthouse.png)|
+|![Ionic v3: PWA Performance]({{ site.BASE_PATH}}/assets/media/ionic/Lighthouse_Report-ionic v3 PWA.png)|
 
 ```
 $ ls -slh www/build| awk '{print $6,$10}'
@@ -197,6 +197,7 @@ For the `blank` app we only need to keep: `app`, `content` and `toolbar` but of 
 |86K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
 
 # Remove unused $colors
+
 Remove all unused colors from the $colors array in `src/theme/variables.scss`. Ideally you will only have one or two colors left.
 
 ```scss
@@ -209,8 +210,8 @@ $colors: (
 |www/build optimization-1+2+3+4|www/build starter blank|
 |---|---|
 |65K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
-# Optimization-5:  run purify-css
 
+# Optimization-5:  run purify-css
 
 ```
 $ npm install purify-css -g
