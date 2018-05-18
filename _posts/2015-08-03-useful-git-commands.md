@@ -136,7 +136,7 @@ If you've already pushed your commit up to your remote branch
 $ git push <remote> <branch> --force
 ```
 
-# How to modify a specified commit in git?
+# How to modify a specified commit ?
 Assume you have a history that looks like this:
 
 ```bash
@@ -211,6 +211,13 @@ Even better, checkout and create a branch (otherwise you will be on a branch nam
 
 `$ git checkout tags/<tag_name> -b <branch_name>`
 
+# Revert a file to a specific revision using Git?
+
+Assuming the hash of the commit you want is c5f567:
+
+```
+$ git checkout c5f567 -- file1/to/restore file2/to/restore
+```
 
 # Rename a tag
 Rename a tag old to new:
