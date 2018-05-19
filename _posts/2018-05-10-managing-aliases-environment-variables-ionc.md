@@ -84,28 +84,27 @@ const fs = require('fs');
 const path = require('path');
 const useDefaultConfig = require('@ionic/app-scripts/config/webpack.config.js');
 
-/*
-  If needed could get env from cli argument
-  const env = require('minimist')(process.argv.slice(2)).env || process.env.IONIC_ENV || 'dev';
-*/
+const webpackConfig = process.env.IONIC_ENV || 'dev';
+const env = require('minimist')(process.argv.slice(2)).env;
 
-const env = process.env.IONIC_ENV || 'dev';
-
-console.log(chalk.yellow.bgBlack('\nUsing ' + env + ' environment variables.\n'));
+console.log(chalk.yellow.bgBlack('\nUsing ' + (!env ? 'DEFAULT' : env.toUpperCase()) + ' environment variables for ' + webpackConfig.toUpperCase() + ' build.\n'));
 
 useDefaultConfig[env].resolve.alias = {
   "@app": path.resolve('./src/app/'),
   "@assets": path.resolve('./src/assets/'),
-  "@env": path.resolve(environmentPath()),
+  "@env": path.resolve(environmentPath(env)),
   "@pages": path.resolve('./src/pages/'),
   "@services": path.resolve('./src/services/'),
   "@tests": path.resolve('./src/'),    
   "@theme": path.resolve('./src/theme/')
 };
 
-function environmentPath() {
+function environmentPath(env) {
+  envFileName = 'environment' + (!env ? '' : '.' + env) + '.ts';
 
-  let filePath = './src/environments/environment.' + env + '.ts';
+  let filePath = './src/environments/' + envFileName;
+
+  console.log(chalk.yellow.bgBlack('Loading ' + filePath + '\n'));
 
   if (!fs.existsSync(filePath)) {
     console.log(chalk.red('\n' + filePath + ' does not exist!'));
@@ -134,10 +133,31 @@ Import your environment variables wherever you need:
 import { ENV } from '@env'
 ```
 
+# Build with env argument
+
+Now you can run your build providing an `env` argument to select environment variables:
+
+```
+$ ionic build --env=dev
+```
+
+And to build an app with prod options (improving performance):
+
+```
+$ ionic build --prod --env=dev
+```
+
 Note: Remember to ignore your environment files in your `.gitignore`
 
 ```
-# Environment Variables
 ./src/environments/*
 !./src/environments/environment.ts
 ```
+
+# Update webpack config for unit tests
+
+If you use unit tests on your App you should also update your webpack config for test. I recommend the read of our [meu-starter.ionic-v3](https://github.com/meumobi/meu-starter.ionic-v3) for more details on how to integrate env variables with unit and e2e tests.
+
+# Furthermore
+
+- [angular-cli: Application Environments](https://github.com/angular/angular-cli/wiki/stories-application-environments)
