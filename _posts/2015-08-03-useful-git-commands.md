@@ -501,6 +501,17 @@ Source: [https://stackoverflow.com/a/792027/4982169](https://stackoverflow.com/a
 $ git checkout <sha1>
 ```
 
+# Working on wrong branch - how to copy changes to existing topic branch
+
+```
+$ git stash
+$ git checkout branch123
+$ git stash apply
+```
+
+[Source](https://stackoverflow.com/questions/5964118/git-working-on-wrong-branch-how-to-copy-changes-to-existing-topic-branch)
+
+
 # Overriding remote repository with mine local
 
 If your remote repository contains a bad version, and you have the copy of a good version locally. Running [git push --force](https://www.kernel.org/pub/software/scm/git/docs/git-push.html) command you'll replace everything that's on the remote repository with your local:
