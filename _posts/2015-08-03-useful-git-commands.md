@@ -254,10 +254,10 @@ git reset --hard HEAD^     # use --hard if you don't care about keeping the chan
 You want to nuke to last commit and never see it again.
 
 ```sh
-git reset HEAD^     # use --hard if you don't care about keeping the changes
+git reset HEAD^     
 ```
 
-You tell Git to move the HEAD pointer back one commit. But (unless you use --hard) you leave your files as they were. So now git status shows the changes you had checked into C. You haven't lost a thing!
+You tell Git to move the HEAD pointer back one commit. But (unless you use --hard) you leave your files as they were. So now git status shows the changes. You haven't lost a thing!
 
 ```sh
 git reset --soft HEAD^     # use --soft if you want to keep your changes
