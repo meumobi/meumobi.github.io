@@ -520,6 +520,20 @@ If your remote repository contains a bad version, and you have the copy of a goo
 $ git push --force
 ```
 
+# Merge branch into master with just one commit 
+
+Say your bug fix branch is called bugfix and you want to merge it into master:
+
+```
+$ git checkout master
+$ git merge --squash bugfix
+$ git commit
+```
+
+This will take all the commits from the bugfix branch, squash them into 1 commit, and merge it with your master branch.
+
+[Source](https://stackoverflow.com/a/5309051/4982169)
+
 # Links
 
 - [http://rogerdudler.github.io/git-guide/](http://rogerdudler.github.io/git-guide/)
