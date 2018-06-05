@@ -21,6 +21,7 @@ If you’re not familiar with Ionic already, I’d recommend reading [Getting St
 
 ### Prerequisites
 We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova].
+
 ```
 $ npm install cordova ionic typescript -g
 ...
