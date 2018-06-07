@@ -14,12 +14,12 @@ author:
 If, like me, you are lost in git command's world, here my ultimate cheatsheet I need and I often forget, c'est la vie, c'est la vie...
 ![git-logo]({{ site.BASE_PATH }}/assets/media/git-logo@2x.png)
 
-# Stashing your Work
+## Stashing your Work
 
 So there you are, working on a new feature, modifying files in the working directory and/or index and you find out you need to fix a bug on a different branch. You can’t just switch to a different branch and lose all your work.
 Source: [http://www.gitguys.com/topics/temporarily-stashing-your-work/](http://www.gitguys.com/topics/temporarily-stashing-your-work/)
 
-## Add Files to the Index
+### Add Files to the Index
 
 We first need to add the new files to the index.
 No need to add updates to the index since that paths were already in the index: Git will notice that the working directory version is newer than the index and will stash them.
@@ -28,7 +28,7 @@ No need to add updates to the index since that paths were already in the index: 
 $ git add NEW_FILE
 ```
 
-## Stash Time
+### Stash Time
 
 Now we’re ready for the stashing:
 
@@ -38,11 +38,11 @@ Saved working directory and index state WIP on master: 8d8b865 Initial commit
 HEAD is now at 8d8b865 Initial commit
 ```
 
-### Work on Another Branch or Two
+#### Work on Another Branch or Two
 
 Now we can do anything we want, such as git checkout other-branch, make modifications, fix bugs, and commit the fix to that branch.
 
-### Stash pop and Working Directory is Back
+#### Stash pop and Working Directory is Back
 
 When we’re ready to continue where we left off, above, we simply type git stash pop and our “stashed” working directory is back where it was when we had typed git stash:
 
@@ -50,7 +50,7 @@ When we’re ready to continue where we left off, above, we simply type git stas
 $ git stash pop
 ```
 
-# How to clone git repository with specific revision/changeset ?
+## How to clone git repository with specific revision/changeset ?
 
 ```sh
 $ git clone $URL
@@ -63,12 +63,12 @@ To again go back to the most recent commit
 $ git checkout master
 ```
 
-# How do I revert all local changes in Git
+## How do I revert all local changes in Git
 ```sh
 $ git checkout .
 ```
 
-# To create a branch
+## To create a branch
 ...and switch to it at the same time, you can run the git checkout command with the -b switch:
 
 ```sh
@@ -83,7 +83,7 @@ $ git branch iss53 // Create a branch iss53
 $ git checkout iss53 // Switch to branch iss53
 ```
 
-# Changing an older commit message
+## Changing an older commit message
 You can use interactive rebase, then force push to change the commit history.
 
 On the command line, navigate to the repository that contains the commit you want to amend.
@@ -106,7 +106,7 @@ $ git push --force
 
 Source: [https://help.github.com/articles/changing-a-commit-message/](https://help.github.com/articles/changing-a-commit-message/)
 
-# Amend your last commit
+## Amend your last commit
 If you ever find that you accidentally left something out of your last commit, be it a file, an extra change to a file that you just committed or a wrong comment,  don't worry. It can easily be fixed.
 
 ### Commit has not been pushed online
@@ -125,7 +125,7 @@ Make sure you don't have any working copy changes before doing this or they can 
 
 Source: [https://nathanhoad.net/git-amend-your-last-commit](https://nathanhoad.net/git-amend-your-last-commit)
 
-### Commit has been already pushed to your remote branch
+#### Commit has been already pushed to your remote branch
 
 If you've already pushed your commit up to your remote branch
 
@@ -136,7 +136,7 @@ If you've already pushed your commit up to your remote branch
 $ git push <remote> <branch> --force
 ```
 
-# How to modify a specified commit ?
+## How to modify a specified commit ?
 Assume you have a history that looks like this:
 
 ```bash
@@ -176,15 +176,15 @@ pick b42d293 Commit3
 
 All you need to do is save and exit
 
-# How to have git log show filenames ?
+## How to have git log show filenames ?
 
 ```sh
 $ git log --stat
 ```
 
-# Mark Release Points with Tags
+## Mark Release Points with Tags
 
-## Lightweight Tags
+### Lightweight Tags
 To create a lightweight tag, this is basically the commit checksum stored in a file – no other information is kept, use following command:
 
 ```sh
@@ -193,14 +193,14 @@ $ git tag rel-1.2.7
 
 [Git-Basics-Tagging](http://git-scm.com/book/en/v2/Git-Basics-Tagging)
 
-## Sharing Tags
+### Sharing Tags
 By default, the git push command doesn’t transfer tags to remote servers. You will have to explicitly push tags to a shared server after you have created them. This process is just like sharing remote branches – you can run git push origin [tagname].
 
 ```sh
 $ git push origin rel-1.2.7
 ```
 
-## Checkout a Specific Tag
+### Checkout a Specific Tag
 `$ git clone` will give you the whole repository.
 
 After the clone, you can list the tags with `$ git tag -l` and then checkout a specific tag:
@@ -211,7 +211,7 @@ Even better, checkout and create a branch (otherwise you will be on a branch nam
 
 `$ git checkout tags/<tag_name> -b <branch_name>`
 
-# Revert a file to a specific revision using Git?
+## Revert a file to a specific revision using Git?
 
 Assuming the hash of the commit you want is c5f567:
 
@@ -219,7 +219,7 @@ Assuming the hash of the commit you want is c5f567:
 $ git checkout c5f567 -- file1/to/restore file2/to/restore
 ```
 
-# Rename a tag
+## Rename a tag
 Rename a tag old to new:
 
 ```sh
@@ -237,14 +237,14 @@ Finally, make sure that the other users remove the deleted tag. Please tell them
 
 [Source](https://stackoverflow.com/a/5719854/4982169)
 
-# Automatically convert line endings correctly for your platform
+## Automatically convert line endings correctly for your platform
 In git-config, set core.autocrlf to true to make git automatically convert line endings correctly for your platform.
 
 ```sh
 $ git config core.autocrlf true
 ```
 
-# Undo a local commit
+## Undo a local commit
 To restore everything back to the way it was prior to the last commit, we need to reset to the commit before HEAD:
 
 ```sh
@@ -267,8 +267,8 @@ This not only leaves your files alone, it even leaves your index alone. When you
 
 You also can *undo last n commits* using `git reset --soft HEAD~n`
 
-# Undo a public commit
-## Revert commit
+## Undo a public commit
+### Revert commit
 If you have already made your commits public, you will want to create a new commit which will "revert" the changes you made in your previous commit (current HEAD).
 
 ```sh
@@ -287,7 +287,7 @@ git log
 
 Reverting a commit means to create a new commit that undoes all changes that were made in the bad commit. Just like above, the bad commit remains there, but it no longer affects the current master and any future commits on top of it.
 
-## Rewrite history
+### Rewrite history
 If you want to rewrite the history, I recommend to read the post [Git HowTo: revert a commit already pushed to a remote repository](http://christoph.ruegg.name/blog/git-howto-revert-a-commit-already-pushed-to-a-remote-reposit.html) from [Christoph Rüegg](https://twitter.com/cdrnet)
 
 ```sh
@@ -298,7 +298,7 @@ $ git rebase --continue
 $ git push -f
 ```
 
-# Undo 'git add' before commit
+## Undo 'git add' before commit
 You can undo git add before commit with
 
 ```sh
@@ -317,7 +317,7 @@ Source:
 - [http://stackoverflow.com/questions/348170/undo-git-add-before-commit](http://stackoverflow.com/questions/348170/undo-git-add-before-commit)
 - [https://github.com/blog/2019-how-to-undo-almost-anything-with-git](https://github.com/blog/2019-how-to-undo-almost-anything-with-git)
 
-# Copy working-tree (without .git files)
+## Copy working-tree (without .git files)
 Checkout from remote repository
 
 ```bash
@@ -332,7 +332,7 @@ path-to-repository$ git checkout --work-tree=../tmp/Employee checkout HEAD -- .
 
 Source: [http://stackoverflow.com/a/16493707/4982169](http://stackoverflow.com/a/16493707/4982169)
 
-# Git clone including submodules
+## Git clone including submodules
 
 ```sh
 git clone --recurse-submodules
@@ -341,7 +341,7 @@ git clone --recurse-submodules
 Note that `--recurse-submodules` and `--recursive` are equivalent aliases.
 Source: [http://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules](http://stackoverflow.com/questions/3796927/how-to-git-clone-including-submodules)
 
-# Rollback to an old Git commit
+## Rollback to an old Git commit
 
 you just want your working copy to reflect a specific commit? Use git checkout and the commit hash.
 Use git checkout <commit> -b <branchname> to checkout into a branch, or git checkout <commit> . to checkout into the current branch.
@@ -357,7 +357,7 @@ $
 
 Source: [http://stackoverflow.com/questions/2007662/rollback-to-an-old-git-commit-in-a-public-repo](http://stackoverflow.com/questions/2007662/rollback-to-an-old-git-commit-in-a-public-repo)
 
-# Rename branch (locally and remotely)
+## Rename branch (locally and remotely)
 
 ```bash
 git branch -m old_branch new_branch         # Rename branch locally    
@@ -365,7 +365,7 @@ git push origin :old_branch                 # Delete the old branch
 git push --set-upstream origin new_branch   # Push the new branch, set local branch to track the new remote
 ```
 
-# How to release a patch for a previous version
+## How to release a patch for a previous version
 
 > It seems that there is a concept of a "support" branch in git flow. This is used to add a hotfix to an earlier release
 
@@ -392,10 +392,10 @@ https://github.com/GitTools/GitVersion/issues/128
 Support branches are not really covered in GitFlow, but are essential if you need to maintain multiple major versions at the same time. You could use support branches for supporting minor releases as well.
 https://gitversion.readthedocs.io/en/latest/git-branching-strategies/gitflow-examples/
 
-# Merge Pull Request
+## Merge Pull Request
 If your repo is https://github.com/johnsmith/hello-world.git
 
-## Step 1: Check out a new branch and test the changes
+### Step 1: Check out a new branch and test the changes
 From your project repository, check out a new branch and test the changes.
 
 ```
@@ -403,7 +403,7 @@ git checkout -b johnsmith-fix/ion2-calendar master
 git pull https://github.com/johnsmith/hello-world.git fix/ion2-calendar
 ```
 
-## Step 2: Merge the changes and update on GitHub.
+### Step 2: Merge the changes and update on GitHub.
 
 ```
 git checkout master
@@ -413,7 +413,7 @@ git push origin master
 
 Source: [merging-a-pull-request](https://help.github.com/articles/merging-a-pull-request/)
 
-# Merge branch into master
+## Merge branch into master
 
 The usual approach while developing is
 
@@ -436,7 +436,7 @@ git push
 
 Source: http://stackoverflow.com/a/5608860
 
-# Delete branch locally and remotely
+## Delete branch locally and remotely
 After merge if you want to delete local branch,
 
 ```
@@ -449,7 +449,7 @@ and remote,
 $ git push origin --delete enhance/improve-events-display
 ```
 
-# Delete tag locally and remotely
+## Delete tag locally and remotely
 If you want to delete local tag,
 
 ```
@@ -462,7 +462,7 @@ and remote,
 $ git push origin --delete v0.0.1
 ```
 
-# Fetch all git branches
+## Fetch all git branches
 
 When you clone a repository all the information of the branches is actually downloaded but the branches are hidden. With the command
 
@@ -481,7 +481,7 @@ Sources:
 - http://stackoverflow.com/questions/10312521/how-to-fetch-all-git-branches
 - https://gist.github.com/tamtamchik/2869690
 
-# Download a specific tag
+## Download a specific tag
 
 `$ git clone` will give you the whole repository.
 
@@ -495,13 +495,13 @@ Even better, checkout and create a branch (otherwise you will be on a branch nam
 
 Source: [https://stackoverflow.com/a/792027/4982169](https://stackoverflow.com/a/792027/4982169)
 
-# Checkout a specific revision
+## Checkout a specific revision
 
 ```
 $ git checkout <sha1>
 ```
 
-# Working on wrong branch - how to copy changes to existing topic branch
+## Working on wrong branch - how to copy changes to existing topic branch
 
 ```
 $ git stash
@@ -512,7 +512,7 @@ $ git stash apply
 [Source](https://stackoverflow.com/questions/5964118/git-working-on-wrong-branch-how-to-copy-changes-to-existing-topic-branch)
 
 
-# Overriding remote repository with mine local
+## Overriding remote repository with mine local
 
 If your remote repository contains a bad version, and you have the copy of a good version locally. Running [git push --force](https://www.kernel.org/pub/software/scm/git/docs/git-push.html) command you'll replace everything that's on the remote repository with your local:
 
@@ -520,7 +520,7 @@ If your remote repository contains a bad version, and you have the copy of a goo
 $ git push --force
 ```
 
-# Merge branch into master with just one commit 
+## Merge branch into master with just one commit 
 
 Say your bug fix branch is called bugfix and you want to merge it into master:
 
@@ -534,7 +534,7 @@ This will take all the commits from the bugfix branch, squash them into 1 commit
 
 [Source](https://stackoverflow.com/a/5309051/4982169)
 
-# Links
+## Links
 
 - [http://rogerdudler.github.io/git-guide/](http://rogerdudler.github.io/git-guide/)
 - [http://www.miximum.fr/enfin-comprendre-git.html](http://www.miximum.fr/enfin-comprendre-git.html)
