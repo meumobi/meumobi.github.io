@@ -15,15 +15,15 @@ author:
 If you are a developer and are looking for a plug and play solution to start your own blog [jekyll](https://jekyllrb.com/) is a good alternative, and coupled with github you'll be able to deploy and host it with no pain.
 ![jekyll-github-pages]({{ site.BASE_PATH }}/assets/media/jekyll/jekyll-github-pages.jpg)
 
-# Getting started
+## Getting started
 
-## Install jekyll and libraries
+### Install jekyll and libraries
 
 ```bash
 $ gem install jekyll jekyll-paginate kramdown
 ```
 
-## you don't have write permissions...
+### You don't have write permissions...
 
 ```bash
 $ gem install jekyll
@@ -53,7 +53,7 @@ Gems will be installed into `/usr/local/bin` and every user on your system can u
 Source: [http://stackoverflow.com/a/32253142/4982169](http://stackoverflow.com/a/32253142/4982169)
 
 
-## Create your site
+### Create your site
 
 ```sh
 jekyll new my-awesome-site
@@ -61,9 +61,9 @@ jekyll new my-awesome-site
 ~/my-awesome-site $ bundle exec jekyll serve
 ```
 
-# Tips'n Tricks
+## Tips'n Tricks
 
-## Add internal link in post
+### Add internal link in post
 
 
 {% raw %}
@@ -73,17 +73,25 @@ jekyll new my-awesome-site
 {% endraw %}
 
 
-## Render Tables with kramdown
+### Add link within page
+
+kramdown supports the automatic generation of header IDs if the option auto_ids is set to true (which is the default). This is done by converting the untransformed, i.e. plain, header text
+
+So for `## Section 1`, it would generate the following id: `id="section-1"`, then in plain kramdown/markdown the anchor is linked to via:
+
+`[Section 1](#section-1)`
+
+### Render Tables with kramdown
 
 >  A line starting with a pipe character `|` starts a table row. However, if the pipe characters is immediately followed by a dash (-), a separator line is created
 
 Source: [http://kramdown.gettalong.org/quickref.html#tables](http://kramdown.gettalong.org/quickref.html#tables)
 
-## Line break
+### Line break
 We should use the ["secret" MD's two-space line breaks](http://meta.stackexchange.com/questions/40976/what-is-the-reason-for-the-top-secret-two-space-newline-markdown-weirdness). Digit two empty space and a break-line (enter).
 
 
-## Open links in a new window, target=_blank
+### Open links in a new window, target=_blank
 
 Most Markdown engines I've seen allow plain HTML
 
@@ -94,7 +102,7 @@ Most Markdown engines I've seen allow plain HTML
 Source: [http://stackoverflow.com/questions/4425198/markdown-target-blank](http://stackoverflow.com/questions/4425198/markdown-target-blank)
 
 
-## Code Highlighting: Embedded GitHub Gists
+### Code Highlighting: Embedded GitHub Gists
 Improve Code Highlighting in a Jekyll-based Blog Site
 
 Install gem [jekyll-gist](https://github.com/jekyll/jekyll-gist)
@@ -115,7 +123,7 @@ Here's an example of how to embed a Gist on GitHub Pages:
 
 All you need to do is copy and paste the Gist's ID from the URL (here 5555251), and add it to a gist tag surrounded by {% raw %}{% and %}{% endraw %}.
 
-## JS hook
+### JS hook
 Add following snippet on `/assets/js/app.js`, all links on posts will open on new window. It includes internal links.
 
 ```js
@@ -130,13 +138,13 @@ $('div.article_body a')
 
 Source: [http://mrloh.se/2015/05/bending-markdown-for-jekyll-and-github-pages/](http://mrloh.se/2015/05/bending-markdown-for-jekyll-and-github-pages/)
 
-# Jekyll Themes
+## Jekyll Themes
 
 - [themes.jekyllrc.org](http://themes.jekyllrc.org/)
 - [jekyllthemes.io](https://jekyllthemes.io/)
 - [jekyllthemes.org](http://jekyllthemes.org/)
 
-# Top Resources
+## Top Resources
 
 - [http://joshualande.com/jekyll-github-pages-poole/](http://joshualande.com/jekyll-github-pages-poole/)
 - [http://www.chrisgmyr.com/2015/02/finally-moved-my-blog-to-jekyll/](http://www.chrisgmyr.com/2015/02/finally-moved-my-blog-to-jekyll/)
