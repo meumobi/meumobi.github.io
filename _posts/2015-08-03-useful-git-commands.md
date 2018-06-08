@@ -268,6 +268,7 @@ This not only leaves your files alone, it even leaves your index alone. When you
 You also can *undo last n commits* using `git reset --soft HEAD~n`
 
 ## Undo a public commit
+
 ### Revert commit
 If you have already made your commits public, you will want to create a new commit which will "revert" the changes you made in your previous commit (current HEAD).
 
@@ -503,7 +504,7 @@ $ git branch -d my_copy_random_branch
 and remote,
 
 ```
-$ git push origin --delete xyz/random_branch
+$ git push origin -d xyz/random_branch
 ```
 
 Source: 
@@ -511,6 +512,12 @@ Source:
 - [merge a git branch into master](http://stackoverflow.com/a/5608860)
 - 
 [How to use git merge --squash?](https://stackoverflow.com/a/5309051/4982169)
+
+## Undo a Git merge that hasn't been pushed yet
+
+If merge has resulted in conflicts. `git merge --abort` will abort the merge process and try to reconstruct the pre-merge state.
+
+Else see [Undo a local commit](#undo-a-local-commit) section.
 
 ## Fetch all git branches
 
