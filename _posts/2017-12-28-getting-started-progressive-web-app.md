@@ -122,6 +122,7 @@ Source: [Progressive Web App (PWA) Usage and tracking with Web Analytics](https:
 
 - [FeedGist: A Progressive Web App Case Study](https://www.biggerpicture.agency/insights/feedgist-a-progressive-web-app-case-study)
 - [A Beginner's Guide To Progressive Web Apps](https://www.smashingmagazine.com/2016/08/a-beginners-guide-to-progressive-web-apps/)
+- [Exploring PWA to Enhance eBay’s Mobile Experience](https://www.ebayinc.com/stories/news/exploring-progressive-web-apps-to-enhance-ebays-mobile-experience)
 
 # Furthermore
 
@@ -130,4 +131,5 @@ Source: [Progressive Web App (PWA) Usage and tracking with Web Analytics](https:
 - [Service Workers: Revolution Against the Network!](https://blog.ionicframework.com/service-workers-revolution-against-the-network/)
 
 - [Progressive Web Apps: Bridging the gap between web and mobile apps](https://medium.freecodecamp.org/progressive-web-apps-bridging-the-gap-between-web-and-mobile-apps-a08c76e3e768)
+- [Progressive Web Apps core guides on MDN Web Docs](https://hacks.mozilla.org/2018/05/progressive-web-apps-core-guides-on-mdn-web-docs/)
 

@@ -392,63 +392,6 @@ https://github.com/GitTools/GitVersion/issues/128
 Support branches are not really covered in GitFlow, but are essential if you need to maintain multiple major versions at the same time. You could use support branches for supporting minor releases as well.
 https://gitversion.readthedocs.io/en/latest/git-branching-strategies/gitflow-examples/
 
-## Merge Pull Request
-If your repo is https://github.com/johnsmith/hello-world.git
-
-### Step 1: Check out a new branch and test the changes
-From your project repository, check out a new branch and test the changes.
-
-```
-git checkout -b johnsmith-fix/ion2-calendar master
-git pull https://github.com/johnsmith/hello-world.git fix/ion2-calendar
-```
-
-### Step 2: Merge the changes and update on GitHub.
-
-```
-git checkout master
-git merge --no-ff johnsmith-fix/ion2-calendar
-git push origin master
-```
-
-Source: [merging-a-pull-request](https://help.github.com/articles/merging-a-pull-request/)
-
-## Merge branch into master
-
-The usual approach while developing is
-
-```
-git checkout master
-git pull
-git checkout enhance/improve-events-display
-git log master..
-git merge origin/enhance/improve-events-display # to update your local enhance/improve-events-display from the fetch in the pull earlier
-```
-
-When you're ready to merge back into master
-
-```
-git checkout master
-git log ..enhance/improve-events-display
-git merge enhance/improve-events-display
-git push
-```
-
-Source: http://stackoverflow.com/a/5608860
-
-## Delete branch locally and remotely
-After merge if you want to delete local branch,
-
-```
-$ git branch -d enhance/improve-events-display
-```
-
-and remote,
-
-```
-$ git push origin --delete enhance/improve-events-display
-```
-
 ## Delete tag locally and remotely
 If you want to delete local tag,
 
@@ -461,25 +404,6 @@ and remote,
 ```
 $ git push origin --delete v0.0.1
 ```
-
-## Fetch all git branches
-
-When you clone a repository all the information of the branches is actually downloaded but the branches are hidden. With the command
-
-```
-$ git branch -a
-```
-
-you can show all the branches of the repository, and with the command
-
-```
-$ git checkout -b branchname origin/branchname
-```
-you can then "download" them manually one at a time.
-
-Sources: 
-- http://stackoverflow.com/questions/10312521/how-to-fetch-all-git-branches
-- https://gist.github.com/tamtamchik/2869690
 
 ## Download a specific tag
 
@@ -520,19 +444,92 @@ If your remote repository contains a bad version, and you have the copy of a goo
 $ git push --force
 ```
 
-## Merge branch into master with just one commit 
+## Merge pull request or branch into master
+If your repo is https://github.com/johnsmith/hello-world.git
 
-Say your bug fix branch is called bugfix and you want to merge it into master:
+### Step 0: Setup remote
+
+1. First check the list of your remotes by
+`$ git remote -v`
+
+2. If you don't have the https://github.com/johnsmith/hello-world.git remote in the above command's output, you would add it by
+`$ git remote add xyz https://github.com/johnsmith/hello-world.git`
+
+Usually xyz is `origin`.
+
+3. Now you can fetch the contents of that remote by
+`$ git fetch xyz`
+
+4. Check the branch list by
+`$ git branch -a` 
+
+### Step 1: Check out a new branch and test the changes
+From your project repository, check out a new branch and test the changes.
+
+```
+$ git checkout -b my_copy_random_branch xyz/random_branch
+```
+
+The local branch my_copy_random_branch would be tracking the random_branch branch of your remote.
+
+### Step 2: Merge the changes and update on GitHub.
 
 ```
 $ git checkout master
-$ git merge --squash bugfix
+$ git log ..my_copy_random_branch	# if you're curious
+$ git merge --no-ff my_copy_random_branch
+$ git push origin master
+```
+
+If you prefer to squash all commits form branch into a single one use:
+
+```
+$ git merge --squash my_copy_random_branch
 $ git commit
 ```
 
-This will take all the commits from the bugfix branch, squash them into 1 commit, and merge it with your master branch.
-
 [Source](https://stackoverflow.com/a/5309051/4982169)
+
+Pull requests are merged using the `--no-ff` option, except for pull requests with squashed or rebased commits, which are merged using the fast-forward option.
+
+### Step 3: Delete branch locally and remotely
+
+After merge if you want to delete local branch,
+
+```
+$ git branch -d my_copy_random_branch
+```
+
+and remote,
+
+```
+$ git push origin --delete xyz/random_branch
+```
+
+Source: 
+- [merging-a-pull-request](https://help.github.com/articles/merging-a-pull-request/)
+- [merge a git branch into master](http://stackoverflow.com/a/5608860)
+- 
+[How to use git merge --squash?](https://stackoverflow.com/a/5309051/4982169)
+
+## Fetch all git branches
+
+When you clone a repository all the information of the branches is actually downloaded but the branches are hidden. With the command
+
+```
+$ git branch -a
+```
+
+you can show all the branches of the repository, and with the command
+
+```
+$ git checkout -b branchname origin/branchname
+```
+you can then "download" them manually one at a time.
+
+Sources: 
+- http://stackoverflow.com/questions/10312521/how-to-fetch-all-git-branches
+- https://gist.github.com/tamtamchik/2869690
 
 ## Links
 

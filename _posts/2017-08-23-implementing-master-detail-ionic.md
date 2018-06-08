@@ -40,6 +40,8 @@ $ ionic g page contacts --no-modules
 $ ionic g page contact-details
 ```
 
+We don't provide module for the contacts page to simplify our app, but could remove the option if you prefer using [lazy-loading](https://blog.ionicframework.com/ionic-and-lazy-loading-pt-1/).
+
 ## Generate data provider and mockup
 
 ```bash
@@ -61,7 +63,9 @@ We create an `src/providers/contacts/index.ts` file where we reference the curre
 export * from './contacts.service-mock';
 ```
 
-And we replace on `app.module.ts` and `pages/contacts/contacts.ts` the import `import { ContactsProvider } from '../providers/contacts/contacts.service-mock' ` to `import { ContactsProvider } from '../providers/contacts/';`
+And we replace on `app.module.ts` the import `import { ContactsProvider } from '../providers/contacts/contacts.service-mock' ` to `import { ContactsProvider } from '../providers/contacts/';`
+
+And add same import on `pages/contacts/contacts.ts`.
 
 ### Mock Content
 

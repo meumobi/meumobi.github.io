@@ -69,4 +69,5 @@ $font-size-base: 1.6rem;
 ```
 
 # Furthermore
-- [A Guide to Styling an Ionic Application](https://www.joshmorony.com/a-guide-to-styling-an-ionic-2-application/)
+- [Josh Morony: A Guide to Styling an Ionic Application](https://www.joshmorony.com/a-guide-to-styling-an-ionic-2-application/)
+- [Rob Ferguson: Theming your Ionic 3 App](https://robferguson.org/blog/2017/11/12/theming-your-ionic-3-app/)

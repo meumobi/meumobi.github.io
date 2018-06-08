@@ -19,6 +19,7 @@ Developing Ionic 2.x Apps you certainly face the need to use an external configu
 - [Passing Initialization Data to Angular 2 (stackoverflow)](https://stackoverflow.com/questions/42379540/passing-initialization-data-to-angular-2/42409679#42409679)
 - [Reading data before application startup in Angular](https://gist.github.com/fernandohu/122e88c3bcd210bbe41c608c36306db9)
 - [Managing environment variables in Ionic 2](https://medium.com/@hin556/managing-environment-variables-in-ionic-2-43506f49acfb)
+- [Feature request: Ionic 2 (dev/prod) environment variables configuration #1205](https://github.com/ionic-team/ionic-cli/issues/1205)
 
 # Reading configuration files before the application starts
 The best pratice we've found use the Angular const [APP_INITIALIZER](https://angular.io/api/core/APP_INITIALIZER) to read configuration files before App start. Our approach is inspired by [Reading data before application startup in Angular 2](https://gist.github.com/fernandohu/122e88c3bcd210bbe41c608c36306db9):
@@ -125,3 +126,5 @@ export class NewsPage {
 If you prefer a smaller and straight forward solution I recommend this [solution](https://stackoverflow.com/a/39577841/4982169). Less job for smaller project.
 
 Another solid way use [Webpack’s built in EnvironmentPlugin](https://webpack.js.org/plugins/environment-plugin/) to expose Ionic’s IONIC_ENV environment variable to our code, see roblouie post [here](http://roblouie.com/article/296/ionic-2-environment-variables-the-best-way/). By this way the env vars are loaded on build, different of loading them on App start.
+[gshigeto/ionic-environment-variables](https://github.com/gshigeto/ionic-environment-variables)
+[tabirkeland/environment.interface.ts](https://gist.github.com/tabirkeland/a17c67b2f1ea3331d94db34ed7191c34)

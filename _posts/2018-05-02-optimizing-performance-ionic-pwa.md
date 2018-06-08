@@ -104,6 +104,14 @@ $ du -ach www/assets/fonts | grep total
 
 # Optimization-1: Build for one platform only
 
+Ionic uses [modes](https://ionicframework.com/docs/theming/platform-specific-styles/) to customize the look of components. Each platform has a default mode, but this can be overridden. For example, an app being viewed on an Android platform will use the `md` (Material Design) mode. The `<ion-app>` will have `class="md"` added to it by default and all of the components will use Material Design styles:
+
+```html
+<ion-app class="md">
+```
+
+When building a PWA you use only one mode for all web browser, then no need to import all modes.
+
 Open src/app/app.module.ts and replace:
 
 ```
@@ -272,7 +280,7 @@ export class MyApp {
   }
 ```
 
-|www/build optimization-1+2+3+4+5|www/build starter blank|
+|www/build optimization-1+2+3+4+5+6|www/build starter blank|
 |---|---|
 |30K main.css<br/>5.3K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>514K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
 
@@ -281,9 +289,17 @@ export class MyApp {
 [Ionic and Lazy Loading Pt 1](https://blog.ionicframework.com/ionic-and-lazy-loading-pt-1/)
 [Ionic and Lazy Loading Pt 2](https://blog.ionicframework.com/ionic-and-lazy-loading-pt-2/)
 
+
+|www/build optimization-1+2+3+4+5+6+7|www/build starter blank|
+|---|---|
+|5.0K 0.js<br/>30K main.css<br/>3.8K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>514K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
 # Conclusion
 
 ![Lighthouse results after optimizing]({{ site.BASE_PATH}}/assets/media/ionic/Lighthouse_Report-optimized v3.png)
+
+>  this issue is going to be solved without having to do any of the build magic that Julien was doing. In a future release of Ionic-Angular every component will lazy load only the css needed at that time. So if its on an Android device or on the web as a PWA it will only lazy-load the css needed for MD mode, and none of the other mode's css will get loaded. Also, as i said, its going to be lazy loaded per component, so you are only ever loading the css needed specifically for the components on that page. So, while this is a very cool setup, in the near future it will not be needed anymore.
+
+Source: [github.com/ionic-team/ionic-app-scripts](https://github.com/ionic-team/ionic-app-scripts/issues/1134#issuecomment-316755306)
 
 # Furthermore
 
