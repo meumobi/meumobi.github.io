@@ -473,11 +473,20 @@ $ git checkout -b my_copy_random_branch xyz/random_branch
 
 The local branch my_copy_random_branch would be tracking the random_branch branch of your remote.
 
-### Step 2: Merge the changes and update on GitHub.
+### Step 2: From your project repo, bring in the changes and test
 
 ```
+$ git log ..master	# if you're curious
+$ git merge master
+```
+
+Once all of the conflicts have been resolved and the commits are made, it’s good practice to double check that none of the conflicts resulted in broken code. This step is particularly important if someone was modifying the same area of code as your PR.
+
+### Step 3: Merge the changes and update on GitHub.
+
+Now, we can switch back to master to merge this PR into the main master branch.
+```
 $ git checkout master
-$ git log ..my_copy_random_branch	# if you're curious
 $ git merge --no-ff my_copy_random_branch
 $ git push origin master
 ```
@@ -493,7 +502,7 @@ $ git commit
 
 Pull requests are merged using the `--no-ff` option, except for pull requests with squashed or rebased commits, which are merged using the fast-forward option.
 
-### Step 3: Delete branch locally and remotely
+### Step 4: Delete branch locally and remotely
 
 After merge if you want to delete local branch,
 
