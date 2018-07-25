@@ -106,6 +106,20 @@ $ git push --force
 
 Source: [https://help.github.com/articles/changing-a-commit-message/](https://help.github.com/articles/changing-a-commit-message/)
 
+If you omit `--force` option git should raise following error:
+
+```
+To git@bitbucket.org:username/test1.git
+ ! [rejected]        dev -> dev (non-fast-forward)
+error: failed to push some refs to 'git@bitbucket.org:username/test1.git'
+hint: Updates were rejected because the tip of your current branch is behind
+hint: its remote counterpart. Integrate the remote changes (e.g.
+hint: 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+Maybe git pull is not what you expect, if you did it read [this post](https://stackoverflow.com/a/30927009/4982169) to understand what happens and how to revert it.
+
 ## Amend your last commit
 If you ever find that you accidentally left something out of your last commit, be it a file, an extra change to a file that you just committed or a wrong comment,  don't worry. It can easily be fixed.
 
