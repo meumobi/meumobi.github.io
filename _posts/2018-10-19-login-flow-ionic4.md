@@ -13,6 +13,7 @@ author:
 ---
 
 The aim of this post is to describe in details how to control access in Ionic v4 App to only logged user. We'll use Angular Router and Guards to control access and implement from scratch a dummy Athentication Service to do login/logout.
+![Login flow with Ionic 4]({{ site.BASE_PATH}}/assets/media/login-flow-ionic4/undraw_security_o890.svg)
 
 ## Setup
 
@@ -58,24 +59,26 @@ and run
 
 ## File Structure
 
-- Pages: Home and Login
-  - The `blank` starter provides a default home page. We'll use as restricted access page and add a login page with public access.
-	- If trying to access home page directly (deep-linking provided by lazy-loading), not-logged user is redirected to login page. 
-	- By default new pages are lazy-loaded, means can be reached directly by typing path on address bar
-- Core module: `Auth` Service and Guard
-	- `AuthService` and `AuthGuard` are contained on `CoreModule`, that will be used to instantiate app.
-	- Auth Token persistence is assumed by `@ionic/storage`
-- App-routing.module: add canActivate property
-	- 
+### Core Services: `Auth` Service and Guard
+`AuthService` and `AuthGuard` are contained on `Core` folder. They are available on the whole App.
+Auth Token persistence is assumed by [@ionic/storage](https://ionicframework.com/docs/storage/)
+
+### Pages: Home and Login
+The `blank` starter provides a default home page. We'll use it as restricted access page and add a login page with public access.
+
+If trying to access home page, not-logged user is redirected to login page.
+
+### App-routing.module: add canActivate property
+On routing module we'll be able to prevent users from accessing areas they’re not allowed to access using `canACtivate` property.
 
 ```
 ./src
   /app
     app-routing.module.ts
-		app.component.ts
-		app.component.ts
-		app.module.ts
-		/home
+    app.component.ts
+    app.component.ts
+    app.module.ts
+    /home
       home.page.ts
       home.module.ts
       home.page.scss
@@ -89,72 +92,66 @@ and run
       /auth/
         auth.service.ts
         auth.guard.ts
-```
-
-## Pages: Home and Login
-
-`pages/login/login.ts`
-```
-import { AuthService } from '@core/auth/auth.service';
-import { Component, OnInit } from '@angular/core';
-
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
-})
-export class LoginPage implements OnInit {
-
-  constructor(
-    private authService: AuthService
-  ) { }
-
-  ngOnInit() {
-  }
-
-  login() {
-    this.authService.login()
-  }
-
-  logout() {
-    this.authService.logout()
-  }
-}
-```
-
-`pages/login/login.html`
-```
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content padding>
-  <ion-button expand="full" (click)="login()">Login</ion-button>
-  <ion-button expand="full" color="secondary" (click)="logout()">Logout</ion-button>
-  <ion-button expand="full" color="tertiary" href="/register" routerDirection="forward">Register</ion-button>
-  <ion-button expand="full" color="tertiary" href="/home" routerDirection="forward">Home</ion-button>
-</ion-content>
+			core.module.ts
 ```
 
 ## Core module
-
-### `Auth` Service
+### Ionic Storage
 
 ```
 $ npm i --save @ionic/storage
-$ ng g module core --spec=false
-$ ng g service core/auth/auth
+$ ng g module core
 ```
+
+On `/core/core.module.ts` only add import of `IonicStorageModule`
+```
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IonicStorageModule } from '@ionic/storage';
+
+@NgModule({
+  imports: [
+    CommonModule,
+    IonicStorageModule.forRoot(),
+  ],
+  declarations: []
+})
+export class CoreModule { }
+```
+
+And on `/app.module.ts` add import `CoreModule` on `AppModule`.
+
+```
+import { CoreModule } from './core/core.module';
+...
+
+  imports: [
+    ...
+    IonicModule.forRoot(), 
+    ...
+  ],
+```
+### Auth Service
+
+```
+$ ng g service core/auth/auth
+CREATE src/app/core/auth/auth.service.spec.ts (323 bytes)
+CREATE src/app/core/auth/auth.service.ts (133 bytes)
+```
+
+OBS-1: Beginning with Angular 6.0, the preferred way to [create a singleton services](https://angular.io/guide/singleton-services#providing-a-singleton-service) is to specify on the service that it should be provided in the application root. This is done by setting providedIn to root on the service's @Injectable decorator. When you use 'root', your injectable will be registered as a singleton in the application, and you don’t need to add it to the providers of the root module.
+
+OBS-2: we switch between `ng` and `ionic` cli, but both commonly have same behavior. When possible we prefer to use original, `ng`, instead of the "alias" `ionic`.
+
+OBS-3: before running each cmd I recommend to add `--dry-run` to run a simulation.
 
 `/core/auth/auth.service.ts`
 
 ```
 import { Platform } from '@ionic/angular';
-import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import { BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 const TOKEN_KEY = "X-Auth-Token";
 
@@ -163,7 +160,7 @@ const TOKEN_KEY = "X-Auth-Token";
 })
 export class AuthService {
 
-  authState: BehaviorSubject<any> = new BehaviorSubject(null);
+  authState$: BehaviorSubject<boolean> = new BehaviorSubject(null);
 
   constructor(
     private storage: Storage,
@@ -174,41 +171,50 @@ export class AuthService {
     })
   }
 
-  login() {
-    this.storage.set(TOKEN_KEY, 'Bearer 123456').then( res => {
-      this.authState.next(true);
-    })
-  }
-
-  logout() {
-    this.storage.remove(TOKEN_KEY).then( _ => {
-      this.authState.next(false);
-    })
-  }
-
-  isAuthenticated() {
-    return this.authState.value;
-  }
-
-  checkToken() {
+  private checkToken() {
     this.storage.get(TOKEN_KEY).then( res => {
       if (res) {
-        this.authState.next(true);
+        this.authState$.next(true);
       }
     })
+  }
+
+  public login() {
+    this.storage.set(TOKEN_KEY, 'Bearer 123456').then( res => {
+      this.authState$.next(true);
+    })
+  }
+
+  public logout() {
+    this.storage.remove(TOKEN_KEY).then( _ => {
+      this.authState$.next(false);
+    })
+  }
+  
+  public getAuthStateObserver(): Observable<boolean> {
+
+      return this.authState$.asObservable();
+    }
+
+  public isAuthenticated() {
+    return this.authState$.value;
   }
 }
 ```
 
+OBS: the authState$ dollar suffix is generally used to indicate somentinh is an Observable source.
+
 ### Protecting route using Guard
 
-#### `Auth` Guard
+#### Auth Guard
+
+Angular’s router provides a feature called [Route Guards](https://angular.io/guide/router#milestone-5-route-guards) that prevent users from accessing areas they’re not allowed to access.
 
 ```
 $ ng g guard core/auth/auth
+CREATE src/app/core/auth/auth.guard.spec.ts (346 bytes)
+CREATE src/app/core/auth/auth.guard.ts (414 bytes)
 ```
-
-OBS: Beginning with Angular 6.0, the preferred way to [create a singleton services](https://angular.io/guide/singleton-services#providing-a-singleton-service) is to specify on the service that it should be provided in the application root. This is done by setting providedIn to root on the service's @Injectable decorator. When you use 'root', your injectable will be registered as a singleton in the application, and you don’t need to add it to the providers of the root module.
 
 `/core/auth/auth.guard.ts`
 
@@ -239,6 +245,66 @@ export class AuthGuard implements CanActivate {
 }
 ```
 
+## Pages: Home and Login
+
+Create a new page
+```
+$ ng g page login
+CREATE src/app/login/login.module.ts (538 bytes)
+CREATE src/app/login/login.page.scss (0 bytes)
+CREATE src/app/login/login.page.html (132 bytes)
+CREATE src/app/login/login.page.spec.ts (684 bytes)
+CREATE src/app/login/login.page.ts (252 bytes)
+UPDATE src/app/app-routing.module.ts (528 bytes)
+```
+
+
+`pages/login/login.page.ts`
+```
+import { AuthService } from './../core/auth/auth.service';
+import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.page.html',
+  styleUrls: ['./login.page.scss'],
+})
+export class LoginPage implements OnInit {
+
+  authState$: Observable<boolean>;
+
+  constructor(private authService: AuthService) { }
+
+  ngOnInit() {
+    this.authState$ = this.authService.getAuthStateObserver();
+  }
+
+  login() {
+    this.authService.login();
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+}
+```
+
+`pages/login/login.html`
+```
+<ion-header>
+  <ion-toolbar>
+    <ion-title>login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-button expand="full" (click)="login()" *ngIf="!(authState$ | async)">Login</ion-button>
+  <ion-button expand="full" color="secondary" (click)="logout()" *ngIf="(authState$ | async)">Logout</ion-button>
+  <ion-button expand="full" color="tertiary" href="/home" routerDirection="forward">Home</ion-button>
+</ion-content>
+```
+
 ## App-routing.module: add canActivate property
 
 `app-routing.module.ts`
@@ -264,79 +330,6 @@ const routes: Routes = [
 export class AppRoutingModule { }
 ```
 
-## Core: http interceptor
-
-[Interceptors](https://angular.io/guide/http#intercepting-requests-and-responses) are sitting in between your application and the backend. By using interceptors you can transform a request coming from the application before it is actually submitted to the backend. The same is possible for responses.
-We'll move the authentication from URL queryString to http header, and to achieve it we'll use `HttpInterceptor`.
-
-### Write an interceptor
-```
-$ ng g class core/http-interceptors/auth-interceptor
-CREATE src/app/core/http-interceptors/auth-interceptor.ts (33 bytes)
-```
-
-```
-import { Injectable } from '@angular/core';
-import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
-} from '@angular/common/http';
-
-import { environment } from '@env/environment';
-
-const API_KEY = environment.apiKey;
-
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  
-  constructor() {}
-
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-
-    /*
-    * The verbose way:
-    // Clone the request and replace the original headers with
-    // cloned headers, updated with the authorization.
-    const authReq = req.clone({
-      headers: req.headers.set('Authorization', authToken)
-    });
-    */
-    // Clone the request and set the new header in one step.
-    const authReq = req.clone({ setHeaders: { 'X-Api-Key': API_KEY } });
-
-    // send cloned request with header to the next handler.
-    return next.handle(authReq);
-  }
-}
-```
-
-### Provide the interceptor
-
-```
-import { AuthInterceptor } from './http-interceptors/auth-interceptor';
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { ApiService } from '@core/services/api.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-
-
-@NgModule({
-  imports: [
-    CommonModule,
-    HttpClientModule
-  ],
-  declarations: [],
-  providers: [
-    ApiService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
-  ]
-})
-export class CoreModule { }
-```
-
-If you don't append your API key correctly, or your API key is invalid, you will receive a 401 - Unauthorized HTTP error.
-
 ## Repository & Demo
 Demo app is deployed [meu-starter.login-flow.ionic-v4](https://meumobi.github.io/meu-starter.login-flow.ionic-v4/www/)
 
@@ -344,7 +337,7 @@ All source code can be found on GitHub: https://github.com/meumobi/meu-starter.l
 
 ## Furthemore
 
-
+- [Building a Basic Ionic 4 Login Flow with Angular Router](https://www.youtube.com/watch?v=z3pDqnuyzZ4)
 
 [Angular.io Getting started]: https://angular.io/guide/quickstart
 [Ionic 4 starters]: https://github.com/ionic-team/starters/tree/master/angular
