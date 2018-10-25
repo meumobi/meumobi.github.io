@@ -18,20 +18,21 @@ The aim of this post is to describe in details how to control access in Ionic v4
 ## Setup
 
 ### Prerequisites
-We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova].
+We need to have [Node.js] and [Git] installed in order to install [Ionic].
 
 ```
-$ npm install cordova ionic typescript -g
+$ npm install ionic typescript -g
 ...
 
-$ npm ls -g cordova ionic npm typescript --depth 0
+$ npm ls -g ionic npm typescript --depth 0
 /usr/local/lib
 ├── @angular/cli@6.2.4
 ├── ionic@4.2.1 
 ├── npm@6.4.1 
-├── phonegap@8.0.0
 └── typescript@2.9.2
 ```
+
+OBS: On this post I will not use [Cordova] because there's none feature related to Native API, but you can easily convert this project on App adding [Cordova] package.
 
 ### Create a new Ionic v4 application
 
@@ -59,18 +60,6 @@ and run
 
 ## File Structure
 
-### Core Services: `Auth` Service and Guard
-`AuthService` and `AuthGuard` are contained on `Core` folder. They are available on the whole App.
-Auth Token persistence is assumed by [@ionic/storage](https://ionicframework.com/docs/storage/)
-
-### Pages: Home and Login
-The `blank` starter provides a default home page. We'll use it as restricted access page and add a login page with public access.
-
-If trying to access home page, not-logged user is redirected to login page.
-
-### App-routing.module: add canActivate property
-On routing module we'll be able to prevent users from accessing areas they’re not allowed to access using `canACtivate` property.
-
 ```
 ./src
   /app
@@ -92,15 +81,49 @@ On routing module we'll be able to prevent users from accessing areas they’re 
       /auth/
         auth.service.ts
         auth.guard.ts
-			core.module.ts
+        core.module.ts
 ```
 
+### Core Services: `Auth` Service and Guard
+`AuthService` and `AuthGuard` are contained on `Core` folder. They are available on the whole App.
+Auth Token persistence is assumed by [@ionic/storage](https://ionicframework.com/docs/storage/)
+
+### Pages: Home and Login
+The `blank` starter provides a default home page. We'll use it as restricted access page and add a login page with public access.
+
+If trying to access home page, not-logged user is redirected to login page.
+
+### App-routing.module: add canActivate property
+On routing module we'll be able to prevent users from accessing areas they’re not allowed to access using `canActivate` property.
+
 ## Core module
+### Setup
+
+Create CoreModule with cli:
+
+```
+$ ng g module core
+```
+
+And on `/app.module.ts` add import `CoreModule` on `AppModule`. By this way CoreModule will be available on whole App.
+
+```
+import { CoreModule } from './core/core.module';
+...
+
+  imports: [
+    ...
+    CoreModule, 
+    ...
+  ],
+```
+
 ### Ionic Storage
+
+[Ionic Storage](https://ionicframework.com/docs/storage/) is an easy way to store key/value pairs and JSON objects. Ionic Storage uses a variety of storage engines underneath, picking the best one available depending on the platform.
 
 ```
 $ npm i --save @ionic/storage
-$ ng g module core
 ```
 
 On `/core/core.module.ts` only add import of `IonicStorageModule`
@@ -119,18 +142,6 @@ import { IonicStorageModule } from '@ionic/storage';
 export class CoreModule { }
 ```
 
-And on `/app.module.ts` add import `CoreModule` on `AppModule`.
-
-```
-import { CoreModule } from './core/core.module';
-...
-
-  imports: [
-    ...
-    IonicModule.forRoot(), 
-    ...
-  ],
-```
 ### Auth Service
 
 ```
@@ -139,7 +150,7 @@ CREATE src/app/core/auth/auth.service.spec.ts (323 bytes)
 CREATE src/app/core/auth/auth.service.ts (133 bytes)
 ```
 
-OBS-1: Beginning with Angular 6.0, the preferred way to [create a singleton services](https://angular.io/guide/singleton-services#providing-a-singleton-service) is to specify on the service that it should be provided in the application root. This is done by setting providedIn to root on the service's @Injectable decorator. When you use 'root', your injectable will be registered as a singleton in the application, and you don’t need to add it to the providers of the root module.
+OBS-1: Beginning with Angular 6.0, the preferred way to [create a singleton services](https://angular.io/guide/singleton-services#providing-a-singleton-service) is to specify on the service that it should be provided in the application root. This is done by setting `providedIn` to root on the service's @Injectable decorator. When you use 'root', your injectable will be registered as a singleton in the application, and you don’t need to add it to the providers of the root module.
 
 OBS-2: we switch between `ng` and `ionic` cli, but both commonly have same behavior. When possible we prefer to use original, `ng`, instead of the "alias" `ionic`.
 
@@ -202,7 +213,7 @@ export class AuthService {
 }
 ```
 
-OBS: the authState$ dollar suffix is generally used to indicate somentinh is an Observable source.
+OBS: the `authState$` dollar suffix is generally used to indicate something is an Observable source.
 
 ### Protecting route using Guard
 
@@ -330,10 +341,13 @@ const routes: Routes = [
 export class AppRoutingModule { }
 ```
 
+# Login Redirects 
+https://gnomeontherun.com/2017/03/02/guards-and-login-redirects-in-angular/
+
 ## Repository & Demo
 Demo app is deployed [meu-starter.login-flow.ionic-v4](https://meumobi.github.io/meu-starter.login-flow.ionic-v4/www/)
 
-All source code can be found on GitHub: https://github.com/meumobi/meu-starter.login-flow.ionic-v4
+All source code can be found on GitHub: [https://github.com/meumobi/meu-starter.login-flow.ionic-v4](https://github.com/meumobi/meu-starter.login-flow.ionic-v4)
 
 ## Furthemore
 
