@@ -132,4 +132,7 @@ Source: [Progressive Web App (PWA) Usage and tracking with Web Analytics](https:
 
 - [Progressive Web Apps: Bridging the gap between web and mobile apps](https://medium.freecodecamp.org/progressive-web-apps-bridging-the-gap-between-web-and-mobile-apps-a08c76e3e768)
 - [Progressive Web Apps core guides on MDN Web Docs](https://hacks.mozilla.org/2018/05/progressive-web-apps-core-guides-on-mdn-web-docs/)
-
+- [LUKEW: An Event Apart: Designing Progressive Web Apps](https://www.lukew.com/ff/entry.asp?1998)
+- [Getting Started with Service Workers](https://alligator.io/js/service-workers/)
+- [Building a progressive web app (PWA): No React, no Angular, no Vue](https://blog.logrocket.com/building-a-progressive-web-app-pwa-no-react-no-angular-no-vue-aefdded3b5e)
+- [Building A PWA Using Angular 6](https://www.smashingmagazine.com/2018/09/pwa-angular-6)

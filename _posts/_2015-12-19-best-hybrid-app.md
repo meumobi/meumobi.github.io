@@ -284,6 +284,7 @@ http://www.gajotres.net/ionic-framework-tutorial-5-master-detail-pattern/
 AngularJS Factory to consum RESTful API
 
 
+[Mobile App Development Landscape](https://cabbageapps.com/mobile-app-development-landscape)
 http://www.gajotres.net/ionic-framework-tutorial-4-mixing-ui-patterns/2/
 http://plnkr.co/edit/35wTi7?p=preview
 http://www.gajotres.net/ionic-framework-tutorial-5-master-detail-pattern/

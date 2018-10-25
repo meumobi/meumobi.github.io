@@ -19,3 +19,6 @@ After filling in all the details, In your developer console dont upload your APK
 When you create your app, don't upload the apk first, just prepare store listing. Once done, you will see all the panes, production, beta, alpha under APK menu.
 
 https://support.google.com/googleplay/android-developer/answer/3131213?hl=en
+
+http://stackoverflow.com/questions/20984120/need-some-clarification-about-beta-alpha-testing-on-the-developer-console
+https://nkural.com/2015/06/04/8/

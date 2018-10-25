@@ -44,9 +44,9 @@ $ ionic start meu-starter sidemenu
 ```
 **Yes** we'd like to target native iOS and Android.
 
-# Preprocess index.html
+## Preprocess index.html
 
-## PWA and native app declarations
+### PWA and native app declarations
 Now that your Ionic app is ready, the next task is to convert it into a Progressive web app. This is done by editing `index.html` to enable **Web Manifest** and **Service Worker**. By default Ionic provide all resources required to run a PWA,... but some of them commented. 
 
 I sum up below all lines of index.html exclusively related to PWA

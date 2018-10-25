@@ -45,7 +45,7 @@ Using sudo is probably fine if you want these tools to be installed globally.
 The problem is that these binaries are installed into /usr/bin, which is off-limits since El Capitan. However, you can install them into /usr/local/bin instead. That's where Homebrew install its stuff, so it probably exists already.
 
 ```bash
-sudo gem install fakes3 -n/usr/local/bin
+sudo gem install fakes3 -n /usr/local/bin
 ```
 
 Gems will be installed into `/usr/local/bin` and every user on your system can use them if it's in their PATH.

@@ -561,6 +561,16 @@ Sources:
 - http://stackoverflow.com/questions/10312521/how-to-fetch-all-git-branches
 - https://gist.github.com/tamtamchik/2869690
 
+## How to merge a specific commit in Git
+
+[git cherry-pick](https://mirrors.edge.kernel.org/pub/software/scm/git/docs/git-cherry-pick.html) apply the change introduced by an existing commit.
+
+Do not forget to read bdonlan's answer about the consequence of cherry-picking in this post: "[Pull all commits from a branch, push specified commits to another](https://stackoverflow.com/questions/880957/pull-all-commits-from-a-branch-push-specified-commits-to-another/881014#881014)".
+
+```
+$ git cherry-pick 0539748
+```
+
 ## Links
 
 - [http://rogerdudler.github.io/git-guide/](http://rogerdudler.github.io/git-guide/)

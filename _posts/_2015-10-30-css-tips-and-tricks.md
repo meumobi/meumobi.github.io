@@ -57,12 +57,12 @@ Key stuff
 If you don't want to set a fixed width on the inner div you could do something like this:
 
 ```css
-#outer {
+\#outer {
   width: 100%;
   text-align: center;
 }
 
-#inner {
+\#inner {
   display: inline-block;
 }
 ```

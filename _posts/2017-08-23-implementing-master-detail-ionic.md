@@ -1,12 +1,7 @@
 ---
 layout: post
-<<<<<<< HEAD
 title: Implementing the Master-Detail Pattern with Ionic 3
-categories: [Ionic 3, Ionic]
-=======
-title: Implementing the Master-Detail Pattern with Ionic v3
-categories: [Ionic v3, Ionic]
->>>>>>> 533269d4de65e12d4e0fdbc29a82afb45aff16cf
+categories: [Ionic-v3, Ionic]
 tags: [tutorial]
 author:
   name: Victor Dias

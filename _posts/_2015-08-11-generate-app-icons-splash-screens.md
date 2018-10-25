@@ -13,3 +13,4 @@ http://nativebuild.com/2014/gerar-icones-splash-screen-cordova-phonegap.html
 http://appicontemplate.com/
 
 http://www.joshmorony.com/automatically-generate-icons-and-splash-screens-for-phonegap-apps/
+http://ionicframework.com/docs/cli/icon-splashscreen.html

@@ -26,4 +26,5 @@ https://www.youtube.com/watch?v=1Erp7dtKvpw
 https://zoompf.com/blog/2015/04/how-to-keep-your-site-fast-for-mobile-friendly
 http://webperformance.io/mobile-friendly-data
 https://www.smashingmagazine.com/2016/01/responsive-image-breakpoints-generation/?utm_source=mobilewebweekly&utm_medium=email
+https://www.viget.com/articles/do-responsive-sites-have-to-be-so-tall-on-mobile
 

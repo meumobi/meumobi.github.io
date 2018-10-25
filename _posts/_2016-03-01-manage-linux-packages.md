@@ -20,4 +20,25 @@ $ dpkg -L librabbitmq-dev
 ...
 ```
 
+# Check version of installed package
 
+
+`aptitude versions <package>`
+
+```	
+$ aptitude versions ghostscript
+Package ghostscript:                        
+i A 9.05~dfsg-6.3+deb7u1
+````
+Passing -V will show detailed information about versions, again to be safe with the simulation switch:
+
+`aptitude -V -s install <package>`
+Substituting install <package> with upgrade will show the versions from all upgradeable packages.
+	
+# Check available version of a package
+
+```
+$ apt-cache madison php5-imagick
+php5-imagick | 3.1.0~rc1-1+b2 | http://ftp.debian.org/debian/ wheezy/main amd64 Packages
+php-imagick | 3.1.0~rc1-1 | http://ftp.debian.org/debian/ wheezy/main Sources
+````

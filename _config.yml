@@ -9,7 +9,7 @@ kramdown:
   hard_wrap: false
   highlighter: rouge
 
-gems: [jekyll-paginate, jekyll-gist]
+plugins: [jekyll-paginate, jekyll-gist]
 
 defaults:
   -
