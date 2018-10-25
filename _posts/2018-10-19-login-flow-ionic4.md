@@ -341,8 +341,16 @@ const routes: Routes = [
 export class AppRoutingModule { }
 ```
 
-# Login Redirects 
-https://gnomeontherun.com/2017/03/02/guards-and-login-redirects-in-angular/
+# Extra: redirect user to the landing page
+As an extra feature we'll check now how to redirect user to the page they landed on before being forced to login.
+
+`src/app/core/auth/auth.guard.ts`
+
+`src/app/core/auth/auth.service.ts`
+
+`src/app/login/login.page.ts`
+
+For more details I recommend the great [post](https://gnomeontherun.com/2017/03/02/guards-and-login-redirects-in-angular/) from gnomeontherun.com. 
 
 ## Repository & Demo
 Demo app is deployed [meu-starter.login-flow.ionic-v4](https://meumobi.github.io/meu-starter.login-flow.ionic-v4/www/)
