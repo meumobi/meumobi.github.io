@@ -283,7 +283,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class MenuItemComponent implements OnInit {
 
-  @Input() link: string;
+  @Input() link: any;
 
   constructor() { }
 
@@ -304,7 +304,7 @@ export class MenuItemComponent implements OnInit {
 `src/app/components/menu-item/menu-item.component.html`
 
 ```
-<ion-item [href]="link.url" [class.active-item]="p.active" routerDirection="root">
+<ion-item [href]="link.url" [class.active-item]="link.active" routerDirection="root">
   <ion-label>{{ link.title }}</ion-label>
 </ion-item>
 
