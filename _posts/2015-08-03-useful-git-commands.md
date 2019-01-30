@@ -571,6 +571,31 @@ Do not forget to read bdonlan's answer about the consequence of cherry-picking i
 $ git cherry-pick 0539748
 ```
 
+# How to get back to the latest commit after checking out a previous commit?
+I sometimes check out some previous version of the code to examine or test. I have seen instructions on what to do if I wish to modify previous commits -- but suppose I make no changes. After I've done e.g. `git checkout HEAD^`, how do I get back to the tip of the branch?
+
+`git checkout branchname`
+You can also use `git reflog` to see what other commits your HEAD (or any other ref) has pointed to in the past.
+
+if you only ran `git checkout` or something else to move your HEAD once, you can also do
+
+`git checkout -`
+to switch back to wherever it was before the last checkout. This was motivated by the analogy to the shell idiom `cd -` to go back to whatever working directory one was previously in.
+
+[Source](https://stackoverflow.com/a/2427389/4982169)
+
+# Push existing repo to a new
+
+1. Create a new repo at github.
+2. Clone the repo old repo to your local machine.
+3. `git remote rename origin upstream`
+4. `git remote add origin URL_TO_GITHUB_REPO`
+5. `git push origin master`
+
+Now you can work with it just like any other github repo. To pull in patches from upstream, simply run `git pull upstream master && git push origin master`.
+
+[Source](https://stackoverflow.com/a/5181968/4982169)
+
 ## Links
 
 - [http://rogerdudler.github.io/git-guide/](http://rogerdudler.github.io/git-guide/)
