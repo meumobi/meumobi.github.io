@@ -15,6 +15,9 @@ author:
 If you ever tried to combine side menu, tabs and login page on Ionic, for sure you know how a mess it could represent. We've faced this challenge and would like to share with you how we acheive it and which docs/posts help us on the way.
 ![Combine side menu, tabs and login page with Ionic 4]({{ site.BASE_PATH}}/assets/media/tabs-sidemenu/Ionic_App-2.png)
 
+**/!\ Update 2019-02-13**: Tabs got [changes on Ionic 4.0.0-beta.18](https://github.com/ionic-team/ionic/blob/master/CHANGELOG.md#breaking-changes-4) (released the 2018-12-13). I've applied these updates on [src code]((https://github.com/meumobi/meu-starter.tabs-sidemenu.ionic-v4)) and post below.
+
+
 ## Application
 We are going to create a demo App `meu-starter.tabs-sidemenu.ionic-v4`.
 
@@ -24,7 +27,7 @@ This App will implement following features:
 - login page without side menu neither tabs
 - highlight on side menu current url
 
-We'll use the [latest tab implementation](https://blog.ionicframework.com/ionic-release-v4-beta-15-out-today/) of Ionic released on [4.0.0-beta.15](https://github.com/ionic-team/ionic/releases/tag/v4.0.0-beta.15).
+We'll use the [latest tab implementation](https://blog.ionicframework.com/ionic-release-v4-beta-15-out-today/) of Ionic released on [4.0.0-beta.18](https://github.com/ionic-team/ionic/releases/tag/v4.0.0-beta.18).
 
 ## Setup
 
@@ -37,10 +40,10 @@ $ npm install ionic typescript -g
 
 $ npm ls -g ionic npm typescript --depth 0
 /usr/local/lib
-├── @angular/cli@6.2.4
+├── @angular/cli@7.0.3
 ├── ionic@4.2.1 
 ├── npm@6.4.1 
-└── typescript@2.9.2
+└── typescript@3.1.1
 ```
 
 ### Create a new Ionic v4 application
@@ -200,14 +203,17 @@ export class AppComponent implements OnInit {
     {
       title: 'Login',
       url: '/login',
+      icon: 'log-in'
     },
     {
       title: 'Contact',
-      url: '/tabs/(contact:contact)'
+      url: '/tabs/contact',
+      icon: 'person'
     },
     {
       title: 'About',
-      url: '/tabs/(about:about)'
+      url: '/tabs/about',
+      icon: 'information-circle'
     }
   ];
 
@@ -304,8 +310,9 @@ export class MenuItemComponent implements OnInit {
 `src/app/components/menu-item/menu-item.component.html`
 
 ```
-<ion-item [href]="link.url" [class.active-item]="link.active" routerDirection="root">
-  <ion-label>{{ link.title }}</ion-label>
+<ion-item [routerLink]="link.url" [class.active-item]="link.active" routerDirection="root">
+  <ion-icon [name]="link.icon" slot="start"></ion-icon>
+  <ion-label>{{link.title}}</ion-label>
 </ion-item>
 
 ```
