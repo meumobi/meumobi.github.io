@@ -11,11 +11,9 @@ author:
   bio: Life, Universe, Everything
   email_md5: 8200df29874231d4d8c2c7beae170b31
 ---
-
+![Raspberry PI ]({{ site.BASE_PATH}}/assets/media/rasp1.jpg)
 We’ve been working with Raspberry Pi in order to offer a TV extension of our services.
 This post is one of a series which shows how we did.
-
-![Raspberry PI ]({{ site.BASE_PATH}}/assets/media/rasp1.jpg)
 
 ## What do you need? ##
 
@@ -55,7 +53,8 @@ The following instructions can be put either raspberry directly or SSH. I do pre
 ```bash
 $ sudo raspi-config
 ```
-- Interfacing Options > SSH > Yes
+- Interfacing Options > SSH > Yes  
+
 ```bash
 $ ifconfig
 ```
@@ -76,8 +75,8 @@ $ sudo apt-get install --no-install-recommends chromium-browser
 ```bash
 $ nano /etc/xdg/openbox/autostart
 ```
-> /etc/xdg/openbox/autostart
-```
+/etc/xdg/openbox/autostart
+```bash
 xset s off
 xset s noblank
 xset -dpms
@@ -97,25 +96,15 @@ startx -- -nocursor
 To close just press Ctrl+Alt+Backspace
 ## Config autostart ##
 ```bash
-$ sudo nano /etc/rc.local
+$ sudo nano .bash_profile
 ```
-Add `startx -- -nocursor` as the example
+Add `[[ -z $DISPLAY && $XDG_VTNR -eq 1 ]] && startx -- -nocursor`
 ```
-...
-# Print the IP address
-_IP=$(hostname -I) || true
-if [ "$_IP" ]; then
-  printf "My IP address is %s\n" "$_IP"
-fi
-startx -- -nocursor
 
-exit 0
-```
 save and reboot `$ sudo reboot`
 
 Now when it start the website will be showed
 
 ## Sources
 - [Setup a Raspberry Pi to run a Web Browser in Kiosk Mode](https://die-antwort.eu/techblog/2017-12-setup-raspberry-pi-for-kiosk-mode/)
-- [How to Run a Raspberry Pi Program on Startup](https://learn.sparkfun.com/tutorials/how-to-run-a-raspberry-pi-program-on-startup#method-1-rclocal)
 - [Raspberry Pi>How to enable auto-login?](https://raspberrypi.stackexchange.com/a/76275)
