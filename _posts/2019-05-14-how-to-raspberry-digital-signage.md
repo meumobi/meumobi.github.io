@@ -15,6 +15,8 @@ author:
 We’ve been working with Raspberry Pi in order to offer a TV extension of our services.
 This post is one of a series which shows how we did.
 
+![Raspberry PI ]({{ site.BASE_PATH}}/assets/media/rasp1.jpg)
+
 ## What do you need? ##
 
 - Raspberry Pi Board - 2 or 3
@@ -34,6 +36,8 @@ We just want instal the bare necessary to works so we choose Raspbian Lite:
 3. Use Etcher to flash Image on SD
 
 ## Setup Auto Login ##
+
+![Raspberry PI Assembled]({{ site.BASE_PATH}}/assets/media/rasp2.jpg)
 
 Assemble all pieces and turn it on!
 Log in.
@@ -90,11 +94,28 @@ Test
 ```bash
 startx -- -nocursor
 ```
-
+To close just press Ctrl+Alt+Backspace
 ## Config autostart ##
 ```bash
-...
+$ sudo nano /etc/rc.local
 ```
+Add `startx -- -nocursor` as the example
+```
+...
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP"
+fi
+startx -- -nocursor
 
+exit 0
+```
+save and reboot `$ sudo reboot`
 
+Now when it start the website will be showed
 
+## Sources
+- [Setup a Raspberry Pi to run a Web Browser in Kiosk Mode](https://die-antwort.eu/techblog/2017-12-setup-raspberry-pi-for-kiosk-mode/)
+- [How to Run a Raspberry Pi Program on Startup](https://learn.sparkfun.com/tutorials/how-to-run-a-raspberry-pi-program-on-startup#method-1-rclocal)
+- [Raspberry Pi>How to enable auto-login?](https://raspberrypi.stackexchange.com/a/76275)
