@@ -40,8 +40,16 @@ We use these:
 - And click on `Relaunch Now`
 
 ## Tests ##
-We've tested [this site](https://mmb-lottie-performance.stackblitz.io/).
-And got a profile as we seen [here]((https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/)). 
+Routine
+1. Access [https://mmb-lottie-performance.stackblitz.io/](https://mmb-lottie-performance.stackblitz.io/).
+2. Turn on [FPS Meter](https://developer.chrome.com/devtools/docs/rendering-settings#show-fps%20meter)
+3. Select Modern with Fonts
+4. Toggle Play/Stop
+5. Wait to complete first loop
+6. Start [Record profile]((https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/)) when second loop starts
+7. Stop [Record profile]((https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/))
+8. Save Profile...
+
 The results are
 ### Before Improvements ###
 [Profile](https://drive.google.com/open?id=1n4prcSys4z86R3GNEtAEa0YYZOmtaJIC)
