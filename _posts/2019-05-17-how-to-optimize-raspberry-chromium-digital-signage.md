@@ -39,9 +39,20 @@ We use these:
 - Set [GPU Rasterization](chrome://flags/#enable-gpu-rasterization) to `Force-enabled for all layers`
 - And click on `Relaunch Now`
 
-### Tests ###
-- [Before](https://drive.google.com/open?id=1n4prcSys4z86R3GNEtAEa0YYZOmtaJIC)
-- ![Before]({{ site.BASE_PATH}}/assets/media/before.png)
+## Tests ##
+We've tested [this site](https://mmb-lottie-performance.stackblitz.io/).
+And got a profile as we seen [here]((https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/)). 
+The results are
+### Before Improvements ###
+[Profile](https://drive.google.com/open?id=1n4prcSys4z86R3GNEtAEa0YYZOmtaJIC)
+![Before]({{ site.BASE_PATH}}/assets/media/before.png )
+### After Improvements ###
+[Profile](https://drive.google.com/open?id=1e7pK8ZiVYYRb293qJFcZoW4sXqHz8bK6)
+![After]({{ site.BASE_PATH}}/assets/media/after.png)
 
-- [After](https://drive.google.com/open?id=1e7pK8ZiVYYRb293qJFcZoW4sXqHz8bK6)
-- ![After]({{ site.BASE_PATH}}/assets/media/after.png)
+## Furthermore ##
+We've tested the following tips, but for our case, with a lot of SVG animations, to force Rasterization brougth to us the best performance.
+- [How to Turn Hardware Acceleration On and Off in Chrome](https://www.lifewire.com/hardware-acceleration-in-chrome-4125122)
+- [[HowTo!] Smooth youtube 1080p in Chromium](https://www.raspberrypi.org/forums/viewtopic.php?t=199543#p1316451)
+- [How to enable hardware graphics acceleration on RPi 2 and RPi 3](https://docs.eltechs.com/install-and-configure-exagear-desktop/hardware-graphics-acceleration-on-rpi)
+- [Trying out OpenGL on Raspberry Pi 3](http://www.raspberryconnect.com/gamessoftware/item/314-trying_out_opengl_on_raspberry_pi_3)
