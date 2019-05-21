@@ -41,8 +41,7 @@ We use these:
 
 ### Tests ###
 - [Before](https://drive.google.com/open?id=1n4prcSys4z86R3GNEtAEa0YYZOmtaJIC)
-![Before]({{ site.BASE_PATH}}/assets/media/before.jpg)
+- ![Before]({{ site.BASE_PATH}}/assets/media/before.png)
 
 - [After](https://drive.google.com/open?id=1e7pK8ZiVYYRb293qJFcZoW4sXqHz8bK6)
-![Raspberry PI Assembled]({{ site.BASE_PATH}}/assets/media/rasp2.jpg)
-![After]({{ site.BASE_PATH}}/assets/media/after.jpg)
+- ![After]({{ site.BASE_PATH}}/assets/media/after.png)
