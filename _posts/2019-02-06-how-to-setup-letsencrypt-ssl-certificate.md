@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 'How to set SSL certificate with Let's Encrypt'
-categories: [Tips and tricks]
-tags: []
+title: "How to set SSL certificate with Let's Encrypt"
+categories: [SSL]
+tags: [letsencrypt]
 author:
   name: Victor Dias
   email: victor.dias@meumobi.com
@@ -35,18 +35,22 @@ sudo certbot renew --dry-run
 
 ## Redirect for renewal
 
+```
 RewriteEngine On
 ReweiteRule ^\.well-known\/acme-challenge\/ - [L]
 RewriteCond %{HTTP:X-Forwarded-Proto} !https
 RewriteRule ^(.*)$ https://spucnottingham.org.uk/$1 [R=301,L]
+```
 
 [Source](https://community.letsencrypt.org/t/https-prevents-certificate-auto-renewal-why-and-what-to-do/67564/6)
 
+```
 mod_rewrite with exception
 RewriteCond %{SERVER_PORT} 80 
 RewriteCond %{REQUEST_URI} !/page1/test
 RewriteCond %{REQUEST_URI} !/page2
 RewriteRule ^(.*)$ https://mywebsite.com/$1 [R,L]
+```
 
 https://stackoverflow.com/a/4021757/4982169
 
