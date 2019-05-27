@@ -1,1 +1,0 @@
-https://github.com/meumobi/infomobi/issues/94

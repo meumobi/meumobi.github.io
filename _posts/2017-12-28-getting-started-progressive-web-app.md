@@ -126,6 +126,7 @@ Source: [Progressive Web App (PWA) Usage and tracking with Web Analytics](https:
 
 # Furthermore
 
+- [PWA Police: List of PWA Bugs and workarounds](https://github.com/PWA-POLICE/pwa-bugs?utm_source=mobiledevweekly&utm_medium=email#problem--push-notifications-are-not-supported)
 - [Anatomy of a Progressive Web App](https://www.slideshare.net/mikelnorth/anatomy-of-a-progressive-web-app)
 - [MDN web docs: Using Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers)
 - [Service Workers: Revolution Against the Network!](https://blog.ionicframework.com/service-workers-revolution-against-the-network/)

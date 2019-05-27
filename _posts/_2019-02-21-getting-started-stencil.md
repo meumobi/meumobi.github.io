@@ -1,0 +1,2 @@
+[Josh Morony - Using Ionic with Stencil: Creating Components](https://www.youtube.com/watch?v=QfBULN64E8M)
+[Josh Morony - Using Ionic with Stencil: Basic Concepts & Getting Started](https://www.youtube.com/watch?v=rXdSxL12wmA)
