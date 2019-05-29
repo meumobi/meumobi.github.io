@@ -112,7 +112,7 @@ There's no perfect solution or unique rule to define file structure, it's import
       /components
 ```
 
-At this tage you can observe some interesting points:
+At this stage you can observe some interesting points:
 - we use routing module for items, not for shared module, because we don't expect to share any route
 - items service is "mocked", it's easier to test our App, consuming mock entries.
 
@@ -212,7 +212,7 @@ And update ItemsRoutingModule, to include them
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ItemsListPage } from './pages/items-list/items-list.page';
-import { ItemDetailPage } from './pages/item-detail/items-detail.page';
+import { ItemDetailPage } from './pages/item-detail/item-detail.page';
 
 const routes: Routes = [
   { path: '', component: ItemsListPage'},

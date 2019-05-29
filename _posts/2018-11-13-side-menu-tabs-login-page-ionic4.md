@@ -12,7 +12,7 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-If you ever tried to combine side menu, tabs and login page on Ionic, for sure you know how a mess it could represent. We've faced this challenge and would like to share with you how we acheive it and which docs/posts help us on the way.
+If you ever tried to combine side menu, tabs and login page on Ionic, for sure you know how a mess it could represent. We've faced this challenge and would like to share with you how we achieve it and which docs/posts help us on the way.
 ![Combine side menu, tabs and login page with Ionic 4]({{ site.BASE_PATH}}/assets/media/tabs-sidemenu/Ionic_App-2.png)
 
 **/!\ Update 2019-02-13**: Tabs got [changes on Ionic 4.0.0-beta.18](https://github.com/ionic-team/ionic/blob/master/CHANGELOG.md#breaking-changes-4) (released the 2018-12-13). I've applied these updates on [src code]((https://github.com/meumobi/meu-starter.tabs-sidemenu.ionic-v4)) and post below.
@@ -74,6 +74,7 @@ and run
 
 Below I show the final file structure of the project. I don't list all files, only the main files related to this demo App.
 
+
 ```
 ./src
   /app
@@ -99,6 +100,8 @@ Below I show the final file structure of the project. I don't list all files, on
     app.component.ts
     app.module.ts
 ```
+
+**/!\ Update 2019-05-28**: I've recently run this tutorial on Ionic 4.4 and seems tabs starter has changed slightlty: about, contact and home tabs have been replaced by tab1, tab2 and tab3. It doesn't make a big difference, only naming changes. But on lines below I continue with previous names, pay attention ;-)
 
 ## Split pane and side menu
 
@@ -164,6 +167,8 @@ export class AppComponent implements OnInit {
   }
 ```
 
+On above extract I omit some imports (as RouterEvent, NavigationEnd for example), it's allow to be short and keep focus on what is important, hope you can find them alone, if needed at the end of this post I share a link to github repo where you can find whole code.
+
 Could also use the `disabled` property on ion-menu to hide it on login, 
 `<ion-menu [disabled]="!isLoggedIn"></ion-menu>`
 
@@ -171,7 +176,7 @@ Could also use the `disabled` property on ion-menu to hide it on login,
 
 We add [ion-menu-button](https://beta.ionicframework.com/docs/api/menu-button/) on our pages to display the 'hamburguer' when sidemenu not visible on SplitPane.
 
-`src/app/contact/contact.page.html`
+`src/app/contact/contact.page.html` (or `src/app/tab3/tab3.page.html` on recent release) 
 
 ```
 <ion-header>
