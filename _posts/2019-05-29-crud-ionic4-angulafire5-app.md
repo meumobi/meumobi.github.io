@@ -26,7 +26,17 @@ Our main concern is to apply good/recommended practices:
 
 We'll use Ionic v4.4 for UI with Angular 7, AngularFire 5.1 and firestore as Cloud db.
 
-## Setup
+## Methodology
+Each main section below corresponds to a visible milestone of the project, where you can validate work on progress running App.
+
+- Setup Ionic Starter
+- Setup Feature Module
+- Data Modeling and Mock
+- Firebase Data Service
+
+By this way you can pickup what is interesting for you and/or run tutorial on several days always keeping a stable state of project, avoid big bang ;-)
+
+## Setup - Ionic Starter
 
 ### Prerequisites
 We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova].
@@ -69,15 +79,7 @@ and run
 
 `$ ionic serve --lab`
 
-## Data modeling
-Following RSS convention we'll manage `items` with following fields:
-- title: string
-- description: string
-- published: string // 2018-10-09T16:18:45Z
-- link: string
-- enclosure: string
-
-## File Structure
+### File Structure
 
 There's no perfect solution or unique rule to define file structure, it's important to consider how and where your App will grow to adapt the file structure to your project. I highly recommend to read some posts (as [How to define a highly scalable folder structure for your Angular project](https://itnext.io/choosing-a-highly-scalable-folder-structure-in-angular-d987de65ec7)) to be aware of basic recommendations.
 
@@ -87,35 +89,30 @@ There's no perfect solution or unique rule to define file structure, it's import
 ```
 ./src
   /app
-    /profiles
-      profiles-routing.module.ts
-      profiles.module.ts
+    /items
+      items-routing.module.ts
+      items.module.ts
       components/
         profile-headline
       pages/
-        profiles-list
-        profile-detail
-      profile.interface.ts
-	  services/
+        items-list
+        item-detail
+        item-edit
+      models/
+        item.ts
+	    services/
 	  	  index.ts
-	      profile.service.ts
-	      profile-mock.service.ts
-	      profile-mock.ts
-    /core
-      core.module.ts
-      /services
-        /api
-          api.service.ts
-    /shared
-      shared.module.ts
-      /components
+	      items.service.ts
+	      items-mock.service.ts
+	      items-mock.ts
+...
 ```
 
 At this stage you can observe some interesting points:
 - we use routing module for items, not for shared module, because we don't expect to share any route
 - items service is "mocked", it's easier to test our App, consuming mock entries.
 
-## Setup feature module
+## Setup Feature Module
 ### Module
 It's considered [best practice to add routing module for each feature module](https://angular.io/guide/lazy-loading-ngmodules). 
 Then we'll add a new module for items (before running each cli I recommend to add `--dry-run` to simulate cmd):
@@ -183,20 +180,23 @@ At this stage you can add links on pages to test navigation or access directly t
 - '/items/detail/123' for item-detail
 - '/items/edit/123' for item-edit
 
+## Data Modeling and Mock
 ### Model
-We'll use type specifier to get a typed result object.
+We'll use type specifier to get a typed result object. 
 
 ```
 $ ng generate class items/models/item
 CREATE src/app/items/models/item.ts (37 bytes)
 ```
 
-### Observable data Service
+Following RSS convention we'll manage `items` with following fields:
+- title: string
+- description: string
+- published: string // 2018-10-09T16:18:45Z
+- link: string
+- enclosure: string
 
-The service is responsible to connect our App with backend, firestore for this tutorial. It should do CRUD operations.
-For development and debug purpose I always recommend to create first a mock service, should help to validate implementation described above (module, pages, model).
-
-#### Mock Service
+### Mock Service
 
 The mock service simulate the interaction w/ backend and provide mocked responses from `items/services/items-mock`.
 
@@ -209,11 +209,18 @@ CREATE src/app/items/services/items-mock.ts (27 bytes)
 
 At this stage you are ready to test your App. Interactions are fake but you can validate the new feature module and navigation flow.
 
-#### Firebase
+## Firebase Data Service
+
+### Install dependencies
+The service is responsible to connect our App with backend, firestore for this tutorial. It should do CRUD operations.
+For development and debug purpose I always recommend to create first a mock service, should help to validate implementation described above (module, pages, model).
 
 Last thing we need to make our App dynamic is to connect firebase.
 
-##### Connect Firebase
+```
+$ npm install firebase @angular/fire
+```
+### Setup Environment Config
 Copy firebase config on `src/environments/environment.ts`
 
 ```js
@@ -270,7 +277,7 @@ export class AppModule {}
 
 ```
 
-##### Firebase data service
+### Service
 
 
 ```js
@@ -319,6 +326,22 @@ export class ProfilesService {
 }
 
 ```
+
+## Repository
+All source code can be found on GitHub: https://github.com/meumobi/meu-starter.master-detail.ionic-v4
+If you look on commits history you should notice one commit for each main section above. 
+
+- [Simon Grimm: How to Build An Ionic 4 App with Firebase and AngularFire 5](https://devdactic.com/ionic-4-firebase-angularfire-2/)
+- [Jave Bratt: Role-based authentication with Ionic & Firebase](https://javebratt.com/role-based-auth/)
+
+## Furthemore
+
+https://www.djamware.com/post/5b5cffaf80aca707dd4f65aa/building-crud-mobile-app-using-ionic-4-angular-6-and-cordova
+
+- [Josh Morony: Implementing a Master Detail Pattern in Ionic 4 with Angular Routing](https://www.joshmorony.com/implementing-a-master-detail-pattern-in-ionic-4-with-angular-routing/)
+- [Firebase Authentication with whitelisted email addresses](https://stackoverflow.com/questions/46552886/firebase-authentication-with-whitelisted-email-addresses)
+
+[How to send unique registration links with firebase?](https://stackoverflow.com/questions/53224780/how-to-send-unique-registration-links-with-firebase)
 
 
 [Node.js]: <https://nodejs.org/en/download/>
