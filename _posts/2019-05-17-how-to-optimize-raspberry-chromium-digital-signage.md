@@ -11,7 +11,7 @@ author:
   bio: Life, Universe, Everything
   email_md5: 8200df29874231d4d8c2c7beae170b31
 ---
-![Raspberry PI Assembled]({{ site.BASE_PATH}}/assets/media/rasp2.jpg)
+![Raspberry PI Assembled]({{ site.BASE_PATH}}/assets/media/rasp2-sidesblurred.jpg)
 We’ve been working with Raspberry Pi in order to offer a TV extension of our services.
 This post is one of a series which shows how we did.
 

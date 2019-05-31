@@ -11,7 +11,7 @@ author:
   bio: Life, Universe, Everything
   email_md5: 8200df29874231d4d8c2c7beae170b31
 ---
-![Raspberry PI ]({{ site.BASE_PATH}}/assets/media/rasp1.jpg)
+![Raspberry PI ]({{ site.BASE_PATH}}/assets/media/rasp1-sidesblurred.jpg)
 We’ve been working with Raspberry Pi in order to offer a TV extension of our services.
 This post is one of a series which shows how we did.
 
@@ -35,7 +35,7 @@ We just want instal the bare necessary to works so we choose Raspbian Lite:
 
 ## Setup Auto Login ##
 
-![Raspberry PI Assembled]({{ site.BASE_PATH}}/assets/media/rasp2.jpg)
+![Raspberry PI Assembled]({{ site.BASE_PATH}}/assets/media/rasp2-sidesblurred.jpg)
 
 Assemble all pieces and turn it on!
 Log in.
