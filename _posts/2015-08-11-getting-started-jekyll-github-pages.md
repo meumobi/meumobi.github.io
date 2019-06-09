@@ -101,6 +101,14 @@ Most Markdown engines I've seen allow plain HTML
 
 Source: [http://stackoverflow.com/questions/4425198/markdown-target-blank](http://stackoverflow.com/questions/4425198/markdown-target-blank)
 
+### Writing Liquid Template in Markdown Code Blocks
+When I was writing another blog post on listing blog posts by tags in Jekyll, I came across a curious problem when I try to write liquid template code in my markdown file. Evidently, when Jekyll compiles the static web files, it tries to process all the double curly brackets like {% raw %}{% and %}{% endraw %}, which of course leads to errors.
+
+One option is to use [Liquid’s raw tag](https://shopify.github.io/liquid/tags/raw/). Raw temporarily disables tag processing. The markdown code would then be something like this:
+
+![jekyll-raw-tag]({{ site.BASE_PATH }}/assets/media/jekyll/raw-tag.png)
+
+[Source](http://ozzieliu.com/2016/04/26/writing-liquid-template-in-markdown-with-jekyll/)
 
 ### Code Highlighting: Embedded GitHub Gists
 Improve Code Highlighting in a Jekyll-based Blog Site
