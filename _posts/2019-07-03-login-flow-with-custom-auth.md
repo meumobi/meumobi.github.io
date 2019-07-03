@@ -20,7 +20,7 @@ What we are doing is use Firebase Custom Auth to do this.
 ## Steps
 - Create a HTTP Firebase CloudFunction (CF) who receives a user ID, generate a token using the Firebase Admin SDK and returns it.
 - Create a Page to call CF and Generate the Token.
-- Only accessible if a valid Token is passed on the URL.
+- Create a Page only accessible if a valid Token is passed on the URL.
 
 ## Init
 Create the project
@@ -170,7 +170,9 @@ export class AppModule {}
 - Generate Token calls the CF using HTTPClient passing the UID and set Token.
 - To test if is valid Token just click Login with Token, it uses AuthService. 
 - Login By URL concatenetes the token with the HOME url. And open it in another tab.
-**src/app/login/login.page.html**
+
+**src/app/login/login.page.html**  
+
 ```html
 <ion-header>
   <ion-toolbar>
