@@ -155,6 +155,7 @@ CREATE src/app/items/pages/item-edit/item-edit.page.ts (267 bytes)
 UPDATE src/app/items/items.module.ts (275 bytes)
 ```
 
+### Routing
 Next, open and edit `src/app/items/items-routing.module.ts` to add new routes. No need to import components we'll prefer lazy-loading.
 
 ```
@@ -174,6 +175,18 @@ const routes: Routes = [
 export class ItemsRoutingModule { }
 ```
 
+And now add items route on `AppRoutingModule`
+
+```
+...
+const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', loadChildren: './home/home.module#HomePageModule' },
+  { path: 'items', loadChildren: './items/items.module#ItemsModule' },
+];
+...
+```
+
 At this stage you can add links on pages to test navigation or access directly to lazy-loaded pages running `ionic serve` and typing url on address bar of your browser.
 - '/' for home
 - '/items' for items-list
@@ -185,8 +198,8 @@ At this stage you can add links on pages to test navigation or access directly t
 We'll use type specifier to get a typed result object. 
 
 ```
-$ ng generate class items/models/item
-CREATE src/app/items/models/item.ts (37 bytes)
+$ ng generate class items/item --type model --skipTests
+CREATE src/app/items/item.model.ts (37 bytes)
 ```
 
 Following RSS convention we'll manage `items` with following fields:
@@ -196,15 +209,95 @@ Following RSS convention we'll manage `items` with following fields:
 - link: string
 - enclosure: string
 
-### Mock Service
+```
+export class Item {
+  id: string;
+	title: string;
+	description: string;
+  publishedAt: string; // 2018-10-09T16:18:45Z
+  createdAt: string; // 2018-10-09T16:18:45Z
+  modifiedAt: string; // 2018-10-09T16:18:45Z
+  link: string;
+  enclosure: string;
+}
+```
 
-The mock service simulate the interaction w/ backend and provide mocked responses from `items/services/items-mock`.
+### Mock
 
 ```
-$ ng g service items/services/items-mock --spec=false
-CREATE src/app/items/services/items-mock.service.ts (138 bytes)
-$ ng g class items/services/items-mock --spec=false
-CREATE src/app/items/services/items-mock.ts (27 bytes)
+$ ng generate class items/items-mock --skipTests
+CREATE src/app/items/items-mock.ts (26 bytes)
+```
+
+```
+const items = [
+  {
+    id: '1234',
+    title: 'On Tuesday, Justice Brett M. Kavanaugh heard his first Supreme Court arguments, all concerning enhanced sentences for gun crimes.',
+    description: '...',
+		publishedAt: '2018-10-09T16:18:45Z',
+		createdAt: '2018-10-09T16:18:45Z',
+    modifiedAt: '2018-10-09T16:18:45Z',
+    link: 'https://www.nytimes.com/2018/10/09/us/politics/',
+    enclosure: '...'
+  }, {
+    id: '1235',
+    description: '...',
+		publishedAt: '2018-10-09T16:18:45Z',
+		createdAt: '2018-10-09T16:18:45Z',
+    modifiedAt: '2018-10-09T16:18:45Z',
+    link: 'https://www.bbc.com/news/world-europe-45799037',
+    enclosure: '...'
+  }
+];
+
+export default items;
+```
+
+## Observable data service
+### Mock
+
+The mock service simulate the interaction w/ backend and provide mocked responses from `items/items-mock`.
+
+```
+$ ng g service items/items-mock --skipTests
+CREATE src/app/items/items-mock.service.ts (138 bytes)
+```
+
+```js
+import { Item } from './item.model';
+import { Injectable } from '@angular/core';
+import items from './items-mock.model';
+import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ItemsService {
+
+  private items$: Observable<Note[]> = of(items).pipe(
+    delay(2000)
+  );
+  private current: Item;
+
+  latest(): Promise<Item[]> {
+
+    return this.items$.toPromise();
+  }
+
+  setCurrentNote(item: Item): Promise<Item> {
+    this.current = item;
+
+    return Promise.resolve(this.current);
+  }
+
+  getCurrent(): Promise<Item> {
+
+    return Promise.resolve(this.current);
+  }
+}
 ```
 
 At this stage you are ready to test your App. Interactions are fake but you can validate the new feature module and navigation flow.
