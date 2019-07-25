@@ -1,8 +1,8 @@
 ---
 layout: post
-title: How to use Google Analytics on Ionic 4 PWA and Native 
+title: How to track Ionic 4 PWA and Native page views and events on Google Analytics  
 categories: [Ionic, PWA]
-tags: [tutorial, analytics, Ionic 4, Angular, Cordova]
+tags: [tutorial, analytics, Ionic 4, Angular, Cordova, Screen Title]
 author:
   name: Daniel Antonio Conte
   email: danconte72@gmail.com
@@ -11,10 +11,8 @@ author:
   bio: Life, Universe, Everything
   email_md5: 8200df29874231d4d8c2c7beae170b31
 ---
-*UPDATED: July 22nd, 2019*  
+*UPDATED: July 25th, 2019*  
 ![Ionic PWA Analytics]({{ site.BASE_PATH}}/assets/media/ionic/pwa_ionic_ga.png)
-
-
 
 Sharing the same code between PWA and Native (iOS/Android) is a practice we have been using on our Ionic apps. An essencial service for many projects is Google Analytics (GA). We did a deep search to find the best option for our scenario. There was a main solution out there.
 #### Ionic Native Google Analytics [Plugin](https://ionicframework.com/docs/native/google-analytics/)
@@ -61,22 +59,28 @@ export class AnalyticsService {
   setTracker(tracker) {
     if ( !localStorage.getItem('ga:clientId') ) {
       localStorage.setItem( 'ga:clientId', tracker.get('clientId') );
-    } 
+    }
   }
 
   startTrackerWithId(id) {
     ga('create', {
       storage: 'none',    ​
-      trackingId: id
+      trackingId: id,
+      clientId: localStorage.getItem('ga:clientId')
     });    ​
     ga('set', 'checkProtocolTask', null);​
     ga('set', 'transportUrl', 'https://www.google-analytics.com/collect');
     ga(this.setTracker);
   }
-  trackView(screenName) {
-    ga('set', 'page', screenName);
+
+  trackView(pageUrl: string, screenName: string) {
+    ga('set', {
+      page: pageUrl,
+      title: screenName
+    });
     ga('send', 'pageview');
   }
+
   trackEvent(category, action, label?, value?) {
     ga('send', 'event', {
       eventCategory: category,
@@ -108,7 +112,8 @@ import { AnalyticsService } from './analytics.service';
 ```ts
 ...
 import { AnalyticsService } from './analytics.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -119,25 +124,42 @@ export class AppComponent {
     ...
     private analyticsService: AnalyticsService,
     public router: Router,
+    private title: Title,
   ) {
     this.initializeApp();
   }
 
   initializeApp() {
-    // START TRACK
-    this.analyticsService.startTrackerWithId('UA-XXXXXXXX-X');
-    // LISTEN ALL ROUTER EVENTS
+    //Start track passing Tracker Id
+    this.analyticsService.startTrackerWithId('XX-XXXXXXXX-X');
+    ...
     this.router.events
     .subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        // TRACK URL WHEN IT FINISHED LOAD
-        this.analyticsService.trackView( event.urlAfterRedirects );
+      //observe router and when it start navigation it will track the view
+      if (event instanceof NavigationStart) {
+        let title = this.title.getTitle();
+        //get title if it was sent on state
+        if (this.router.getCurrentNavigation().extras.state) {
+          title = this.router.getCurrentNavigation().extras.state.title;
+        }
+        //pass url and page title 
+        this.analyticsService.trackView(event.url, title);
       }
     });
   }
 }
 
 ```
+
+### Track Screen title
+Sometimes besides the URL, you need to show more meaningful infos of your app on anlytics. 
+In our case it's easier to understand `Awesome new!` than `/item/detail/123456` when you are reading analytics data.
+So on items list, for each link we pass the title of item in `state` attribute on template.
+```html
+<a routerLink="/items/edit/123456" [state]="{ title: 'Awesome new!' }" routerDirection="root">
+  Awesome new!
+</a>
+``` 
 
 #### example.ts - tracking some event
 ```ts
