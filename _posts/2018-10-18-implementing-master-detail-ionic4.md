@@ -2,7 +2,7 @@
 layout: post
 title: 'Implementing the Master-Detail Pattern with Ionic v4'
 categories: [Ionic]
-tags: [Ionic-v4, AngularFire, Firebase]
+tags: [tutorial, Ionic-v4, master-detail]
 redirect_from:
 - /ionic/2018/10/18/create-crud-app-ionic4-angularfire5
 author:
@@ -365,7 +365,7 @@ If you don't append your API key correctly, or your API key is invalid, you will
 ## Repository & Demo
 All source code can be found on GitHub: [meumobi/meu-starter.master-detail.ionic-v4](https://github.com/meumobi/meu-starter.master-detail.ionic-v4)
 
-## Furthemore
+## Furthermore
 
 - [Building CRUD Mobile App using Ionic 4, Angular 6 and Cordova](https://www.djamware.com/post/5b5cffaf80aca707dd4f65aa/building-crud-mobile-app-using-ionic-4-angular-6-and-cordova)
 - [Josh Morony: Implementing a Master Detail Pattern in Ionic 4 with Angular Routing](https://www.joshmorony.com/implementing-a-master-detail-pattern-in-ionic-4-with-angular-routing/)

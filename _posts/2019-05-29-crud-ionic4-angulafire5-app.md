@@ -424,7 +424,7 @@ export class ProfilesService {
 All source code can be found on GitHub: [meumobi/meu-starter.master-detail.ionic-v4](https://github.com/meumobi/meu-starter.master-detail.ionic-v4)
 If you look on commits history you should notice one commit for each main section above. 
 
-## Furthemore
+## Furthermore
 
 - [Josh Morony: Implementing a Master Detail Pattern in Ionic 4 with Angular Routing](https://www.joshmorony.com/implementing-a-master-detail-pattern-in-ionic-4-with-angular-routing/)
 - [Firebase Authentication with whitelisted email addresses](https://stackoverflow.com/questions/46552886/firebase-authentication-with-whitelisted-email-addresses)

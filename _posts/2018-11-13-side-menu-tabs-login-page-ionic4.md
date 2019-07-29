@@ -326,7 +326,7 @@ export class MenuItemComponent implements OnInit {
 
 All source code can be found on GitHub: [https://github.com/meumobi/meu-starter.tabs-sidemenu.ionic-v4](https://github.com/meumobi/meu-starter.tabs-sidemenu.ionic-v4)
 
-## Furthemore
+## Furthermore
 
 - Baljeet Singh: [Ionic 4 and Angular - Combining Tabs and Sidemenu Templates](https://www.youtube.com/watch?v=w0QTIlpo-Pg)
 - Simon Grimm: [How to Add A Side Menu to Your Ionic 4 App](https://www.youtube.com/watch?v=Yx_xJ4m-JxE)

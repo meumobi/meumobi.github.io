@@ -357,7 +357,7 @@ Demo app is deployed [meu-starter.login-flow.ionic-v4](https://meumobi.github.io
 
 All source code can be found on GitHub: [https://github.com/meumobi/meu-starter.login-flow.ionic-v4](https://github.com/meumobi/meu-starter.login-flow.ionic-v4)
 
-## Furthemore
+## Furthermore
 
 - [Building a Basic Ionic 4 Login Flow with Angular Router](https://www.youtube.com/watch?v=z3pDqnuyzZ4)
 - [Jason Watemore: Angular 6 - User Registration and Login Example & Tutorial](http://jasonwatmore.com/post/2018/05/16/angular-6-user-registration-and-login-example-tutorial#alert-component-html)
