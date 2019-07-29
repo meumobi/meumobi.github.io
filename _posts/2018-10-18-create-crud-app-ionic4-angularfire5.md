@@ -1,8 +1,10 @@
 ---
 layout: post
-title: 'Create a CRUD App with Ionic 4 and AngularFire 5'
+title: 'Implementing the Master-Detail Pattern with Ionic v4'
 categories: [Ionic]
 tags: [Ionic-v4, AngularFire, Firebase]
+redirect_from:
+- /ionic/2018/10/18/create-crud-app-ionic4-angularfire5
 author:
   name: Victor Dias
   email: victor.dias@meumobi.com
@@ -287,8 +289,6 @@ $ ng g service items/services/items --spec=false
 CREATE src/app/items/services/items.service.ts (134 bytes)
 ```
 
-
-
 ## Core: http interceptor
 
 [Interceptors](https://angular.io/guide/http#intercepting-requests-and-responses) are sitting in between your application and the backend. By using interceptors you can transform a request coming from the application before it is actually submitted to the backend. The same is possible for responses.
@@ -362,62 +362,12 @@ export class CoreModule { }
 
 If you don't append your API key correctly, or your API key is invalid, you will receive a 401 - Unauthorized HTTP error.
 
-## Add Login Flow
-
-### Authentication Service
-
-### Auth Guards
-
-
-## State
-
-We will create Contacts model, as well
-
-`$ ng generate class contacts/contacts --type model`
-
-with all the necessary attributes.
-
-```
-
-```
-
-$ ionic generate page profiles/pages/list
-> ng generate page profiles/pages/list
-CREATE src/app/profiles/pages/list/list.module.ts (533 bytes)
-CREATE src/app/profiles/pages/list/list.page.scss (0 bytes)
-CREATE src/app/profiles/pages/list/list.page.html (131 bytes)
-CREATE src/app/profiles/pages/list/list.page.spec.ts (677 bytes)
-CREATE src/app/profiles/pages/list/list.page.ts (248 bytes)
-UPDATE src/app/app-routing.module.ts (458 bytes)
-[OK] Generated page!
-
-$ ng generate module timeline --routing
-CREATE src/app/timeline/timeline-routing.module.ts (251 bytes)
-CREATE src/app/timeline/timeline.module.spec.ts (291 bytes)
-CREATE src/app/timeline/timeline.module.ts (287 bytes)
-
-$ ng generate component timeline/components/Home --module
-CREATE src/app/timeline/components/home/home.component.scss (0 bytes)
-CREATE src/app/timeline/components/home/home.component.html (23 bytes)
-CREATE src/app/timeline/components/home/home.component.spec.ts (614 bytes)
-CREATE src/app/timeline/components/home/home.component.ts (262 bytes)
-UPDATE src/app/timeline/timeline.module.ts (366 bytes)
-
-
-skeleton-text: https://github.com/ionic-team/ionic/commit/b213500
-navigate
-ion-refresher
-infinite-scroll
-
-
 ## Repository & Demo
-Demo app is deployed with firebase on ...
-
-All source code can be found on GitHub: https://github.com/meumobi/meu-starter.master-detail.ionic-v4
+All source code can be found on GitHub: [meumobi/meu-starter.master-detail.ionic-v4](https://github.com/meumobi/meu-starter.master-detail.ionic-v4)
 
 ## Furthemore
 
-https://www.djamware.com/post/5b5cffaf80aca707dd4f65aa/building-crud-mobile-app-using-ionic-4-angular-6-and-cordova
+- [Building CRUD Mobile App using Ionic 4, Angular 6 and Cordova](https://www.djamware.com/post/5b5cffaf80aca707dd4f65aa/building-crud-mobile-app-using-ionic-4-angular-6-and-cordova)
 - [Josh Morony: Implementing a Master Detail Pattern in Ionic 4 with Angular Routing](https://www.joshmorony.com/implementing-a-master-detail-pattern-in-ionic-4-with-angular-routing/)
 
 [Angular.io Getting started]: https://angular.io/guide/quickstart
