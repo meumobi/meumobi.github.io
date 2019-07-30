@@ -15,15 +15,26 @@ author:
 If you are a developer and are looking for a plug and play solution to start your own blog [jekyll](https://jekyllrb.com/) is a good alternative, and coupled with github you'll be able to deploy and host it with no pain.
 ![jekyll-github-pages]({{ site.BASE_PATH }}/assets/media/jekyll/jekyll-github-pages.jpg)
 
+ ```
+/!\ This post was updated on Jul 30, 2019 and tested with these packages:
+
+jekyll 3.8.6
+ruby 2.6.3
+
+Find an issue? please drop a line on comment, I'll fix it ASAP
+```
+
 ## Getting started
 
 ### Install jekyll and libraries
 
 ```bash
-$ gem install jekyll jekyll-paginate kramdown
+$ gem install jekyll bundler
 ```
 
-### You don't have write permissions...
+if you face a permission error like below, means you need to install a new version of ruby
+
+#### You don't have write permissions...
 
 ```bash
 $ gem install jekyll
@@ -40,18 +51,16 @@ ERROR:  While executing gem ... (Gem::FilePermissionError)
 
 Source: [http://stackoverflow.com/a/14607772/4982169](http://stackoverflow.com/a/14607772/4982169)
 
-Using sudo is probably fine if you want these tools to be installed globally.
-
-The problem is that these binaries are installed into /usr/bin, which is off-limits since El Capitan. However, you can install them into /usr/local/bin instead. That's where Homebrew install its stuff, so it probably exists already.
-
-```bash
-sudo gem install fakes3 -n /usr/local/bin
 ```
-
-Gems will be installed into `/usr/local/bin` and every user on your system can use them if it's in their PATH.
-
-Source: [http://stackoverflow.com/a/32253142/4982169](http://stackoverflow.com/a/32253142/4982169)
-
+$ brew install rbenv
+Verify that rbenv is properly set up using this rbenv-doctor script:
+$ curl -fsSL https://github.com/rbenv/rbenv-installer/raw/master/bin/rbenv-doctor | bash
+$ rbenv install -l
+$ ruby -v
+ruby 2.3.7p456 (2018-03-28 revision 63024) [universal.x86_64-darwin18]
+$ rbenv install 2.6.3
+$ gem install jekyll bundler
+```
 
 ### Create your site
 

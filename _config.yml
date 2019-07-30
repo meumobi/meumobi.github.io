@@ -9,8 +9,13 @@ kramdown:
   hard_wrap: false
   highlighter: rouge
 
-plugins: [jekyll-paginate, jekyll-gist, kramdown-parser-gfm, jekyll-redirect-from]
-
+plugins:
+  - jekyll-paginate
+  - jekyll-gist
+  - kramdown
+  - jekyll-redirect-from
+  - jekyll-seo-tag
+  - jekyll-sitemap
 defaults:
   -
     scope:
@@ -20,7 +25,7 @@ defaults:
 
 
 title: "meumobi Dev Blog"
-description: "Sharing Experience about Mobile Development with PhoneGap, AngularJS and REST API"
+description: "Sharing Experience about Mobile Development with Ionic, Cordova, Angular and REST API"
 author:
   name: meumobi
   email: contact@meumobi.com

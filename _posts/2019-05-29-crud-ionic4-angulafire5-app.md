@@ -12,7 +12,16 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-Last year I've published a post [Create a CRUD App with Ionic 4 and AngularFire 5]({% post_url 2018-10-18-create-crud-app-ionic4-angularfire5 %}). The purpose of this serie about Ionic and firebase is use explore how these 2 products can help building App (web or native). On previous post I used a beta release of Ionic 4 with Angular 6 and AngularFire 5.0. All of these frameworks have reached significant upgrades during last months and I'd like to review the combination of them with latest versions and update code when required. Let's go!
+ The purpose of this serie about Ionic and firebase is use explore how these 2 products can help building App (web or native). On previous post I used a beta release of Ionic 4 with Angular 6 and AngularFire 5.0. All of these frameworks have reached significant upgrades during last months and I'd like to review the combination of them with latest versions and update code when required. Let's go!
+
+ ```
+/!\ This post was updated on Jul 30, 2019 and tested with these packages:
+
+Angular v6.0.4
+Update Notes: Updated code snippets for Angular v6
+
+Find an issue? Drop a comment I'll fix it ASAP
+```
 
 ## Application
 We are going to create a news App, implementing CRUD actions (Create, Read, Update, Delete).
