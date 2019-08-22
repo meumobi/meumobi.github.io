@@ -52,7 +52,9 @@ Or set the value on build using [variable](https://cordova.apache.org/docs/en/la
 
 By this way you can dynamically set value when adding plugin:
 
-`cordova plugin add cordova-plugin-calendar --variable CALENDAR_USAGE_DESCRIPTION="This app uses your calendar"`
+```
+cordova plugin add cordova-plugin-calendar --variable CALENDAR_USAGE_DESCRIPTION="This app uses your calendar"
+```
 
 Find [here](https://github.com/EddyVerbruggen/Calendar-PhoneGap-Plugin/commit/6dca5e49c15ce31c4d8e7a7a253d27b3103dc730) a good example of usage
 
