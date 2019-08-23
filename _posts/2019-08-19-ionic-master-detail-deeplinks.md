@@ -77,6 +77,7 @@ On Component we will get the url and use Angular Route to redirect to it.
 On **app.component.ts**
 ```ts
 import { Router } from '@angular/router';
+// import lib
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 @Component({
   selector: 'app-root',
@@ -86,6 +87,7 @@ export class AppComponent {
   constructor(
     ...
     private router: Router,
+    // declare on constructor
     private deeplinks: Deeplinks,
   ) {
     this.initializeApp();
@@ -93,16 +95,79 @@ export class AppComponent {
   initializeApp() {
     this.platform.ready().then(() => {
       ...
+      // after platform ready 
       this.deeplinks.route({
-        '/home': HomePage,
+        // register which routes and will be handled
+        '/home': HomePage, 
       }).subscribe(match => {
+        // navigate to route if it matches
         this.router.navigate([match.$link.path]);
       }, nomatch => {
         console.log('Got a deeplink that didn\'t match', nomatch);
-      })
+      });
     });
   }
 }
 ```
+### Test
+Build again and now try accesing the url+path  
+***https://my-amazing.web.app/home***  
+The app will be open on home page :)
 
-
+## 3. Open Native APP into on a spefic content through an Push Notification
+Finnaly!  
+First follow the [OneSignal - Ionic SDK Setup](https://documentation.onesignal.com/docs/ionic-sdk-setup)  
+Install plugin and wrapper
+```ts
+$ ionic cordova plugin add onesignal-cordova-plugin
+$ npm install @ionic-native/onesignal --save
+```
+Import **app.module.ts**
+```ts
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+...
+@NgModule({
+  ...
+  providers: [
+    OneSignal,
+    ...
+  ],
+  ...
+})
+export class AppModule {}
+```
+On Component we will get the url and use Angular Route to redirect to it.
+On **app.component.ts**
+```ts
+import { OneSignal } from '@ionic-native/onesignal/ngx';
+...
+@Component({
+  selector: 'app-root',
+  templateUrl: 'app.component.html'
+})
+export class AppComponent {
+  constructor(
+    ...
+    private oneSignal: OneSignal,
+  ) {
+    this.initializeApp();
+  }
+  initializeApp() {
+    this.platform.ready().then(() => {
+      ...
+      this.oneSignal.startInit('xxxxxxxxxxxx', 'xxxxxx');
+      this.oneSignal.endInit();
+      this.deeplinks.route({
+        '/home': HomePage, 
+      }).subscribe(match => {
+        this.router.navigate([match.$link.path]);
+      });
+    });
+  }
+}
+```
+### Test
+Opening a regular Push  
+![Regular Push]({{ site.BASE_PATH}}/assets/media/deep/4.gif)  
+Opening a push with Launch URL ***https://my-amazing.web.app/home***    
+![URL Push]({{ site.BASE_PATH}}/assets/media/deep/5.gif)  
