@@ -293,6 +293,7 @@ export class MyApp {
 |www/build optimization-1+2+3+4+5+6+7|www/build starter blank|
 |---|---|
 |5.0K 0.js<br/>30K main.css<br/>3.8K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>514K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
+
 # Conclusion
 
 ![Lighthouse results after optimizing]({{ site.BASE_PATH}}/assets/media/ionic/Lighthouse_Report-optimized v3.png)

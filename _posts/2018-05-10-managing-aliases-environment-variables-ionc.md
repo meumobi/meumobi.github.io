@@ -16,8 +16,15 @@ author:
 
 So, we wanted to have environment variables work in Ionic v3 exactly like how they do in Angular CLI, whilst also supporting Karma and Protractor tests. [more details](https://github.com/ionic-team/ionic-app-scripts/issues/762#issuecomment-367862651)
 
+ ```
+/!\ This post was updated on Aug 29, 2019
 
-# Aliases vs relative paths
+Update Notes: no more need to update webpack config scripts on Ionic v4
+
+Find an issue? Drop a comment I'll fix it ASAP
+```
+
+## Aliases vs relative paths
 
 Aliases and environment variables are both handled by webpack. It's why we introduce them together.
 
@@ -33,7 +40,7 @@ thanks to webpack [resolve.alias](https://webpack.js.org/configuration/resolve/#
 import Utility from 'Utilities/utility';
 ```
 
-# Configuring TypeScript
+## Configuring TypeScript
 
 Open your `tsconfig.json` and add something like the following snippet to your `compilerOptions` object (this is obviously just a part of my own configuration, so YMMV):
 
@@ -57,13 +64,14 @@ Here is what you need to know about it:
 - the `baseUrl` is relative to the directory where your `tsconfig.json` resides
 - you can only use one asterisk in the paths (nothing like the `somedir/**/*` we sometimes use somewhere else)
 - you can even alias one single file, and not a directory (like I do in the api example)
+
 Now you can rename your module paths in your `import`s using those aliases, run your build script and TypeScript won’t even blink.
 
 Remember also to restart Visual Studio Code once you’ve finished with your `tsconfig.json`, or the Intellisence won’t find the modules.
 
 Source: [How to use module path aliases in Visual Studio Code, TypeScript](https://medium.com/@caludio/how-to-use-module-path-aliases-in-visual-studio-typescript-and-javascript-e7851df8eeaa)
 
-# Custom Webpack configuration for Ionic
+## Custom Webpack configuration for Ionic
 Ionic uses Webpack, and we can specify our own Webpack configuration file. But if we do, the next time we update `@ionic/app-scripts` Ionic might stop working because we are missing some new configuration detail.
 
 Instead we keep the official configuration, and expand it.
@@ -133,7 +141,7 @@ Import your environment variables wherever you need:
 import { ENV } from '@env'
 ```
 
-# Build with env argument
+## Build with env argument
 
 Now you can run your build providing an `env` argument to select environment variables:
 
@@ -154,10 +162,10 @@ Note: Remember to ignore your environment files in your `.gitignore`
 !./src/environments/environment.ts
 ```
 
-# Update webpack config for unit tests
+## Update webpack config for unit tests
 
 If you use unit tests on your App you should also update your webpack config for test. I recommend the read of our [meu-starter.ionic-v3](https://github.com/meumobi/meu-starter.ionic-v3) for more details on how to integrate env variables with unit and e2e tests.
 
-# Furthermore
+## Furthermore
 
 - [angular-cli: Application Environments](https://github.com/angular/angular-cli/wiki/stories-application-environments)

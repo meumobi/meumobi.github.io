@@ -563,7 +563,7 @@ Sources:
 
 ## How to merge a specific commit in Git
 
-[git cherry-pick](https://mirrors.edge.kernel.org/pub/software/scm/git/docs/git-cherry-pick.html) apply the change introduced by an existing commit.
+[git cherry-pick](https://clubmate.fi/git-move-commit-between-branches/) apply the change introduced by an existing commit.
 
 Do not forget to read bdonlan's answer about the consequence of cherry-picking in this post: "[Pull all commits from a branch, push specified commits to another](https://stackoverflow.com/questions/880957/pull-all-commits-from-a-branch-push-specified-commits-to-another/881014#881014)".
 
