@@ -34,6 +34,11 @@ $ cd mmb-side-project.curated-notes
 $ ionic serve
 ```
 
+ng run app:serve --host=localhost --port=8100
+
+$ ionic build --prod
+> ng run app:build:production
+
 # Feature module: notes
 ## Module
 
