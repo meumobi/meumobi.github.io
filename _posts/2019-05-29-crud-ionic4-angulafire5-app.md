@@ -342,7 +342,7 @@ export class ItemsService {
     this.items.next(getTestItems());
   }
 
-  get items$() {
+  get items$(): Observable<Item[]> {
     // Simulate a delay
     return this.items.asObservable().pipe(delay(3000));
   }
@@ -374,6 +374,44 @@ export class ItemsService {
 }
 ```
 
+### Good pratices:
+#### Typescript path mapping
+An Angular app's file structure can be relatively deep, making it difficult to figure out where a module lives when importing it. The idea is to make your import paths go from `../../../../` to `@namespace`. TypeScript compiler supports the declaration of mappings using "paths" property in `tsconfig.json` files. Using [TypeScript path mapping](https://www.typescriptlang.org/docs/handbook/module-resolution.html) make import statements in your Angular app shorter and much more developer-friendly
+
+```
+// tsconfig.json in the root dir
+
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+
+    // omitted...
+
+    "baseUrl": "src",
+    "paths": {
+      "@shared/*": ["app/shared/*"],
+      "@env/*": ["environments/*"]
+    }
+  }
+}
+```
+
+Then instead of
+
+```
+// import from component.ts
+import { MyService } from '../../../shared/items.service';
+```
+
+we can use custom namespace `@shared` declared on `tsconfig.json` to use following import:
+
+```
+// import from component.ts
+import { MyService } from '@shared/items.service';
+```
+
+More [details](https://angularfirebase.com/lessons/shorten-typescript-imports-in-an-angular-project/)
+
 #### index.ts to organize import of service
 To easily switch between the mocked service and the original (we'll create later on this tutorial) we add an `index.ts` on shared directory
 
@@ -383,7 +421,7 @@ export { ItemsService } from './items-mock.service';
 ```
 
 By this way we can do import as below no matter if mocked or not.
-`import { ItemsService } from '../../shared';`
+`import { ItemsService } from '@shared';`
 
 ### Testing
 #### Component
@@ -443,8 +481,52 @@ And now, display items on template.
 
 At this stage you can browse /items/list and see mocked data displayed.
 
-## Views
-Before connecting our app with the firebase db we'll prepare our views to host data. 
+## Templates
+
+### items-list: add button to create item
+Before connecting our app with the firebase db we'll prepare our views to host data. On previous section we've created the items-list template, let's add now a fab button to add item and reach item-edit template.
+
+```
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add" routerLink="/item-add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+```
+
+And the item-edit page hosting form:
+
+```
+
+```
+
+### item-form
+
+We'll share same UI `item-form` to create and edit item. If an id is passed as request param means view should load existing item to edit else create new one.
+
+```
+id: string;
+item: Item;
+
+constructor(
+	navParams: NavParams,
+	itemsService: ItemsService
+) {}
+
+ngOnInit() {
+	this.id = this.navParams.data.id;
+	
+	if (!this.id) {
+		this.item = new Item();
+	} else {
+			this.itemsService.getItem(this.id).subscribe(
+				data => {
+					this.item = data;
+				}
+			)
+	}
+}
+```
 
 
 ## Observable data service
@@ -466,7 +548,7 @@ For development and debug purpose I always recommend to create first a mock serv
 Last thing we need to make our App dynamic is to connect firebase.
 
 ```
-$ npm install firebase @angular/fire
+$ npm install firebase @angular/fire --save
 ```
 ### Setup Environment Config
 Copy firebase config on `src/environments/environment.ts`
@@ -474,19 +556,19 @@ Copy firebase config on `src/environments/environment.ts`
 ```js
 export const environment = {
   production: false,
-  firebase: {
-    apiKey: "AIzaSyDYJC4spEg17xe535ECdcoOnPuEYYpihq4",
-    authDomain: "infomobi-v4.firebaseapp.com",
-    databaseURL: "https://nfmb-v4.firebaseio.com",
-    projectId: "nfmb-v4",
-    storageBucket: "nfmb-v4.appspot.com",
-    messagingSenderId: "807678202190",
-    appId: "1:807678202190:web:9ded4df13461e608"
+  firebaseConfig: {
+    apiKey: 'AIzaSyA5Xvv-O_G531RILC50FlRBSWr-HVzlEJA',
+    authDomain: 'meu-starter.firebaseapp.com',
+    databaseURL: 'https://meu-starter.firebaseio.com',
+    projectId: 'meu-starter',
+    storageBucket: 'meu-starter.appspot.com',
+    messagingSenderId: '581248963506',
+    appId: '1:581248963506:web:b207e18491151d7bee4aab'
   }
 };
 ```
 
-And import `@angular/fire` required moduls on your `app.module` as shown below:
+Import `@angular/fire` required modules (AngularFireModule, AngularFirestoreModule) on your `app.module` and import them on NgModule as shown below:
 
 ```js
 import { NgModule } from '@angular/core';
@@ -511,7 +593,7 @@ import { environment } from '../environments/environment';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule.enablePersistence(),
   ],
   providers: [
@@ -527,41 +609,65 @@ export class AppModule {}
 
 ### Service
 
+$ ng generate service shared/items --skipTests
+
+AngularFirestore provides methods for setting, updating, and deleting document data.
+
+set(data: T) - Destructively updates a document's data.
+update(data: T) - Non-destructively updates a document's data.
+delete() - Deletes an entire document. Does not delete any nested collections.
+
+
+Persist a document id
+
+Return type
 
 ```js
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Profile } from '@profiles/models';
+import { Item } from '@shared/item.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProfilesService {
+export class ItemsService {
 
-  private profilesCollection: AngularFirestoreCollection<Profile>;
-  private profiles$: Observable<Profile[]>;
+  private itemsCollection: AngularFirestoreCollection<Item>;
+	private itemDocument: AngularFirestoreDocument<Item>;
+  
+	private items$: Observable<Item[]>;
+	private item$: Observable<Item>;
 
   constructor(
     private afs: AngularFirestore
   ) {
-    this.profilesCollection = afs.collection<Profile>('profiles');
-    this.profiles$ = this.profilesCollection.valueChanges();
+    this.itemsCollection = afs.collection<Item>('items');
+    this.items$ = this.itemsCollection.valueChanges();
+		
+    // this.itemDocument = afs.collection<Item>('items/${id}');
+    // this.item$ = this.itemDocument.valueChanges();
   }
 
-  create(props: Profile) {
-    // Persist a document id
+/*
+ * // Persist a document id
+  add(item: Item): void { 
     const id = this.afs.createId();
-    const profile: Profile = { id, ...props };
-    return this.profilesCollection.doc(id).set(profile);
+    const item: Item = { id, ...item };
+    return this.itemsCollection.doc(id).set(item);
   }
+*/
+	add(item: Item): void {
+		this.itemsCollection.add(item);
+	}
 
-  update(props: Profile) {
-    return this.profilesCollection.doc(props.id).update(props);
+  update(item: Item): void {
+    return this.itemsCollection.doc(item.id).update(item);
   }
 
   delete(id: string) {
-    return this.profilesCollection.doc(id).delete();
+    return this.itemsCollection.doc(id).delete();
   }
 
   fetchAll() {
@@ -574,6 +680,36 @@ export class ProfilesService {
 }
 
 ```
+
+  get items$(): Observable<Item[]> {
+    // Simulate a delay
+    return this.items.asObservable().pipe(delay(3000));
+  }
+
+  getItem(id: string): Observable<Item> {
+    const item = getTestItems().find(i => i.id === id);
+
+    return of(item);
+  }
+
+  pushItem(item: Item): void {
+    throw new Error('Method not implemented.');
+  }
+
+  removeItem(id: string): void {
+    throw new Error('Method not implemented.');
+  }
+
+  updateItem(item: Item): void {
+    this.getItem(item.id).pipe(
+      map(i => {
+        if (i) {
+          return Object.assign(i, item);
+        }
+        throw new Error(`Item ${item.id} not found`);
+      })
+    );
+  }
 
 ## Build optimized release for PROD
 
@@ -597,6 +733,12 @@ If you look on commits history you should notice one commit for each main sectio
 
 ### Deploy to github pages
 https://angular.io/guide/deployment#deploy-to-github-pages
+
+## Testing
+- [How to mock AngularFire 2 service in unit test?](https://stackoverflow.com/questions/38042941/how-to-mock-angularfire-2-service-in-unit-test)
+- [Jasmine Unit Tests in an RxJs + Firebase app: Part 1](https://code.scottshipp.com/2017/05/24/jasmine-unit-tests-in-an-rxjs-firebase-app-part-1/)
+- [Angular Component Test Driven Development (TDD) Starter Guide](https://angularfirebase.com/lessons/angular-testing-guide-including-firebase/)
+- [Three Ways to Test Angular Components](https://vsavkin.com/three-ways-to-test-angular-2-components-dcea8e90bd8d)
 
 ## Furthermore
 
