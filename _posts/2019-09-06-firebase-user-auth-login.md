@@ -15,6 +15,50 @@ author:
 
 Securately manage our passwords demands careful attention. So to avoid this, a lot of services allow us to access their resources sending a unique link to our email. Firebase released a feature for it. 
 
+## Passwordless Sign-in Flow
+### 1. User Request Sign-in
+A User who whants use your service should inform an **email address** and click on **Sign-In** button.
+### 2. App Send Link
+The app will validate the address and sent an email to it.
+It will notify the User to check him Inbox.
+> A link to access the app was send to **{{user.email}}**. Check your email on this device.  
+> If you not get the email, request to **Resend**, and make sure **{{server.email}}** is not on Spam.
+
+#### How to on firebase
+Should pass to Firebase>Auth user's email and the url to your app.
+```js
+const actionCodeSettings = {
+  url: 'https://my-amazing.web.app/welcome', 
+  handleCodeInApp: true //this is mandatory to be true
+};
+firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
+```
+### 3. User Open Link 
+On User inbox it will receive a message with a link. Him will click (I hope so).
+> Hello, We received a request to sign in to **{{project.namel}}** using this email address. If you want to sign in with your **{{user.email}}** account, click this link:  
+>**Sign in to {{project.namel}}**  
+>If you did not request this link, you can safely ignore this email.
+#### How to on firebase
+The email message text cannot be modified on firebase>auth>templates. 
+If you want you must to handle emails and login flow by yourself (boring and for must cases unnecessary).
+Although you can easily localizate the text, just set the language before *sendSignInLinkToEmail*
+```js
+firebase.auth().languageCode = 'pt-br';
+firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
+```
+If you wanna get the device language, just do it!
+```js
+firebase.auth().useDeviceLanguage();
+```
+### 4. Link Redirect to App
+Link will authenticate then redirect to the app. Passing some auth paramaters on the url.
+### 5. App Handle Link 
+The app will be openened by an url. Based on url the app will authenticate the user and redirect him to home screen.
+> If you are adding passwordless sign on a native app, its must be able to handle deeplinks.
+
+### Observations 
+- The flow to Sign-in or login is the same of the User's point of view.
+
 ## Goal
 Create an web app with two pages, login and home. 
 Home is only accessible after login.
