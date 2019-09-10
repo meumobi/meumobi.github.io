@@ -21,8 +21,8 @@ A User who whants use your service should inform an **email address** and click 
 ### 2. App Send Link
 The app will validate the address and sent an email to it.
 It will notify the User to check him Inbox.
-> A link to access the app was send to **{{user.email}}**. Check your email on this device.  
-> If you not get the email, request to **Resend**, and make sure **{{server.email}}** is not on Spam.
+> A link to access the app was send to **user.email**. Check your email on this device.  
+> If you not get the email, request to **Resend**, and make sure **server.email** is not on Spam.
 
 #### How to on firebase
 Should pass to Firebase>Auth user's email and the url to your app.
@@ -35,8 +35,8 @@ firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
 ```
 ### 3. User Open Link 
 On User inbox it will receive a message with a link. Him will click (I hope so).
-> Hello, We received a request to sign in to **{{project.namel}}** using this email address. If you want to sign in with your **{{user.email}}** account, click this link:  
->**Sign in to {{project.namel}}**  
+> Hello, We received a request to sign in to **project.namel** using this email address. If you want to sign in with your **user.email** account, click this link:  
+>**Sign in to project.namel**  
 >If you did not request this link, you can safely ignore this email.  
 
 #### How to on firebase
