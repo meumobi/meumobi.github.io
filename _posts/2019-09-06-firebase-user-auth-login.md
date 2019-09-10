@@ -37,7 +37,8 @@ firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
 On User inbox it will receive a message with a link. Him will click (I hope so).
 > Hello, We received a request to sign in to **{{project.namel}}** using this email address. If you want to sign in with your **{{user.email}}** account, click this link:  
 >**Sign in to {{project.namel}}**  
->If you did not request this link, you can safely ignore this email.
+>If you did not request this link, you can safely ignore this email.  
+
 #### How to on firebase
 The email message text cannot be modified on firebase>auth>templates. 
 If you want you must to handle emails and login flow by yourself (boring and for must cases unnecessary).
