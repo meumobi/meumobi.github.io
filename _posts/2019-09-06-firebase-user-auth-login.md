@@ -52,13 +52,28 @@ If you wanna get the device language, just do it!
 firebase.auth().useDeviceLanguage();
 ```
 ### 4. Link Redirect to App
-Link will authenticate then redirect to the app. Passing some auth paramaters on the url.
+Link will authenticate then redirect to the app. 
+#### How to on firebase
+If you check link on email contains apiKey, mode, oobCode and continueUrl as parameters.
+It authenticate this on firebase servers then redirect to **continueUrl** (set on actionCodeSettings.url). Adding some URL parameters.
+>https://my-amazing.web.app/welcome&apiKey=xxxxx&oobCode=yyyyy&mode=signIn&lang=pt-BR  
+
 ### 5. App Handle Link 
 The app will be openened by an url. Based on url the app will authenticate the user and redirect him to home screen.
 > If you are adding passwordless sign on a native app, its must be able to handle deeplinks.
 
+#### How to on firebase
+To finally authenticate the user on your app you need to call *signInWithEmailLink*. Passing the **user.email** and the entire URL which opened the app.
+```js
+var email = user.email;
+var url = `https://my-amazing.web.app/welcome&apiKey=xxxxx&oobCode=yyyyy&mode=signIn&lang=pt-BR`;
+firebase.auth().signInWithEmailLink(email, url);
+```
+Now your User is logged on your APP :)
+
 ### Observations 
 - The flow to Sign-in or login is the same of the User's point of view.
+- The User does not need to be previously added on Firebase>Auth>Users. It will be automatically created when performs *signInWithEmailLink*.
 
 ## Goal
 Create an web app with two pages, login and home. 
