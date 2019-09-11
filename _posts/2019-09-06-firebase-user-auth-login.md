@@ -18,52 +18,25 @@ Securately manage our passwords demands careful attention. So to avoid this, a l
 ## Passwordless Sign-in Flow
 ### 1. User Request Sign-in
 A User who whants use your service should inform an **email address** and click on **Sign-In** button.
+
 ### 2. App Send Link
 The app will validate the address and sent an email to it.
 It will notify the User to check him Inbox.
 > A link to access the app was send to **user.email**. Check your email on this device.  
 > If you not get the email, request to **Resend**, and make sure **server.email** is not on Spam.
+
 ### 3. User Open Link 
 On User inbox it will receive a message with a link. Him will click (I hope so).
 > Hello, We received a request to sign in to **project.name** using this email address. If you want to sign in with your **user.email** account, click this link:  
 >**Sign in to project.name**  
 >If you did not request this link, you can safely ignore this email.  
 
-#### How to on firebase
-The email message text cannot be modified on firebase>auth>templates. 
-If you want you must to handle emails and login flow by yourself (boring and for must cases unnecessary).
-Although you can easily localizate the text, just set the language before *sendSignInLinkToEmail*
-```js
-firebase.auth().languageCode = 'pt-br';
-firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
-```
-If you wanna get the device language, just do it!
-```js
-firebase.auth().useDeviceLanguage();
-```
 ### 4. Link Redirect to App
 Link will authenticate then redirect to the app. 
-#### How to on firebase
-If you check link on email contains apiKey, mode, oobCode and continueUrl as parameters.
-It authenticate this on firebase servers then redirect to **continueUrl** (set on actionCodeSettings.url). Adding some URL parameters.
->https://my-amazing.web.app/welcome&apiKey=xxxxx&oobCode=yyyyy&mode=signIn&lang=pt-BR  
 
 ### 5. App Handle Link 
 The app will be openened by an url. Based on url the app will authenticate the user and redirect him to home screen.
-> If you are adding passwordless sign on a native app, its must be able to handle deeplinks.
-
-#### How to on firebase
-To finally authenticate the user on your app you need to call *signInWithEmailLink*. Passing the **user.email** and the entire URL which opened the app.
-```js
-var email = user.email;
-var url = `https://my-amazing.web.app/welcome&apiKey=xxxxx&oobCode=yyyyy&mode=signIn&lang=pt-BR`;
-firebase.auth().signInWithEmailLink(email, url);
-```
-Now your User is logged on your APP :)
-
-### Observations 
-- The flow to Sign-in or login is the same of the User's point of view.
-- The User does not need to be previously added on Firebase>Auth>Users. It will be automatically created when performs *signInWithEmailLink*.
+Now your User is authenticated on your APP :)
 
 ## Hands On
 On this sample we will create and ionic-angular project who implements this flow.
@@ -229,6 +202,94 @@ Inform a valid email address and click on Sign-In. You should receive an email w
 Once clicked on it, you will redirected to
 **http://localhost:8100/welcome?apiKey=yyyyyyyy&mode=signIn**
 It's alive!
+
+#### Observation
+- If you are adding passwordless sign on a native app, its must be able to handle deeplinks.
+- The email message text cannot be modified on firebase>auth>templates. 
+If you want you must to handle emails and login flow by yourself (boring and for must cases unnecessary).
+Although you can easily localizate the text, just set the language before *sendSignInLinkToEmail*
+```js
+this.afAuth.auth.languageCode = 'pt-br';
+this.afAuth.auth.sendSignInLinkToEmail(email, actionCodeSettings);
+```
+If you wanna get the device language, just do it!
+```js
+this.afAuth.auth.useDeviceLanguage();
+```
+### 7. Implements 5. App Handle Link 
+We got or redirection link but we are not realy authenticated.
+We need to pass the url and the email previously set to firebase to finish the authentication.
+Add *confirmSign* on AuthService
+**src/app/auth.service.ts**
+```js
+...
+export class AuthService {
+  constructor(public afAuth: AngularFireAuth) {}
+  ...
+  public confirmSignIn(email: string, url: string): Promise<any> {
+    return this.afAuth.auth.signInWithEmailLink(email, url);
+  }
+}
+```
+On welcome page we ask our user to confirm his email address.
+**src/app/welcome/welcome.page.html**
+```html
+<ion-header>
+  <ion-toolbar>
+    <ion-title>welcome</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-item  color="primary">
+    <p>Welcome to our app! For your safefy please re-type your email address and Confirm Your Sign-In</p>
+  </ion-item>
+  <ion-input type="text" placeholder="E-mail" [(ngModel)]="email"></ion-input>
+  <ion-button expand="full" color="success" (click)="confirmSignIn()">Confirm Your Sign-in</ion-button>
+</ion-content>
+```
+And use Angular Router to get the url to confirmSignIn.
+Once is logged, we use the same router to redirect him to home page
+**src/app/welcome/welcome.page.ts**
+```js
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-welcome',
+  templateUrl: './welcome.page.html',
+  styleUrls: ['./welcome.page.scss'],
+})
+export class WelcomePage implements OnInit {
+  email: string;
+  url: string;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) { }
+
+  ngOnInit() {
+    this.url = this.router.url;
+  }
+
+  confirmSignIn() {
+    this.authService.confirmSignIn(this.email, this.url)
+    .then(
+      () => this.router.navigate(['/home'])
+    );
+  }
+
+}
+```
+
+
+
+
+#### Observations 
+- The flow to Sign-in or login is the same of the User's point of view.
+- The User does not need to be previously added on Firebase>Auth>Users. It will be automatically created when performs *signInWithEmailLink*.
+
 
 ## Furthermore ##
 ### Email Link
