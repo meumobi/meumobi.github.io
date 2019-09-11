@@ -35,8 +35,8 @@ firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
 ```
 ### 3. User Open Link 
 On User inbox it will receive a message with a link. Him will click (I hope so).
-> Hello, We received a request to sign in to **project.namel** using this email address. If you want to sign in with your **user.email** account, click this link:  
->**Sign in to project.namel**  
+> Hello, We received a request to sign in to **project.name** using this email address. If you want to sign in with your **user.email** account, click this link:  
+>**Sign in to project.name**  
 >If you did not request this link, you can safely ignore this email.  
 
 #### How to on firebase
@@ -74,6 +74,41 @@ Now your User is logged on your APP :)
 ### Observations 
 - The flow to Sign-in or login is the same of the User's point of view.
 - The User does not need to be previously added on Firebase>Auth>Users. It will be automatically created when performs *signInWithEmailLink*.
+
+
+## Hands On
+On this sample we will create and ionic-angular project who implements this flow.
+We will use AngularFire to integrate to firebase.
+
+### 1. Create Project
+Create Project 
+```bash
+$ ionic start email-link blank
+```
+Test
+```bash
+$ cd email-link
+$ ionic serve
+```
+You can access **http://localhost:8100/home**
+### 2. Create Pages
+The app will have 3 pages.
+- Home - only authenticated users can access. 
+- Login - where **1. User Request Sign-in**
+- Welcome - where **5. App Handle Link**
+
+Home is already created so lets create Login and Welcome.
+```bash
+$ ionic -g page login
+$ ionic -g page welcome
+```
+Testing with `$ ionic serve` you can navigate between the pages
+**http://localhost:8100/home**
+**http://localhost:8100/login**
+**http://localhost:8100/welcome**
+
+
+
 
 ## Goal
 Create an web app with two pages, login and home. 
