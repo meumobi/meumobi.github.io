@@ -75,7 +75,6 @@ Now your User is logged on your APP :)
 - The flow to Sign-in or login is the same of the User's point of view.
 - The User does not need to be previously added on Firebase>Auth>Users. It will be automatically created when performs *signInWithEmailLink*.
 
-
 ## Hands On
 On this sample we will create and ionic-angular project who implements this flow.
 
@@ -129,34 +128,60 @@ export const environment = {
 And Import it on App Module
 **src/app/app.module.ts**
 ```js
+import { AngularFireModule } from '@angular/fire';
+import { environment } from '../environments/environment';
+...
 
+@NgModule({
+  imports: [
+    ...
+    AngularFireModule.initializeApp(environment.firebase)
+  ],
+  ...
+})
+export class AppModule {}
 ```
-
-## Ingredients
-- AngularFire
-- Firebase Project
-
-## Steps
-1. Create Ionic/Angular App
-2. Establish Auth Service 
-3. Request a link by email
-4. Handle link on auth
-
-## Create Ionic/Angular App && Establish Auth Service 
-We've already done [here](http://meumobi.github.io/how%20to/2019/07/03/login-flow-with-custom-auth.html)
-so just
-```bash
-$ git clone https://github.com/meumobi/meu-starter.firestore-custom-auth.angular meu-auth
-$ cd meu-auth
-$ npm i
-$ ionic serve
-```
-
-## Request a email link
-### Configuration
-On firebase console of your project, go to **Authentication>Sign-in method**.
+### 4. Config Email Link
+Once you are on Firebase Console
+Go to **Authentication>Sign-in method**.
 Enable **Email/Password** and **Email link(passwordless sign-in)** and save.
 ![Firebase Auth]({{ site.BASE_PATH}}/assets/media/firebase/enable-email-link.png)
+
+### 5. Create Auth Service
+This service will perform all firebase auth interactions.
+```bash
+$ ionic g service auth
+```
+Then tu user AngularFireAuth, import it and declare an insntance (afAuth) on constructor
+**src/app/auth.service.ts**
+```js
+import { Injectable } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  constructor(public afAuth: AngularFireAuth) {}
+}
+```
+### 6. Implements - 1.User Request Sign-in and 2. App Send Link
+On
+**src/app/auth.service.ts**
+```js
+...
+export class AuthService {
+  constructor(public afAuth: AngularFireAuth) {}
+
+  public signIn(email: string): Promise<any> {
+    const actionCodeSettings = {
+      url: `http://localhost:8100/welcome`,
+      handleCodeInApp: true
+    };
+    return this.afAuth.auth.sendSignInLinkToEmail(email, actionCodeSettings);
+  }
+}
+```
 
 ### Show me the code
 
