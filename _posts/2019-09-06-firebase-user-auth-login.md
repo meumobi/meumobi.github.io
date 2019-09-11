@@ -78,7 +78,6 @@ Now your User is logged on your APP :)
 
 ## Hands On
 On this sample we will create and ionic-angular project who implements this flow.
-We will use AngularFire to integrate to firebase.
 
 ### 1. Create Project
 Create Project 
@@ -107,13 +106,31 @@ Testing with `$ ionic serve` you can navigate between the pages
 **http://localhost:8100/login**
 **http://localhost:8100/welcome**
 
+### 3. Connect to Firebase
+To access FirebaseAuth functions the app will use AngularFire
+```bash
+$ npm install @angular/fire firebase --save
+```
+Copy your firebase Console config to  
+**src/environments/environment.ts**
+```js
+export const environment = {
+  production: false,
+  firebase: {
+    apiKey: '<your-key>',
+    authDomain: '<your-project-authdomain>',
+    databaseURL: '<your-database-URL>',
+    projectId: '<your-project-id>',
+    storageBucket: '<your-storage-bucket>',
+    messagingSenderId: '<your-messaging-sender-id>'
+  }
+};
+```
+And Import it on App Module
+**src/app/app.module.ts**
+```js
 
-
-
-## Goal
-Create an web app with two pages, login and home. 
-Home is only accessible after login.
-User could login by a link sent to his email through Firebase Auth
+```
 
 ## Ingredients
 - AngularFire
@@ -134,13 +151,6 @@ $ cd meu-auth
 $ npm i
 $ ionic serve
 ```
-But if want do by yourself
-```bash
-$ npm install ionic typescript -g
-$ ionic start login-flow blank --type=angular
-$ cd login-flow
-```
-Then follow the steps on [Ionic Angular Project](http://meumobi.github.io/how%20to/2019/07/03/login-flow-with-custom-auth.html#ionic-angular-project)
 
 ## Request a email link
 ### Configuration
