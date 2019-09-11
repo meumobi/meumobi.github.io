@@ -16,6 +16,7 @@ author:
 Securately manage our passwords demands careful attention. So to avoid this, a lot of services allow us to access their resources sending a unique link to our email. Firebase released a feature for it. 
 
 ## Passwordless Sign-in Flow
+
 ### 1. User Request Sign-in
 A User who whants use your service should inform an **email address** and click on **Sign-In** button.
 
@@ -52,6 +53,7 @@ $ cd email-link
 $ ionic serve
 ```
 You can access **http://localhost:8100/home**
+
 ### 2. Create Pages
 The app will have 3 pages.
 - Home - only authenticated users can access. 
@@ -109,6 +111,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class AppModule {}
 ```
+
 ### 4. Config Email Link
 Once you are on Firebase Console
 Go to **Authentication>Sign-in method**.
@@ -133,6 +136,7 @@ export class AuthService {
   constructor(public afAuth: AngularFireAuth) {}
 }
 ```
+
 ### 6. Implements - 1.User Request Sign-in and 2. App Send Link
 Add *signIn* on AuthService
 **src/app/auth.service.ts**
@@ -197,6 +201,7 @@ export class LoginPage implements OnInit {
   }
 }
 ```
+
 #### Test
 Inform a valid email address and click on Sign-In. You should receive an email with a Link as we see on **3. User Open Link**
 Once clicked on it, you will redirected to
@@ -216,6 +221,7 @@ If you wanna get the device language, just do it!
 ```js
 this.afAuth.auth.useDeviceLanguage();
 ```
+
 ### 7. Implements 5. App Handle Link 
 We got or redirection link but we are not realy authenticated.
 We need to pass the url and the email previously set to firebase to finish the authentication.
@@ -282,6 +288,7 @@ export class WelcomePage implements OnInit {
 
 }
 ```
+
 #### Test
 Access the link on inbox, inform the email address, confirm and now It's official!
 We did it!
@@ -335,9 +342,11 @@ export class AppRoutingModule { }
 
 
 ## Furthermore ##
+
 ### Email Link
 [Fireship/Angular Fire lessson](https://angularfirebase.com/lessons/using-passwordless-signup-with-firebase-on-the-web/)
 [Firebase Auth - Email Link Docs](https://firebase.google.com/docs/auth/web/email-link-auth)
+
 ### Security
 [Control Access with Custom Claims](https://firebase.google.com/docs/auth/admin/custom-claims#set_and_validate_custom_user_claims_via_the_admin_sdk)
 [Firestore Security Rules Cookbook](https://fireship.io/snippets/firestore-rules-recipes/)
