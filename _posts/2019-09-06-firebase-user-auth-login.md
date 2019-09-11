@@ -282,13 +282,56 @@ export class WelcomePage implements OnInit {
 
 }
 ```
-
-
-
+#### Test
+Access the link on inbox, inform the email address, confirm and now It's official!
+We did it!
 
 #### Observations 
 - The flow to Sign-in or login is the same of the User's point of view.
 - The User does not need to be previously added on Firebase>Auth>Users. It will be automatically created when performs *signInWithEmailLink*.
+
+### 8. Security
+Ok but... so far I can access Home page without login.
+To solve this we will use AngularFireAuthGuard
+Add on AppModule>Providers
+**src/app/app.module.ts**
+```js
+import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+...
+@NgModule({
+  providers: [
+    ...
+    AngularFireAuthGuard,
+  ],
+  ...
+})
+```
+
+And on Home route only activate if User is authenticated and redirect unauthorized to Login Page
+**src/app/app-routing.module.ts**
+```js
+import { NgModule } from '@angular/core';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { canActivate, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
+
+const redirectLogin = redirectUnauthorizedTo(['login']);
+
+const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'login', loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)},
+  { path: 'welcome', loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)},
+  { path: 'home', ...canActivate(redirectLogin), loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
+  { path: '**', redirectTo: 'home' },
+];
+
+@NgModule({
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+  ],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
+```
 
 
 ## Furthermore ##
