@@ -23,16 +23,6 @@ The app will validate the address and sent an email to it.
 It will notify the User to check him Inbox.
 > A link to access the app was send to **user.email**. Check your email on this device.  
 > If you not get the email, request to **Resend**, and make sure **server.email** is not on Spam.
-
-#### How to on firebase
-Should pass to Firebase>Auth user's email and the url to your app.
-```js
-const actionCodeSettings = {
-  url: 'https://my-amazing.web.app/welcome', 
-  handleCodeInApp: true //this is mandatory to be true
-};
-firebase.auth().sendSignInLinkToEmail(email, actionCodeSettings);
-```
 ### 3. User Open Link 
 On User inbox it will receive a message with a link. Him will click (I hope so).
 > Hello, We received a request to sign in to **project.name** using this email address. If you want to sign in with your **user.email** account, click this link:  
@@ -97,13 +87,13 @@ The app will have 3 pages.
 
 Home is already created so lets create Login and Welcome.
 ```bash
-$ ionic -g page login
-$ ionic -g page welcome
+$ ionic g page login
+$ ionic g page welcome
 ```
 Testing with `$ ionic serve` you can navigate between the pages
-**http://localhost:8100/home**
-**http://localhost:8100/login**
-**http://localhost:8100/welcome**
+- **http://localhost:8100/home**
+- **http://localhost:8100/login**
+- **http://localhost:8100/welcome**
 
 ### 3. Connect to Firebase
 To access FirebaseAuth functions the app will use AngularFire
@@ -130,12 +120,17 @@ And Import it on App Module
 ```js
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
+import { AngularFireAuth } from '@angular/fire/auth';
 ...
 
 @NgModule({
   imports: [
     ...
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+  ],
+  providers: [
+    ...
+    AngularFireAuth,
   ],
   ...
 })
@@ -152,7 +147,7 @@ This service will perform all firebase auth interactions.
 ```bash
 $ ionic g service auth
 ```
-Then tu user AngularFireAuth, import it and declare an insntance (afAuth) on constructor
+Then to use AngularFireAuth, import it and declare an instance (afAuth) on constructor
 **src/app/auth.service.ts**
 ```js
 import { Injectable } from '@angular/core';
@@ -166,13 +161,12 @@ export class AuthService {
 }
 ```
 ### 6. Implements - 1.User Request Sign-in and 2. App Send Link
-On
+Add *signIn* on AuthService
 **src/app/auth.service.ts**
 ```js
 ...
 export class AuthService {
   constructor(public afAuth: AngularFireAuth) {}
-
   public signIn(email: string): Promise<any> {
     const actionCodeSettings = {
       url: `http://localhost:8100/welcome`,
@@ -182,10 +176,8 @@ export class AuthService {
   }
 }
 ```
-
-### Show me the code
-
-On login page we will get the email address and request a login to AuthService.  
+On Login Page Add a field do get the user email and a button to Sign-In.
+Once *Sign-In* email was send, *Resend* and notification were showed.
 **src/app/login/login.page.html**
 ```html
 <ion-header>
@@ -193,24 +185,20 @@ On login page we will get the email address and request a login to AuthService.
     <ion-title>login</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content padding>
-  <ion-card>
-      <ion-card-header>
-        <ion-card-title>User</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-input type="text" placeholder="User E-mail" [(ngModel)]="email"></ion-input>
-        <ion-button expand="full" (click)="loginEmail()">Login by Email</ion-button>
-        <ion-button expand="full" color="secondary" (click)="logout()" *ngIf="(authState$ | async)">Logout</ion-button>
-      </ion-card-content>
-    </ion-card>
+<ion-content>
+  <ion-input type="text" placeholder="E-mail" [(ngModel)]="email"></ion-input>
+  <ion-button *ngIf="!emailSent" expand="full" color="success" (click)="signIn()">Sign-in</ion-button>
+  <ion-item *ngIf="emailSent" color="success">
+        <p>A link to access the app was send to <b>{{email}}</b>. Check your email on this device. If you not get the email, request to <b>Resend</b>, and make sure **server.email** is not on Spam.</p>
+  </ion-item>
+  <ion-button *ngIf="emailSent" expand="full" (click)="signIn()">Resend</ion-button>
 </ion-content>
 ```
+Login page signIn calls AuthService>signIn passing the email
 **src/app/login/login.page.ts**
 ```js
-import { AuthService } from './../core/auth/auth.service';
-import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -218,148 +206,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
-  authState$: Observable<any>;
   email: string;
-  constructor(
-    private authService: AuthService,
-  ) {}
-  ngOnInit() {
-    this.authState$ = this.authService.getAuthStateObserver();
-  }  
+  emailSent = false;
 
-  loginEmail() {
-    this.authService.loginEmail(this.email).then(
-      () => {
-        console.log('Email sent');
-        // Don't forget to notify your user ;)
-      }
+  constructor(
+    private authService: AuthService
+  ) { }
+
+  ngOnInit() {
+  }
+
+  signIn() {
+    this.authService.signIn(this.email)
+    .then(
+      () => this.emailSent = true
     );
   }
-
-  logout() {
-    this.authService.logout();
-  }
 }
 ```
-**src/app/core/auth/auth.service.ts**
-```ts
-import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class AuthService {
-  constructor(public afAuth: AngularFireAuth) {}
-  public loginEmail(email: string) {
-    const actionCodeSettings = {
-      url: 'http://localhost:8100/login', //after perform login the url to redirect 
-      handleCodeInApp: true //this is mandatory to be true
-    };
-    //Request do Firebase Auth to send a Link for an email
-    //The email does not to be previously added on Auth Users
-    return this.afAuth.auth.sendSignInLinkToEmail(email, actionCodeSettings);
-  }
-
-  public logout() {
-    //logauth
-    this.afAuth.auth.signOut();
-  }
-
-  public getAuthStateObserver() {
-    return this.afAuth.authState;
-  }
-}
-```
-
-### Email got!
-![Firebase Auth]({{ site.BASE_PATH}}/assets/media/firebase/email-link.png)
-
-
-If you access the link, it will perform a login and redirect to URL you've set before (http://localhost:8100/login).
-But with some parameters
-**http://localhost:8100/login?apiKey=xxxxxx&oobCode=yyyyyyy&mode=signIn&lang=en**
-
-Now we need to handle it on our app.
-
-## Handle link on auth
-In this demo we redirect to same */login* page/route, but you can set another route, like */welcome*.
-This url is necessary to firebase sdk authenticate the user.  
-So on Login page we will get the URL On Init using angular router and passing it to authService
-**src/app/login/login.page.ts**
-```js
-import { Router } from '@angular/router';
-...
-  constructor(
-    private router: Router,
-    ...
-  ) {}
-  ngOnInit() {
-    ...
-    const url = this.router.url;
-    this.authService.confirmLogin(url);
-  }
-```
-On AuthService you need to pass the url and the email associated to it in order to authenticate.
-So you can ask the email again for users. Annoying, but it is necessary if they opened the link on a different device.
-For this sample we will assume they will use the same device/browser and manage email address on local storage.
-Save it when request a link, recover when the link open the app and delete after login by email finish.
-**src/app/core/auth/auth.service.ts**
-```js
-  public loginEmail(email: string) {
-    localStorage.setItem('email', email);
-    ...
-  }    
-  public confirmLogin(url: string) {
-    const email = localStorage.getItem('email');
-    localStorage.removeItem('email');
-    return this.afAuth.auth.signInWithEmailLink(email, url);
-  }
-```
-
-## Test
-1. Open the app 
-2. Put a valid email e and request link
-3. Open inbox, click on the link
-4. User Authenticated!
-
-## Security 
-Since angularfire delivers an AuthGuard. We can use it to handle access to routes.
-**src/app/app-routing.module.ts**
-```ts
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
-
-const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  {
-    path: 'home',
-    canActivate: [AngularFireAuthGuard],
-    loadChildren: './home/home.module#HomePageModule' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
-```
-AngularFireAuthGuard it will only return true if a user is logged in.
-
-## Concerns! PAY ATTENTION!
-- If you follow this example, any person with a valid email can access your app. 
-- Once a user SignIn it will automatically be added on Firebase Auth Users list. 
-  - You can manipulate User claims only after creation.
-- AngularFireAuthGuard have resources to [customize its behavior](https://github.com/angular/angularfire2/blob/master/docs/auth/router-guards.md#customizing-the-behavior-of-angularfireauthguard).
-
-To make sure that only some emails can access your app you need to do this by yourself.
-We can suggest some solutions.
-- Only allow request logins if the email have been set on a firestore collection.
-- Create the user using Admin SDK, and set a custom claim ({isValid: true} i.e.) and only allow access if this claim is set.
-- After firt login and Admin of your app must to confirm the access to it and then set a claim for it.
-- Combine it in order to improve your security.
+#### Test
+Inform a valid email address and click on Sign-In. You should receive an email with a Link as we see on **3. User Open Link**
+Once clicked on it, you will redirected to
+**http://localhost:8100/welcome?apiKey=yyyyyyyy&mode=signIn**
+It's alive!
 
 ## Furthermore ##
 ### Email Link
