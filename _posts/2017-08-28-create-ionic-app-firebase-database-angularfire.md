@@ -24,9 +24,9 @@ I'll provide a contact interface, contacts page and ContactsProvider, `./src/pro
 - ./src/providers/contacts/
   - contacts.service.ts
 
-# Firebase setup
+## Firebase setup
 
-## Install required packages
+### Install required packages
 First, let focus on Firebase setup, as first step we'll install required npm packages to manage firebase connection.
 Install [AngularFire2](https://github.com/angular/angularfire2) (the official library for Firebase and Angular 2) and [firebase](https://firebase.google.com/docs/database/web/start).
 
@@ -40,12 +40,12 @@ $ npm ls angularfire2 firebase --depth 0
 
 Since [npm v3.0.0](https://github.com/npm/npm/releases/tag/v3.0.0) peerDependencies no longer cause packages to be implicitly installed. It's why we need to explicitly installs firebase despite it's a peerDependency of angularfire2.
 
-## Create a firebase project
+### Create a firebase project
 On [Firebase console](https://console.firebase.google.com) (need an account, it's free) create a new project and get config on clicking on "Add Firebase to your web app".
 
 ![Master]({{ site.BASE_PATH}}/assets/media/firebase/Overview-Firebase_console.png)
 
-## Save the Firebase config
+### Save the Firebase config
 
 Create `./src/app/app.firebase.config.ts`, a new file where you save your firebase config on a constant `FIREBASE_CONFIG`, looks like:
 
@@ -59,7 +59,7 @@ export const FIREBASE_CONFIG = {
 };
 ```
 
-## Import and setup required modules
+### Import and setup required modules
 Open your `src/app/app.module.ts` and import required modules:
 
 ```javascript

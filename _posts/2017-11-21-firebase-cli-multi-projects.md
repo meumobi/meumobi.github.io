@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Manage Integration Environment with Firebase Hosting
-categories: [firebase]
+categories: [Firebase]
 tags: []
 author:
   name: Victor Dias

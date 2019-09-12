@@ -34,3 +34,13 @@ ng config schematics.@schematics/angular:component.styleext scss
 ```
 
 [source](https://medium.com/@rageshchakkadath/migrate-your-existing-angular-6-application-from-css-to-scss-f555749d490e)
+
+should add following lines on your `angular.json`
+
+```
+  "schematics": {
+    "@schematics/angular:component": {
+      "styleext": "scss"
+    }
+  }
+```

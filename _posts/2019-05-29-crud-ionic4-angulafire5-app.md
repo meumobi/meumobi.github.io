@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 'Create a CRUD App with Ionic 4, Firestore and AngularFire 5'
+title: 'Create a CRUD App with Ionic 4, Firestore and AngularFire 5.2+'
 categories: [Ionic]
 tags: [Ionic-v4, AngularFire, Firebase, Angular, Firestore]
 author:
@@ -12,20 +12,112 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-This serie about Ionic and firebase aims to explore how these 2 products can help building App (web or native).
+During latest months we've explored deeply how Ionic4/Angular and Firebase can help to develop high scalable (web) Apps. This post is part of the ongoing Ionic4/Angular with Firebase serie, where we cover common use cases. Here is the full series:
 
+- [Master-detail on Ionic4]({% post_url 2018-10-18-implementing-master-detail-ionic4 %})
+- [Login flow on Ionic4]({% post_url 2018-10-19-login-flow-ionic4 %})
+- [Login flow with Firebase custom auth]({% post_url 2019-07-03-login-flow-with-firebase-custom-auth %})
+- [master-detail native App deeplink]({% post_url 2019-08-19-ionic-master-detail-deeplinks %})
+- [CRUD APP with Ionic 4, Firestore and AngularFire 5.2+]({% post_url 2019-05-29-crud-ionic4-angulafire5-app %})
 
  ```
-/!\ This post was updated on Aug 30, 2019 and tested with these packages:
+/!\ This post was updated on Sep 10, 2019 and tested with these packages:
 
-@angular/cli@8.3.2
+@angular/cli@8.3.3
 cordova@9.0.0 
-@ionic/angular@4.8.1
+@ionic/angular@4.9.0
+@angular/fire@5.2.1
+firebase@6.6.0
 
 Update Notes: Updated code snippets for Angular v8
 
 Find an issue? Drop a comment I'll fix it ASAP
 ```
+
+## TLTR
+Quick resume for people in a hurry:
+### Observable data service
+
+```js
+import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentReference } from '@angular/fire/firestore';
+
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+
+import { Observable } from 'rxjs';
+import { Item } from './item.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ItemService {
+
+  private itemsCollection: AngularFirestoreCollection<Item>;
+  items$: Observable<Item[]>;
+
+  constructor(
+    private afs: AngularFirestore
+  ) {
+    this.itemsCollection = afs.collection<Item>('items', ref => ref.orderBy('publishedAt', 'desc'));
+    this.items$ = this.itemsCollection.valueChanges({idField: 'id'});
+  }
+  ...
+```
+
+### Create => Push
+
+```js
+  public push(item: any): Promise<DocumentReference> {
+    const timestamp = this.timestamp;
+    return this.itemsCollection.add({
+      ...item,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+  }
+```
+### Read
+#### List
+Public data stream `this.items$ = this.itemsCollection.valueChanges({idField: 'id'});`
+
+#### Object
+
+```js
+  public getById(id: string): Observable<any> {
+    return this.itemsCollection.doc(id).valueChanges();
+  }
+```
+### Update => Update or Set
+
+```js
+  /**
+   * AngularFirestore provides methods for setting and updating
+   * - set(data: T) - Destructively updates a document's data.
+   * - update(data: T) - Non-destructively updates a document's data.
+   */
+   
+  public set(id: string, data: any): Promise<void> {
+    return this.itemsCollection.doc(id).set(data);
+  }
+
+  public update(item: Item): Promise<void> {
+    return this.itemsCollection.doc(item.id).update(item);
+  }
+```
+
+### Delete => Remove
+
+```js
+  public remove(id: string): Promise<void> {
+    return this.itemsCollection.doc(id).delete();
+  }
+```
+
+## Repository & demo
+
+Demo app is deployed on [crud-angularfirestore-ionic4.web.app](https://crud-angularfirestore-ionic4.web.app)
+
+All source code can be found on GitHub: [https://github.com/meumobi/mmb-demos.crud-angularfirestore-ionic4](https://github.com/meumobi/mmb-demos.crud-angularfirestore-ionic4)
 
 ## What you'll build
 We are going to create a news App, implementing CRUD actions (Create, Read, Update, Delete).
@@ -46,23 +138,29 @@ Our main concern is to apply good/recommended practices:
 	- [Angular university - How to build Angular apps using Observable Data Services](https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/)
 	- [Cory Rylan - Angular Observable Data Services](https://coryrylan.com/blog/angular-observable-data-services)
 
+- [x] Keep a consistent timestamp via back-end server
+  - [AngularFirebase: CRUD Operations with Server Timestamps](https://angularfirebase.com/lessons/firestore-advanced-usage-angularfire/#3-CRUD-Operations-with-Server-Timestamps)
+
 <!-- Add screenshots here -->
 
 ## What you'll need
 We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova]. Follow the [Android](https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html) and [iOS](https://cordova.apache.org/docs/en/latest/guide/platforms/ios/index.html) platform guides to install required tools for development.
 
+And of course you'll also need a [Firebase] account.
+
 ## Methodology
 Each main section below corresponds to a visible milestone of the project, where you can validate work on progress running App.
 
-- Setup with Ionic starter
-- Create pages and routing
-- Data modeling and mock
-- Update views
-- Observable data service
+1. Create a project
+2. Run & deploy the application
+3. Create pages and routing
+4. Data modeling
+5. Add Firebase on project
+6. Observable data service
 
 By this way you can pickup what is interesting for you and/or run tutorial on several days always keeping a stable state of project, avoid big bang ;-)
 
-## Create your project
+## Create a project
 
 ### Prerequisites
 Install both [Ionic] and [Cordova].
@@ -73,7 +171,7 @@ $ npm install cordova ionic typescript @angular/cli -g
 
 $ npm ls -g cordova ionic npm typescript @angular/cli --depth 0
 /Users/victor.dias/.nvm/versions/node/v12.6.0/lib
-├── @angular/cli@8.3.2 
+├── @angular/cli@8.3.3 
 ├── cordova@9.0.0 
 ├── ionic@5.2.7 
 ├── npm@6.9.0 
@@ -102,37 +200,37 @@ The command `ionic start` will initialize a git repository and run `npm install`
 
 ### File structure
 
-There's no perfect solution or unique rule to define file structure, it's important to consider how and where your App will grow to adapt the file structure to your project. I highly recommend to read some posts (as [How to define a highly scalable folder structure for your Angular project](https://itnext.io/choosing-a-highly-scalable-folder-structure-in-angular-d987de65ec7)) to be aware of basic recommendations.
+There's no perfect solution or unique rule to define file structure, it's important to consider how and where your App will grow to adapt the file structure to your project. I highly recommend to read some posts to be aware of basic recommendations:
+- [Angular.io: Overall structural guidelines](https://angular.io/guide/styleguide#overall-structural-guidelines)
+- [How to define a highly scalable folder structure for your Angular project](https://itnext.io/choosing-a-highly-scalable-folder-structure-in-angular-d987de65ec7)
 
-
-> Lazy load an entire module that can contain multiple pages, and the components they are suppose to use.
 
 ```
 ./src
   /app
     /pages
-			items-list/
-			item-detail/
-			item-edit/
+      item-list/
+      item-detail/
+      item-form/
     app-routing.module.ts
     app.module.ts
-      components/
-        profile-headline
-    models/
+    /components
+      item-headline
+    shared
       item.ts
-	  services/
-	  	index.ts
-	    items.service.ts
-	    items-mock.service.ts
-	    items-mock.ts
+      item-mock.ts
+      item-mock-service.ts
+      item.service.ts|spec.ts
+      index.ts
 ...
 ```
 
-At this stage you can observe some interesting points:
-- we use routing module for items, not for shared module, because we don't expect to share any route
+Interesting points to observe:
+- we use a shared module for item model and servive, because these classes will be shared across pages
+- we use a shared component `item-headline`, it will be convenient to use it on item-list and item-detail to not repeat ui, although it's not common on 'real world'.
 - items service is "mocked", it's easier to test our App, consuming mock entries.
 
-## Run the application
+## Run & deploy the application
 ### Run your app on web browser
 You can test the App running `ionic serve` cmd:
 
@@ -151,116 +249,268 @@ and run
 $ ionic serve --lab
 ```
 
-![Ionic Lab]({{ site.BASE_PATH}}/assets/media/meu-starter/Ionic_lab.png)
+### Deploy native Apps on device
+It's not the purpose of this tutorial, so I will not develop this topic but if you need check links below for more details:
 
-### Deploy iOS App on device
-[deploy Ionic apps to iOS](https://ionicframework.com/docs/building/ios) simulators and devices using Cordova
-
-### Deploy Android App on device
-[deploy Ionic apps to Android](https://ionicframework.com/docs/building/android) simulators and devices using Cordova
+- [deploy Ionic apps to iOS](https://ionicframework.com/docs/building/ios) simulators and devices using Cordova
+- [deploy Ionic apps to Android](https://ionicframework.com/docs/building/android) simulators and devices using Cordova
 
 ## Create pages and routing
 ### Pages
-
-We create pages required to implement CRUD, `items-list`, `item-edit` and `item-detail`. 
+Then let's go! 
+We start creating pages to implement CRUD, `item-list`, `item-form` and `item-detail`. 
 
 ```
-$ ng g page pages/items-list
-CREATE src/app/pages/items-list/items-list.module.ts (559 bytes)
-CREATE src/app/pages/items-list/items-list.page.scss (0 bytes)
-CREATE src/app/pages/items-list/items-list.page.html (129 bytes)
-CREATE src/app/pages/items-list/items-list.page.spec.ts (713 bytes)
-CREATE src/app/pages/items-list/items-list.page.ts (271 bytes)
-UPDATE src/app/app-routing.module.ts (569 bytes)
+$ ng g page pages/item-list
+CREATE src/app/pages/item-list/item-list.module.ts (554 bytes)
+CREATE src/app/pages/item-list/item-list.page.scss (0 bytes)
+CREATE src/app/pages/item-list/item-list.page.html (128 bytes)
+CREATE src/app/pages/item-list/item-list.page.spec.ts (706 bytes)
+CREATE src/app/pages/item-list/item-list.page.ts (267 bytes)
+UPDATE src/app/app-routing.module.ts (565 bytes)
 $ ng g page pages/item-detail
 CREATE src/app/pages/item-detail/item-detail.module.ts (564 bytes)
 CREATE src/app/pages/item-detail/item-detail.page.scss (0 bytes)
 CREATE src/app/pages/item-detail/item-detail.page.html (130 bytes)
 CREATE src/app/pages/item-detail/item-detail.page.spec.ts (720 bytes)
 CREATE src/app/pages/item-detail/item-detail.page.ts (275 bytes)
-UPDATE src/app/app-routing.module.ts (673 bytes)
-$ ng g page pages/item-edit
-CREATE src/app/pages/item-edit/item-edit.module.ts (554 bytes)
-CREATE src/app/pages/item-edit/item-edit.page.scss (0 bytes)
-CREATE src/app/pages/item-edit/item-edit.page.html (128 bytes)
-CREATE src/app/pages/item-edit/item-edit.page.spec.ts (706 bytes)
-CREATE src/app/pages/item-edit/item-edit.page.ts (267 bytes)
-UPDATE src/app/app-routing.module.ts (769 bytes)
+UPDATE src/app/app-routing.module.ts (669 bytes)
+$ ng g page pages/item-form
+CREATE src/app/pages/item-form/item-form.module.ts (554 bytes)
+CREATE src/app/pages/item-form/item-form.page.scss (0 bytes)
+CREATE src/app/pages/item-form/item-form.page.html (128 bytes)
+CREATE src/app/pages/item-form/item-form.page.spec.ts (706 bytes)
+CREATE src/app/pages/item-form/item-form.page.ts (267 bytes)
+UPDATE src/app/app-routing.module.ts (765 bytes)
 ```
 
-We can reuse `item-edit` form to create and update item depending if an id is passed as request parameter or not.
-
-Schematics from [@ionic/angular-toolkit](https://github.com/ionic-team/angular-toolkit) auto add new routes on `src/app/app-routing.module.ts` but we need to make some changes.
+We can reuse `item-form` to create and edit item depending if an id already exists or not.
 
 ### Routing
-Open and edit `src/app/items/items-routing.module.ts` to add updates routes as following.
+
+Schematics from [@ionic/angular-toolkit](https://github.com/ionic-team/angular-toolkit) auto add new routes on `src/app/app-routing.module.ts` but we need to make some changes:
+
+- set item-list as default page (instead of home)
+- use new syntax introduced in Angular 8 for loadChildren (as [loadChildren:string is now deprecated](https://github.com/angular/angular/pull/30073)).
+- add `item-add` path, use ItemEdit component to create item
+- add id as param on item-edit and item-detail
+
+Open and edit `src/app/app-routing.module.ts` to add updates routes as following.
 
 ```
 ...
 
 
 const routes: Routes = [
-  { path: '', redirectTo: 'items-list', pathMatch: 'full' },
-  { path: 'items-list', loadChildren: () => import('./items/pages/items-list/items-list.module').then( m => m.ItemsListPageModule) },
-  { path: 'item-detail/:id', loadChildren: () => import('./items/pages/item-detail/item-detail.module').then( m => m.ItemDetailPageModule) },
-  { path: 'item-edit/:id', loadChildren: () => import('./items/pages/item-edit/item-edit.module').then( m => m.ItemEditPageModule) },
-  { path: 'item-add', loadChildren: () => import('./items/pages/item-edit/item-edit.module').then( m => m.ItemEditPageModule) },
+  { path: '', redirectTo: 'item-list', pathMatch: 'full' },
+  { path: 'home', loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)},
+  { path: 'item-list', loadChildren: () => import('./pages/item-list/item-list.module').then( m => m.ItemListPageModule) },
+  { path: 'item-detail/:id', loadChildren: () => import('./pages/item-detail/item-detail.module').then( m => m.ItemDetailPageModule) },
+  { path: 'item-edit/:id', loadChildren: () => import('./pages/item-form/item-form.module').then( m => m.ItemFormPageModule) },
+  { path: 'item-create', loadChildren: () => import('./pages/item-form/item-form.module').then( m => m.ItemFormPageModule) },
 ];
 
 ...
 ```
 
-- We'll use new syntax introduced in Angular 8 for loadChildren (as [loadChildren:string is now deprecated](https://github.com/angular/angular/pull/30073)).
-- add `item-add` path, use ItemEdit component to create item
-- add id as param on item-edit and item-detail
-
-
 At this stage you can add links on pages to test navigation or access directly to lazy-loaded pages running `ionic serve` and typing url on address bar of your browser.
-- '/' for items-list
-- '/item-add'
+- '/' for item-list
+- '/item-create'
 - '/item-detail/123' for item-detail
-- '/item-edit/123' for item-edit
+- '/item-update/123' for item-update
 
-## Data modeling and mock
+## Data modeling
 ### Model
 We'll use type specifier to get a typed result object. 
 
 Inspired by [RSS specification](https://validator.w3.org/feed/docs/rss2.html) we'll manage `items` with following fields:
 - title: string
 - description: string
-- publishedAt: string // 2018-10-09T16:18:45Z
-- modifiedAt: string // 2018-10-09T16:18:45Z
-- createdAt: string // 2018-10-09T16:18:45Z
+- createdAt: Timestamp; // Epoch timestamp
+- modifiedAt: Timestamp; // Epoch timestamp
 - link: string
-- enclosure: string // `<enclosure url="http://live.curry.com/mp3/celebritySCms.mp3" length="1069871" type="audio/mpeg"/>`
-- author: string
+- imageUrl: string
 
 ```
 $ ng generate class shared/item --type model --skipTests
-CREATE src/app/items/shared/item.model.ts (37 bytes)
+CREATE src/app/shared/item.model.ts (37 bytes)
 ```
 
+Open and edit `src/app/shared/item.model.ts` as below:
+
 ```
+import { Timestamp } from '@firebase/firestore-types';
+
 export class Item {
-  id: string;
+  id?: string;
   title: string;
   description: string;
-  publishedAt: string; // 2018-10-09T16:18:45Z
-  createdAt: string; // 2018-10-09T16:18:45Z
-  modifiedAt: string; // 2018-10-09T16:18:45Z
+  createdAt: Timestamp;
+  modifiedAt: Timestamp;
   link: string;
-  enclosure: string;
-  author: string;
+  imageUrl: string = null;
 }
 ```
 
-### Mock
-#### Mocked data (stub)
+Interesting points to observe:
+
+- To prevent inconsistencies due to user’s local system, we'll use [firebase.firestore.FieldValue.serverTimestamp()](https://firebase.google.com/docs/reference/js/firebase.firestore.FieldValue) as back-end server timestamp.
+- the `id` field is optional because it is filled by angularfirebase. 
+> An 'idField' option can be used with collection.valueChanges() to include the document ID on the emitted data payload. On previous versions we use to duplicate the key of document within the document itself as id, definitely not a good practice, could avoid it now!
+
+This feature is available since [Angularfire v5.2 (20190531)](https://github.com/angular/angularfire2/blob/master/CHANGELOG.md#520-2019-05-31) thanks to [Jeff Delaney](https://twitter.com/jeffdelaney23), the author of the PR. 
+
+## Add Firebase on project
+### Create a Firebase project
+Before you can add Firebase to your JavaScript app, you need to [create a Firebase project](https://firebase.google.com/docs/web/setup#create-project) to connect to your app.
+
+### Register your app
+After you have a Firebase project, you can [add your web app](https://firebase.google.com/docs/web/setup#register-app) to it.
+
+### Install dependencies
+[@angular/fire](https://github.com/angular/angularfire2) is the official Angular library for Firebase, we'll install both packages:
+
+```
+$ npm install firebase @angular/fire --save
+```
+### Setup Environment Config
+To initialize Firebase in your app, you need to provide your app's [Firebase project configuration](https://firebase.google.com/docs/web/setup#config-object). Copy it on `src/environments/environment.ts`
+
+```js
+export const environment = {
+  production: false,
+  firebaseConfig: {
+    apiKey: 'AIzaSyA5Xvv-O_G531RILC50FlRBSWr-HVzlEJA',
+    authDomain: 'meu-starter.firebaseapp.com',
+    databaseURL: 'https://meu-starter.firebaseio.com',
+    projectId: 'meu-starter',
+    storageBucket: 'meu-starter.appspot.com',
+    messagingSenderId: '581248963506',
+    appId: '1:581248963506:web:b207e18491151d7bee4aab'
+  }
+};
+```
+
+### Connect Firebase to Angular
+Add required modules, AngularFireModule and AngularFirestoreModule, on your `app.module`. Also add our environment config.
+
+```js
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouteReuseStrategy } from '@angular/router';
+
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { environment } from '../environments/environment';
+
+@NgModule({
+  declarations: [AppComponent],
+  entryComponents: [],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule.enablePersistence(),
+  ],
+  providers: [
+    StatusBar,
+    SplashScreen,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule {}
+
+```
+
+## Observable data service
+### Definition
+Observable data services or stores are a simple and intuitive pattern that allows tapping into the power of functional reactive programming in Angular without introducing too many of new concepts. An observable data service is an Angular injectable service that can be used to provide data to multiple parts of the application.
+This pattern can ensure data is coming from one place in our application and that **every component receives the latest version of that data through our data streams**. 
+
+- [Cory Rylan: Angular Observable Data Services](https://coryrylan.com/blog/angular-observable-data-services)
+- [Angular university: How to build Angular apps using Observable Data Services](https://blog.angular-university.io/how-to-build-angular2-apps-using-rxjs-observable-data-services-pitfalls-to-avoid/)
+
+```
+$ ng generate service shared/item --skipTests
+```
+
+[Manipulating documents](https://github.com/angular/angularfire2/blob/master/docs/firestore/documents.md#manipulating-documents)
+AngularFirestore provides methods for setting, updating, and deleting document data.
+
+set(data: T) - Destructively updates a document's data.
+update(data: T) - Non-destructively updates a document's data.
+delete() - Deletes an entire document. Does not delete any nested collections.
+
+
+Persist a document id
+
+Return type
+
+```js
+import { Injectable } from '@angular/core';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+  AngularFirestoreDocument,
+  DocumentReference
+} from '@angular/fire/firestore';
+
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+
+import { Observable } from 'rxjs';
+import { Item } from './item.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ItemService {
+
+  private itemsCollection: AngularFirestoreCollection<Item>;
+  items$: Observable<Item[]>;
+
+  constructor(
+    private afs: AngularFirestore
+  ) {
+    this.itemsCollection = afs.collection<Item>('items', ref => ref.orderBy('publishedAt', 'desc'));
+    this.items$ = this.itemsCollection.valueChanges({idField: 'id'});
+  }
+/**
+ * Inspired by https://angularfirebase.com/lessons/firestore-advanced-usage-angularfire/#3-CRUD-Operations-with-Server-Timestamps
+ */
+  get timestamp() {
+    return firebase.firestore.FieldValue.serverTimestamp();
+  }
+
+  push(item: any): Promise<DocumentReference> {
+    const timestamp = this.timestamp;
+    return this.itemsCollection.add({
+      ...item,
+      createdAt: timestamp,
+      modifiedAt: timestamp,
+      publishedAt: timestamp,
+    });
+  }
+}
+```
+
+{% comment %}
+## Mock
+### Mocked data (stub)
 
 
 ```
-$ ng generate class shared/items-mock --skipTests
-CREATE src/app/items/shared/items-mock.ts (26 bytes)
+$ ng generate class shared/item-mock --skipTests
+CREATE src/app/items/shared/item-mock.ts (26 bytes)
 ```
 
 ```
@@ -316,11 +566,11 @@ export function getTestItems(): Item[] {
 
 ```
 
-#### Mocked service
+### Mocked service
 Considering good practices on dev workflow we'll start using a testing service consuming mocked data. Of course this service should follow the signature used on target service, but we'll explain better the `Observable data service` pattern used on next section.
 
 ```
-$ ng generate service shared/items-mock --skipTests
+$ ng generate service shared/item-mock --skipTests
 ```
 
 ```
@@ -374,8 +624,8 @@ export class ItemsService {
 }
 ```
 
-### Good pratices:
-#### Typescript path mapping
+## Good pratices:
+### Typescript path mapping
 An Angular app's file structure can be relatively deep, making it difficult to figure out where a module lives when importing it. The idea is to make your import paths go from `../../../../` to `@namespace`. TypeScript compiler supports the declaration of mappings using "paths" property in `tsconfig.json` files. Using [TypeScript path mapping](https://www.typescriptlang.org/docs/handbook/module-resolution.html) make import statements in your Angular app shorter and much more developer-friendly
 
 ```
@@ -412,7 +662,7 @@ import { MyService } from '@shared/items.service';
 
 More [details](https://angularfirebase.com/lessons/shorten-typescript-imports-in-an-angular-project/)
 
-#### index.ts to organize import of service
+### index.ts to organize import of service
 To easily switch between the mocked service and the original (we'll create later on this tutorial) we add an `index.ts` on shared directory
 
 ```
@@ -425,9 +675,9 @@ By this way we can do import as below no matter if mocked or not.
 
 ### Testing
 #### Component
-In order to validate our mocked data and service created above we'll load mocked data on items-list. Let's start by subscribing `items$` observable on items-list component.
+In order to validate our mocked data and service created above we'll load mocked data on item-list. Let's start by subscribing `items$` observable on item-list component.
 
-Edit `src/app/items/pages/items-list/items-list.page.ts`
+Edit `src/app/items/pages/item-list/item-list.page.ts`
 
 ```ts
 import { Component, OnInit } from '@angular/core';
@@ -436,9 +686,9 @@ import { Observable } from 'rxjs';
 import { ItemsService } from '../../shared';
 
 @Component({
-  selector: 'app-items-list',
-  templateUrl: './items-list.page.html',
-  styleUrls: ['./items-list.page.scss'],
+  selector: 'app-item-list',
+  templateUrl: './item-list.page.html',
+  styleUrls: ['./item-list.page.scss'],
 })
 export class ItemsListPage implements OnInit {
 
@@ -455,12 +705,12 @@ export class ItemsListPage implements OnInit {
 
 #### Template
 And now, display items on template.
-`src/app/pages/items-list/items-list.page.html` as below:
+`src/app/pages/item-list/item-list.page.html` as below:
 
 ```html
 <ion-header>
   <ion-toolbar>
-    <ion-title>items-list</ion-title>
+    <ion-title>item-list</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -483,8 +733,8 @@ At this stage you can browse /items/list and see mocked data displayed.
 
 ## Templates
 
-### items-list: add button to create item
-Before connecting our app with the firebase db we'll prepare our views to host data. On previous section we've created the items-list template, let's add now a fab button to add item and reach item-edit template.
+### item-list: add button to create item
+Before connecting our app with the firebase db we'll prepare our views to host data. On previous section we've created the item-list template, let's add now a fab button to add item and reach item-edit template.
 
 ```
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -539,177 +789,7 @@ Angular observable data service
 
 Our todos service will have basic CRUD operations and a Observable stream to subscribe to
 
-## Firebase Data Service
 
-### Install dependencies
-The service is responsible to connect our App with backend, firestore for this tutorial. It should do CRUD operations.
-For development and debug purpose I always recommend to create first a mock service, should help to validate implementation described above (module, pages, model).
-
-Last thing we need to make our App dynamic is to connect firebase.
-
-```
-$ npm install firebase @angular/fire --save
-```
-### Setup Environment Config
-Copy firebase config on `src/environments/environment.ts`
-
-```js
-export const environment = {
-  production: false,
-  firebaseConfig: {
-    apiKey: 'AIzaSyA5Xvv-O_G531RILC50FlRBSWr-HVzlEJA',
-    authDomain: 'meu-starter.firebaseapp.com',
-    databaseURL: 'https://meu-starter.firebaseio.com',
-    projectId: 'meu-starter',
-    storageBucket: 'meu-starter.appspot.com',
-    messagingSenderId: '581248963506',
-    appId: '1:581248963506:web:b207e18491151d7bee4aab'
-  }
-};
-```
-
-Import `@angular/fire` required modules (AngularFireModule, AngularFirestoreModule) on your `app.module` and import them on NgModule as shown below:
-
-```js
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
-
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { environment } from '../environments/environment';
-
-@NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFirestoreModule.enablePersistence(),
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
-  bootstrap: [AppComponent]
-})
-export class AppModule {}
-
-```
-
-### Service
-
-$ ng generate service shared/items --skipTests
-
-AngularFirestore provides methods for setting, updating, and deleting document data.
-
-set(data: T) - Destructively updates a document's data.
-update(data: T) - Non-destructively updates a document's data.
-delete() - Deletes an entire document. Does not delete any nested collections.
-
-
-Persist a document id
-
-Return type
-
-```js
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
-
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Item } from '@shared/item.model';
-
-@Injectable({
-  providedIn: 'root'
-})
-export class ItemsService {
-
-  private itemsCollection: AngularFirestoreCollection<Item>;
-	private itemDocument: AngularFirestoreDocument<Item>;
-  
-	private items$: Observable<Item[]>;
-	private item$: Observable<Item>;
-
-  constructor(
-    private afs: AngularFirestore
-  ) {
-    this.itemsCollection = afs.collection<Item>('items');
-    this.items$ = this.itemsCollection.valueChanges();
-		
-    // this.itemDocument = afs.collection<Item>('items/${id}');
-    // this.item$ = this.itemDocument.valueChanges();
-  }
-
-/*
- * // Persist a document id
-  add(item: Item): void { 
-    const id = this.afs.createId();
-    const item: Item = { id, ...item };
-    return this.itemsCollection.doc(id).set(item);
-  }
-*/
-	add(item: Item): void {
-		this.itemsCollection.add(item);
-	}
-
-  update(item: Item): void {
-    return this.itemsCollection.doc(item.id).update(item);
-  }
-
-  delete(id: string) {
-    return this.itemsCollection.doc(id).delete();
-  }
-
-  fetchAll() {
-    return this.profiles$;
-  }
-
-  fecthById(id: string) {
-    return this.profilesCollection.doc<Profile>(id).valueChanges();
-  }
-}
-
-```
-
-  get items$(): Observable<Item[]> {
-    // Simulate a delay
-    return this.items.asObservable().pipe(delay(3000));
-  }
-
-  getItem(id: string): Observable<Item> {
-    const item = getTestItems().find(i => i.id === id);
-
-    return of(item);
-  }
-
-  pushItem(item: Item): void {
-    throw new Error('Method not implemented.');
-  }
-
-  removeItem(id: string): void {
-    throw new Error('Method not implemented.');
-  }
-
-  updateItem(item: Item): void {
-    this.getItem(item.id).pipe(
-      map(i => {
-        if (i) {
-          return Object.assign(i, item);
-        }
-        throw new Error(`Item ${item.id} not found`);
-      })
-    );
-  }
 
 ## Build optimized release for PROD
 
@@ -717,9 +797,6 @@ export class ItemsService {
 $ ionic build --prod
 $ 
 ```
-
-
-## Repository
 
 ### Add to github repo
 
@@ -730,7 +807,6 @@ $ git push --set-upstream origin master
 Then all source code can be found on GitHub: [meumobi/mmb-demos.crud-angularfirestore-ionic4](https://github.com/meumobi/mmb-demos.crud-angularfirestore-ionic4.git)
 If you look on commits history you should notice one commit for each main section above. 
 
-
 ### Deploy to github pages
 https://angular.io/guide/deployment#deploy-to-github-pages
 
@@ -740,17 +816,20 @@ https://angular.io/guide/deployment#deploy-to-github-pages
 - [Angular Component Test Driven Development (TDD) Starter Guide](https://angularfirebase.com/lessons/angular-testing-guide-including-firebase/)
 - [Three Ways to Test Angular Components](https://vsavkin.com/three-ways-to-test-angular-2-components-dcea8e90bd8d)
 
-## Furthermore
 
-- [Reactive CRUD App With Angular and Firebase Tutorial](https://angularfirebase.com/lessons/reactive-crud-app-with-angular-and-firebase-tutorial/)
-- [Angular CRUD with Firebase](https://angular-templates.io/tutorials/about/angular-crud-with-firebase)
-- [Josh Morony: Implementing a Master Detail Pattern in Ionic 4 with Angular Routing](https://www.joshmorony.com/implementing-a-master-detail-pattern-in-ionic-4-with-angular-routing/)
-- [Firebase Authentication with whitelisted email addresses](https://stackoverflow.com/questions/46552886/firebase-authentication-with-whitelisted-email-addresses)
-- [Simon Grimm: How to Build An Ionic 4 App with Firebase and AngularFire 5](https://devdactic.com/ionic-4-firebase-angularfire-2/)
 - [Jave Bratt: Role-based authentication with Ionic & Firebase](https://javebratt.com/role-based-auth/)
 - [Simon Grimm: Navigating the Change with Ionic 4 and Angular Router](https://blog.ionicframework.com/navigating-the-change-with-ionic-4-and-angular-router/)
 - [Smarter way to organize “import” statements using “index.ts” file(s) in Angular](https://medium.com/@balramchavan/smarter-way-to-organize-import-statements-using-index-ts-file-s-in-angular-c685e9d645b7)
+
+{% endcomment %}
+
+## Furthermore
+
+- [AngularFirebase: Reactive CRUD App With Angular and Firebase Tutorial](https://angularfirebase.com/lessons/reactive-crud-app-with-angular-and-firebase-tutorial/)
+- [Angular Templates.io: Angular CRUD with Firebase](https://angular-templates.io/tutorials/about/angular-crud-with-firebase)
 - [Jave Bratt: Building a CRUD Ionic application with Firestore](https://javebratt.com/crud-ionic-firestore/)
+- [Josh Morony: Implementing a Master Detail Pattern in Ionic 4 with Angular Routing](https://www.joshmorony.com/implementing-a-master-detail-pattern-in-ionic-4-with-angular-routing/)
+- [Simon Grimm: How to Build An Ionic 4 App with Firebase and AngularFire 5](https://devdactic.com/ionic-4-firebase-angularfire-2/)
 
 [Node.js]: <https://nodejs.org/en/download/>
 [Git]: <http://git-scm.com/download>
@@ -758,4 +837,5 @@ https://angular.io/guide/deployment#deploy-to-github-pages
 [Cordova]: <https://cordova.apache.org/>
 [AngularFirestore]: <https://github.com/angular/angularfire2#cloud-firestore>
 [Angular]: <https://angular.io/>
+[Firebase]: <https://firebase.google.com/>
 [Firestore]: <https://firebase.google.com/products/firestore/>
