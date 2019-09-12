@@ -3,6 +3,8 @@ layout: post
 title: Authentication by URL using Firebase Auth
 categories: [How To]
 tags: [tutorial,angular,firebase,auth,cloud-functions]
+redirect_from:
+- /how to/2019/07/03/login-flow-with-custom-auth
 author:
   name: Daniel Antonio Conte
   email: danconte72@gmail.com
