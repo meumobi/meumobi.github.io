@@ -39,6 +39,10 @@ Link will authenticate then redirect to the app.
 The app will be openened by an url. Based on url the app will authenticate the user and redirect him to home screen.
 Now your User is authenticated on your APP :)
 
+## DEMO
+If you want check the complete code it is available here -> [mmb-demos.auth-firebase-email-link/](https://github.com/meumobi//mmb-demos.auth-firebase-email-link)
+And do test [https://auth-firebase-email-link.web.app](https://auth-firebase-email-link.web.app)
+
 ## Hands On
 On this sample we will create and ionic-angular project who implements this flow.
 
@@ -90,7 +94,7 @@ export const environment = {
   }
 };
 ```
-And Import it on App Module
+And Import it on App Module  
 **src/app/app.module.ts**
 ```js
 import { AngularFireModule } from '@angular/fire';
@@ -123,7 +127,7 @@ This service will perform all firebase auth interactions.
 ```bash
 $ ionic g service auth
 ```
-Then to use AngularFireAuth, import it and declare an instance (afAuth) on constructor
+Then to use AngularFireAuth, import it and declare an instance (afAuth) on constructor  
 **src/app/auth.service.ts**
 ```js
 import { Injectable } from '@angular/core';
@@ -137,8 +141,8 @@ export class AuthService {
 }
 ```
 
-### 6. Implements - 1.User Request Sign-in and 2. App Send Link
-Add *signIn* on AuthService
+### 6. Send Sign In Link To Email
+Add *signIn* on AuthService  
 **src/app/auth.service.ts**
 ```js
 ...
@@ -152,9 +156,11 @@ export class AuthService {
     return this.afAuth.auth.sendSignInLinkToEmail(email, actionCodeSettings);
   }
 }
-```
+``` 
+
+### 7. Request User Email Address
 On Login Page Add a field do get the user email and a button to Sign-In.
-Once *Sign-In* email was send, *Resend* and notification were showed.
+Once *Sign-In* email was send a notification were showed.  
 **src/app/login/login.page.html**
 ```html
 <ion-header>
@@ -164,14 +170,16 @@ Once *Sign-In* email was send, *Resend* and notification were showed.
 </ion-header>
 <ion-content>
   <ion-input type="text" placeholder="E-mail" [(ngModel)]="email"></ion-input>
-  <ion-button *ngIf="!emailSent" expand="full" color="success" (click)="signIn()">Sign-in</ion-button>
-  <ion-item *ngIf="emailSent" color="success">
-        <p>A link to access the app was send to <b>{{email}}</b>. Check your email on this device. If you not get the email, request to <b>Resend</b>, and make sure **server.email** is not on Spam.</p>
+  <ion-button [disabled]="!email" expand="full" color="success" (click)="signIn()">Sign-in</ion-button>
+  <ion-item *ngIf="error" color="danger">
+    <p>{{error.message}}</p>
   </ion-item>
-  <ion-button *ngIf="emailSent" expand="full" (click)="signIn()">Resend</ion-button>
+  <ion-item *ngIf="emailSent" color="success">
+        <p>A link to access the app was send to <b>{{email}}</b>. Check your email on this device. If you not get the email, request to <b>Sign-in</b> again, and make sure **server.email** is not on Spam.</p>
+  </ion-item>
 </ion-content>
 ```
-Login page signIn calls AuthService>signIn passing the email
+Login page signIn calls AuthService>signIn passing the email  
 **src/app/login/login.page.ts**
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -185,6 +193,7 @@ import { AuthService } from '../auth.service';
 export class LoginPage implements OnInit {
   email: string;
   emailSent = false;
+  error = null;
 
   constructor(
     private authService: AuthService
@@ -194,9 +203,14 @@ export class LoginPage implements OnInit {
   }
 
   signIn() {
+    this.emailSent = false;
+    this.error = null;
     this.authService.signIn(this.email)
     .then(
       () => this.emailSent = true
+    )
+    .catch(
+      error => this.error = error
     );
   }
 }
@@ -209,7 +223,7 @@ Once clicked on it, you will redirected to
 It's alive!
 
 #### Observation
-- If you are adding passwordless sign on a native app, its must be able to handle deeplinks.
+- If you are adding passwordless sign on a native app, its must be able to handle deeplinks ([How to use Ionic Native Deeplinks](http://meumobi.github.io/how%20to/2019/08/19/ionic-master-detail-deeplinks.html)).
 - The email message text cannot be modified on firebase>auth>templates. 
 If you want you must to handle emails and login flow by yourself (boring and for must cases unnecessary).
 Although you can easily localizate the text, just set the language before *sendSignInLinkToEmail*
@@ -217,15 +231,20 @@ Although you can easily localizate the text, just set the language before *sendS
 this.afAuth.auth.languageCode = 'pt-br';
 this.afAuth.auth.sendSignInLinkToEmail(email, actionCodeSettings);
 ```
-If you wanna get the device language, just do it!
+Or you wanna get the device language, just do it!  
+**src/app/auth.service.ts**
 ```js
-this.afAuth.auth.useDeviceLanguage();
+constructor(
+  public afAuth: AngularFireAuth
+) {
+  this.afAuth.auth.useDeviceLanguage();
+}
 ```
 
-### 7. Implements 5. App Handle Link 
-We got or redirection link but we are not realy authenticated.
+### 8. Handle link 
+We got or redirection link but we are not authenticated.
 We need to pass the url and the email previously set to firebase to finish the authentication.
-Add *confirmSign* on AuthService
+Add *confirmSign* on AuthService  
 **src/app/auth.service.ts**
 ```js
 ...
@@ -237,7 +256,7 @@ export class AuthService {
   }
 }
 ```
-On welcome page we ask our user to confirm his email address.
+On welcome page we ask our user to confirm his email address.  
 **src/app/welcome/welcome.page.html**
 ```html
 <ion-header>
@@ -250,11 +269,14 @@ On welcome page we ask our user to confirm his email address.
     <p>Welcome to our app! For your safefy please re-type your email address and Confirm Your Sign-In</p>
   </ion-item>
   <ion-input type="text" placeholder="E-mail" [(ngModel)]="email"></ion-input>
-  <ion-button expand="full" color="success" (click)="confirmSignIn()">Confirm Your Sign-in</ion-button>
+  <ion-button expand="full" [disabled]="!email" color="success" (click)="confirmSignIn()">Confirm Your Sign-in</ion-button>
+  <ion-item *ngIf="error" color="danger">
+    <p>{{error.message}}</p>
+  </ion-item>
 </ion-content>
 ```
 And use Angular Router to get the url to confirmSignIn.
-Once is logged, we use the same router to redirect him to home page
+Once is logged, we use the same router to redirect him to home page  
 **src/app/welcome/welcome.page.ts**
 ```js
 import { Component, OnInit } from '@angular/core';
@@ -269,6 +291,7 @@ import { Router } from '@angular/router';
 export class WelcomePage implements OnInit {
   email: string;
   url: string;
+  error = null;
 
   constructor(
     private authService: AuthService,
@@ -280,12 +303,15 @@ export class WelcomePage implements OnInit {
   }
 
   confirmSignIn() {
+    this.error = null;
     this.authService.confirmSignIn(this.email, this.url)
     .then(
       () => this.router.navigate(['/home'])
+    )
+    .catch(
+      error => this.error = error
     );
   }
-
 }
 ```
 
@@ -294,13 +320,13 @@ Access the link on inbox, inform the email address, confirm and now It's officia
 We did it!
 
 #### Observations 
-- The flow to Sign-in or login is the same of the User's point of view.
+- The flow to *Sign-in* or *Sign-up* is the same of the User's point of view.
 - The User does not need to be previously added on Firebase>Auth>Users. It will be automatically created when performs *signInWithEmailLink*.
 
-### 8. Security
+### 9. Security
 Ok but... so far I can access Home page without login.
 To solve this we will use AngularFireAuthGuard
-Add on AppModule>Providers
+Add on AppModule>Providers  
 **src/app/app.module.ts**
 ```js
 import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
@@ -314,7 +340,7 @@ import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
 })
 ```
 
-And on Home route only activate if User is authenticated and redirect unauthorized to Login Page
+And on Home route only activate if User is authenticated and redirect unauthorized to Login Page  
 **src/app/app-routing.module.ts**
 ```js
 import { NgModule } from '@angular/core';
@@ -339,7 +365,95 @@ const routes: Routes = [
 })
 export class AppRoutingModule { }
 ```
+### 10. Sign-Out
+We are not allowing access the Home page through routes. Bu what happens when user Sign-Out?
+We gone to observe User state and if Sign-Out redirect him to Login Page.
 
+Add *SignOut* and an Observable to return the AuthState  
+**src/app/auth.service.ts**
+```js
+import { Observable } from 'rxjs';
+...
+export class AuthService {
+  ...
+  public signOut() {
+    return this.afAuth.auth.signOut();
+  }
+  public getAuthStateObserver(): Observable<any> {
+    return this.afAuth.authState;
+  }
+}
+```
+Call *SignOut* on HomePage  
+**src/app/home/home.page.ts**
+```js
+import { Component } from '@angular/core';
+import { AuthService } from '../auth.service';
+
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+})
+export class HomePage {
+
+  constructor(
+    private authService: AuthService,
+  ) { }
+
+  signOut() {
+    this.authService.signOut();
+  }
+}
+```  
+**src/app/home/home.page.html**
+```html
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Home!
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="ion-padding">
+    Enjoy this amazing content!
+  </div>
+  <ion-button expand="full" color="warning" (click)="signOut()">Fine by me!</ion-button>
+</ion-content>
+```  
+Observe AuthState on app component and navigate to login if Auth is not set, and page is not *welcome*  
+**src/app/app.component.ts**
+```js
+import { Router } from '@angular/router';
+import { AuthService } from './auth.service';
+...
+export class AppComponent {
+  constructor(
+    ...
+    public router: Router,
+    private authService: AuthService
+  ) {
+    this.initializeApp();
+  }
+
+  initializeApp() {
+    ...
+    this.authService.getAuthStateObserver()
+    .subscribe(
+      auth => {
+        if (!auth) {
+          if (this.router.url.split('?')[0]  === '/welcome') {
+            return;
+          }
+          this.router.navigate(['/login']);
+       }
+      }
+    );
+  }
+}
+```
 
 ## Furthermore ##
 
