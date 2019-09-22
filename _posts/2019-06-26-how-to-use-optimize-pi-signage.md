@@ -49,3 +49,7 @@ Save and reboot.
 Pisignage is quite easy to setup, after this, it only needs to be conected.
 So your client just need to plug the device on TV. All maitenance can be done remotely, as update Pisignage or modify content. Optimization and customization are not so easy, but possible. Set Wireless network is not user-friendly. 
 The free plan allows to use 2 players, so you can test and validate easyly.
+
+## Furthermore
+- [Getting piSignage player ready & registering the player](https://blog.pisignage.com/installing-pisignage/)
+- [Examples of html templates](https://github.com/colloqi/piSignage/tree/master/examples)
