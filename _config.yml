@@ -9,6 +9,7 @@ kramdown:
   hard_wrap: false
   highlighter: rouge
 
+# The GitHub Pages gem ignores all plugins included in the Gemfile. If you only include plugin in the Gemfile without also including it in the _config.yml the plugin will not work.
 plugins:
   - jekyll-paginate
   - jekyll-gist
@@ -49,5 +50,5 @@ disqus: meumobi-dev
 ga:
   id: UA-22519238-8
 
-# Sitemap inspired by http://davidensinger.com/2013/11/building-a-better-sitemap-xml-with-jekyll/
-url: http://meumobi.github.io
+# the base hostname & protocol for jekyll-sitemap
+url: https://meumobi.github.io
