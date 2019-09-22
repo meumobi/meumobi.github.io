@@ -3,6 +3,7 @@ layout: post
 title: 'Create a CRUD App with Ionic 4, Firestore and AngularFire 5.2+'
 categories: [Ionic]
 tags: [Ionic-v4, AngularFire, Firebase, Angular, Firestore]
+last_modified_at: 2019-09-02T17:15:00Z
 author:
   name: Victor Dias
   email: victor.dias@meumobi.com
@@ -38,7 +39,7 @@ Find an issue? Drop a comment I'll fix it ASAP
 Quick resume for people in a hurry:
 ### Observable data service
 
-```js
+```typescript
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentReference } from '@angular/fire/firestore';
 
@@ -67,7 +68,7 @@ export class ItemService {
 
 ### Create => Push
 
-```js
+```typescript
   public push(item: any): Promise<DocumentReference> {
     const timestamp = this.timestamp;
     return this.itemsCollection.add({
@@ -165,7 +166,7 @@ By this way you can pickup what is interesting for you and/or run tutorial on se
 ### Prerequisites
 Install both [Ionic] and [Cordova].
 
-```
+```terminal
 $ npm install cordova ionic typescript @angular/cli -g
 ...
 
