@@ -24,39 +24,70 @@ If you plan to launch a multi-language website running on Jekyll, you certainly 
   - if browser language is pt-br and I provide pt version but not pt-br, then use it
 - SEO
 
-## New Jekyll Project
 
-If you need details about basic concepts of Jekyll, I recommend to read my previous post [Getting started with Jekyll]({% post_url 2015-08-11-getting-started-jekyll-github-pages %}).
+## Setup
+### Prerequisites
+Jekyll is a [Ruby Gem](https://jekyllrb.com/docs/ruby-101/#gems) that can be installed on most systems. Check on [Jekyll installation](https://jekyllrb.com/docs/installation/) how to setup your environment.
 
 ```bash
-$ jekyll new demo-multi-lang
-Running bundle install in /Users/vdias/Dvpt/PROJECTS/demo-multi-lang... 
+$ ruby -v
+ruby 2.6.2p47 (2019-03-13 revision 67232) [x86_64-darwin18]
+$ bundle exec jekyll -v
+jekyll 3.8.5
+$ bundle exec gem list jekyll
 
+*** LOCAL GEMS ***
 
-Your user account isn't allowed to install to the system RubyGems.
-  You can cancel this installation and run:
+jekyll (3.8.5)
+```
 
-      bundle install --path vendor/bundle
+### New Jekyll Project
 
-  to install the gems into ./vendor/bundle/, or you can enter your password
-  and install the bundled gems to RubyGems using sudo.
-
-  Password: 
-  
-$ cd demo-multi-lang
+```bash
+$ jekyll new meu-starter.multi-languages.jekyll-v3.8.5
+$ cd meu-starter.blank.jekyll-v3.8.5
 $ bundle install --path vendor/bundle
 ```
 
 And run to test with `$ bundle exec jekyll serve`
 
-The theme `minima`is configured on `_config.yml`, you can change it 
 
-By default you should reach a landing page with:
-- a site descriptio on footer you can edit on `_config.yml`
-- a link to RSS feed (feed.xml) of _posts exported by [jekyll-feed](https://github.com/jekyll/jekyll-feed) plugin.
+## Jekyll Multiple Languages
+[jekyll-multiple-languages-plugin](https://github.com/Anthony-Gaudino/jekyll-multiple-languages-plugin) is an internationalization plugin for Jekyll. It compiles your Jekyll site for one or more languages with a similar approach as Rails does. The different sites will be stored in subfolders with the same name as the language it contains
+
+### Installation
+To install you should repeat commands below:
+
+1. Add the plugin gem to your site’s `Gemfile` 
+```ruby
+group :jekyll_plugins do
+  gem "jekyll-feed", "~> 0.6"
+  gem 'jekyll-multiple-languages-plugin'
+end
+```
+2. Install the gem 
+`$ bundle install`
+3. Add the plugin to your site’s `_config.yml`  
+```yaml
+plugins:
+  - jekyll-feed
+  - jekyll-multiple-languages-plugin
+```
+
+### Configuration
+1. Add the languages available in your website into your _config.yml  
+```yaml
+# The first item of languages will be used as the default.
+languages: ["en", "pt-pt", "pt-br"]
+```
+2. To avoid redundancy, exclude files and folders from being copied to the localization folders.
+`exclude_from_localizations: ["assets"]`  
+In code, these specific files should be referenced via baseurl_root. E.g.
+`<link rel="stylesheet" href="{{ "/css/bootstrap.css" | prepend: site.baseurl_root }}"/>`
 
 
-## Plugin jekyll-multiple-languages-plugin
+### Usage
+
 ### Install
 Following 3rd option from https://jekyllrb.com/docs/plugins/installation/
 Declare gem on Gemfile and run `$ bundle install
@@ -190,8 +221,6 @@ To be sure that all user agents recognize which language you mean, you need to f
 Generate sitemaps with [jekyll-sitemap plugin](https://github.com/jekyll/jekyll-sitemap) and use sitemapindex to link sitemap of each language.
 
 [Source](https://github.com/jekyll/jekyll-sitemap/issues/88#issuecomment-383849534)
-
-
 
 
 ## Localize date and time
