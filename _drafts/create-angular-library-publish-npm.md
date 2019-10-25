@@ -108,4 +108,5 @@ https://blog.angularindepth.com/npm-peer-dependencies-f843f3ac4e7f
 
 ## Furthermore
 - [Tomek Sułkowski: How to build a library for Angular apps?](https://medium.com/@tomsu/how-to-build-a-library-for-angular-apps-4f9b38b0ed11)
+- [Simon Grimm: How to Create & Publish an Angular Library with Ionic Components](https://devdactic.com/angular-ionic-library/)
 

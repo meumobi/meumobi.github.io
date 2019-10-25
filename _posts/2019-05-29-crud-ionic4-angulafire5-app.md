@@ -55,13 +55,16 @@ import { Item } from './item.model';
 export class ItemService {
 
   private itemsCollection: AngularFirestoreCollection<Item>;
-  items$: Observable<Item[]>;
+  private collectionPath = 'items';
 
   constructor(
     private afs: AngularFirestore
   ) {
     this.itemsCollection = afs.collection<Item>('items', ref => ref.orderBy('publishedAt', 'desc'));
-    this.items$ = this.itemsCollection.valueChanges({idField: 'id'});
+  }
+  
+  get items$: Observable<Item[]> {
+    return this.itemsCollection.valueChanges({idField: 'id'});
   }
   ...
 ```
@@ -97,12 +100,12 @@ Public data stream `this.items$ = this.itemsCollection.valueChanges({idField: 'i
    * - update(data: T) - Non-destructively updates a document's data.
    */
    
-  public set(id: string, data: any): Promise<void> {
-    return this.itemsCollection.doc(id).set(data);
+  public set(id: string, item: Item): Promise<void> {
+    return this.itemsCollection.doc(id).set(item);
   }
 
-  public update(item: Item): Promise<void> {
-    return this.itemsCollection.doc(item.id).update(item);
+  public update(id: string, item: Item): Promise<void> {
+    return this.itemsCollection.doc(id).update(item);
   }
 ```
 
@@ -183,7 +186,7 @@ $ npm ls -g cordova ionic npm typescript @angular/cli --depth 0
 
 Create a New Ionic/Angular Application with
 
-```
+```terminal
 $ ionic start mmb-demos.crud-angularfirestore-ionic4 blank --type=angular --cordova --package-id=com.meumobi.crud-angularfire-ionic4
 $ cd mmb-demo.crud-angularfirestore-ionic4
 ```
@@ -444,17 +447,12 @@ This pattern can ensure data is coming from one place in our application and tha
 $ ng generate service shared/item --skipTests
 ```
 
-[Manipulating documents](https://github.com/angular/angularfire2/blob/master/docs/firestore/documents.md#manipulating-documents)
-AngularFirestore provides methods for setting, updating, and deleting document data.
+AngularFirestore provides [methods to manipulate documents](https://github.com/angular/angularfire2/blob/master/docs/firestore/documents.md#manipulating-documents) setting, updating, and deleting document data:
 
-set(data: T) - Destructively updates a document's data.
-update(data: T) - Non-destructively updates a document's data.
-delete() - Deletes an entire document. Does not delete any nested collections.
+- set(data: T) - Destructively updates a document's data.
+- update(data: T) - Non-destructively updates a document's data.
+- delete() - Deletes an entire document. Does not delete any nested collections.
 
-
-Persist a document id
-
-Return type
 
 ```js
 import { Injectable } from '@angular/core';
@@ -503,6 +501,106 @@ export class ItemService {
   }
 }
 ```
+
+## Angular Firestore Dynamic Query
+To enable [dynamic queries](https://github.com/angular/angularfire2/blob/master/docs/firestore/querying-collections.md#dynamic-querying) one should lean on RxJS Operators like switchMap.
+
+
+## Memory leak
+
+subscribe on component should be unsubscribed [OnDestroy](https://angular.io/api/core/OnDestroy)
+
+sub: Subscription;
+
+  ngOnInit() {
+    this.itemService.getById(this.itemId).subscribe(item => {
+      this.item = item;
+    });
+  }
+
+
+ngOnDestroy(){
+   this.sub.unsubscribe()
+}
+
+## ion-img
+:root {
+  ion-img {
+    /** 
+     * Bug fix for:
+     * https://github.com/ionic-team/ionic/issues/18734
+     */
+    min-height: 1px !important;
+  }
+}
+
+## ionic and forms
+https://ionicframework.com/docs/v3/developer-resources/forms/
+
+## Binding db collection to component
+Now we need to create a tasks member variable and bind it to our collection inside ngOnInit, ensure that your component implements the OnInit interface
+
+## Improve UX with Skeleton Loading Screens
+
+https://ionicthemes.com/tutorials/about/improved-ux-for-ionic-apps-with-skeleton-loading-screens
+
+## Add input tags
+
+### [@ngx-lite/input-tag](https://ngxlite.com/docs/input-tag)
+### Material design components for Angular
+https://material.angular.io/components/chips/overview
+https://www.dev6.com/angular/angular-material-chips-with-reactive-forms-and-custom-validation/
+https://stackblitz.com/angular/xvvkqgrrebo?file=app%2Fchips-input-example.ts
+[Simon Grimm: Getting Started with Angular Material in Ionic 4](https://devdactic.com/angular-material-ionic-4/)
+### [ngx-chips]()
+
+> The component has never been designed for a mobile device. While I close all the bugs this will not be a priority.
+
+[Source](https://github.com/Gbuomprisco/ngx-chips/issues/557#issuecomment-378911551)
+
+[Ionic 4 Tags Input](https://edupala.com/ionic-4-tags-input/)
+
+### Angular - insert value in reactive forms array at specific index
+
+## formControl patchValue vs setValue
+
+If you don't supply a value for all form controls
+Either use setValue and provide value for all form controls:
+
+this.form.setValue({ first: "", second: "" });
+or, if you really intend to set partial values, use patchValue method:
+
+this.form.patchValue({ second: "" });
+
+## Firestore to query by an array's field value
+
+it is not possible, with [array-contains](https://angularfirebase.com/lessons/query-by-array-contains-firestore/), to query for a specific property of an object stored in an array.
+
+However, there is a possible workaround: it is actually possible to query for the entire object, as follows, in your case:
+
+db.collection('identites').where("partyMembers", "array-contains", {id: "7LNK....", name: "John Travolta"})
+Maybe this approach will suit your needs (or maybe not....).
+
+[Source](https://stackoverflow.com/a/54082731/4982169)
+
+## Ngx: Call function from a string name
+
+```
+  handleItemAction(event) {
+    const functionName = event.functionName;
+    if (this[functionName]) {
+      // method exists on the component
+      const param = event.functionParam;
+      this[functionName](param.item); // call it
+    }
+  }
+```
+
+[Source](https://stackoverflow.com/a/42108803/4982169)
+
+## event.stopPropagation vs event.preventDefault
+
+https://stackoverflow.com/a/5963688/4982169
 
 {% comment %}
 ## Mock
@@ -831,6 +929,7 @@ https://angular.io/guide/deployment#deploy-to-github-pages
 - [Jave Bratt: Building a CRUD Ionic application with Firestore](https://javebratt.com/crud-ionic-firestore/)
 - [Josh Morony: Implementing a Master Detail Pattern in Ionic 4 with Angular Routing](https://www.joshmorony.com/implementing-a-master-detail-pattern-in-ionic-4-with-angular-routing/)
 - [Simon Grimm: How to Build An Ionic 4 App with Firebase and AngularFire 5](https://devdactic.com/ionic-4-firebase-angularfire-2/)
+- [Angular 7 Firebase 5 CRUD Operations with Reactive Forms](https://www.positronx.io/angular-7-firebase-5-crud-operations-with-reactive-forms/)
 
 [Node.js]: <https://nodejs.org/en/download/>
 [Git]: <http://git-scm.com/download>

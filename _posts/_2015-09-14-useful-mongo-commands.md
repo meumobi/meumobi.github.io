@@ -59,6 +59,10 @@ results.results.forEach(function(e,i) {
 	var user = db.visitors.find({_id: e.user_id});
 	print (user.first_name + ", " + user.last_name + ", " + e.values.hasOwnProperty("1"));
 
+## Disable extensions
+db.extensions.update({site_id: 7}, {$set:{enabled: 0}}, false, true)
+
+
 # How to update multiple documents
 For version 2.0.x
 do a multi update by passing true as the fourth argument to update(), where the the third argument is the upsert argument:
