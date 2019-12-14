@@ -1,7 +1,7 @@
 ---
 layout: post
 title: How to query the Firebase Database
-categories: [firebase]
+categories: [Firebase]
 tags: []
 author:
   name: Victor Dias

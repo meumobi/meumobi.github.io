@@ -502,6 +502,7 @@ export class ItemService {
 }
 ```
 
+{::comment}
 ## Angular Firestore Dynamic Query
 To enable [dynamic queries](https://github.com/angular/angularfire2/blob/master/docs/firestore/querying-collections.md#dynamic-querying) one should lean on RxJS Operators like switchMap.
 
@@ -602,7 +603,6 @@ Maybe this approach will suit your needs (or maybe not....).
 
 https://stackoverflow.com/a/5963688/4982169
 
-{% comment %}
 ## Mock
 ### Mocked data (stub)
 
@@ -920,7 +920,7 @@ https://angular.io/guide/deployment#deploy-to-github-pages
 - [Simon Grimm: Navigating the Change with Ionic 4 and Angular Router](https://blog.ionicframework.com/navigating-the-change-with-ionic-4-and-angular-router/)
 - [Smarter way to organize “import” statements using “index.ts” file(s) in Angular](https://medium.com/@balramchavan/smarter-way-to-organize-import-statements-using-index-ts-file-s-in-angular-c685e9d645b7)
 
-{% endcomment %}
+{:/comment}
 
 ## Furthermore
 
