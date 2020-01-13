@@ -93,16 +93,22 @@ group :jekyll_plugins do
   gem 'jekyll-seo-tag'
 end
 ```
+
 2. Install the gem 
 `$ bundle install`
+
 3. Add the plugin to your site’s `_config.yml`  
 ```yaml
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
 ```
-4. Add the following right before `</head> in your site's template(s)  
-{% raw %}{% seo %}{% endraw %}
+
+4. Add the following right before `</head>` in your site's template(s)
+`{% raw %}{% seo %}{% endraw %}`
+
+OBS: The plugin add `title` tag on each page, but you can [disable `<title>` output](https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/advanced-usage.md#disabling-title-output) it not wanted.
+
 In `evie-jekyll` theme the head is within `_includes` directory. We should copy it from gem to local directory (`LOCAL$ _includes/head.html`) to update it.
 
 By default `jekyll-seo-tag` should auto-fill SEO metadata tags with your site's `_config.yml`. To provide more informations I recommend to read [jekyll-seo-tag usage](https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md).

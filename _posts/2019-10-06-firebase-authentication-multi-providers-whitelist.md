@@ -1,6 +1,17 @@
+---
+layout: post
+title: Firebase authentication by email link with whitelist
+categories: [Firebase]
+tags: [login, authentication, Angular, AngulaFire]
+author:
+  name: Victor Dias
+  email: victor.dias@meumobi.com
+  github: elbidone
+  twitter: meumobi
+  bio: Sharing mobile Experiences
+  email_md5: 1cd012be2382e755aa763c66acc7cfa6
+---
 
-## Firebase authentication by email link with whitelist
-### How it works?
 Whitelist allows you to control who can access your App. The authentication process is responsible to verify user identity, when succeed should check if user is autorized. The authorization could be granted by checking email domain or if email exists in a "whitelist".
 
 Technically Firebase provide all required resources to achieve it:
