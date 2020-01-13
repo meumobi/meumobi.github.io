@@ -386,3 +386,65 @@ const redirectAuthorizedToHome = () => hasCustomClaim('organizationId');;
 
   { path: 'authorization-check', canActivate: [AngularFireAuthGuard], data: { authGuardPipe: redirectAuthorizedToHome },
 
+
+
+
+Get current user
+this.afAuth.authState.subscribe(user => {
+   if (user){
+
+   }
+   else{
+
+   }    
+})
+
+https://angularfirebase.com/snippets/check-if-current-user-exists-with-angularfire/
+
+firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          // User is signed in.
+          var displayName = user.displayName;
+          var email = user.email;
+          var emailVerified = user.emailVerified;
+          var photoURL = user.photoURL;
+          var isAnonymous = user.isAnonymous;
+          var uid = user.uid;
+          var providerData = user.providerData;
+          // [START_EXCLUDE]
+          document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+          document.getElementById('quickstart-sign-in').textContent = 'Sign out';
+          document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+          // [END_EXCLUDE]
+        } else {
+          // User is signed out.
+          // [START_EXCLUDE]
+          document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+          document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
+          document.getElementById('quickstart-account-details').textContent = 'null';
+          document.getElementById('quickstart-oauthtoken').textContent = 'null';
+          // [END_EXCLUDE]
+        }
+        // [START_EXCLUDE]
+        document.getElementById('quickstart-sign-in').disabled = false;
+        // [END_EXCLUDE]
+      });
+      
+https://firebase.google.com/docs/reference/js/firebase.auth.Auth
+
+
+Validators.pattern('[6-9]\\d{9}')
+The ^ and $ are added automatically when the pattern is set with the help of a string literal. Alternatively, you may use a regex literal notation (then, ^ and $ are required):
+Validators.pattern(/^[6-9]\d{9}$/)
+Note that ^ and $ play no role in this concrete snippet since you limit the number of input chars with maxlength="10" attribute.
+
+LB51194382FR
+
+
+INPUT MASKS: A mask appears once a user focuses on a field, and it formats the text automatically as the field is being filled out
+MATCH KEYBOARD TO INPUT
+LIMIT TYPING (AUTOCOMPLETION)
+
+public getRedirectResult(): Promise<firebase.auth.UserCredential> {
++    return this.afAuth.auth.getRedirectResult();
++  }

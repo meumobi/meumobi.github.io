@@ -939,3 +939,4 @@ https://angular.io/guide/deployment#deploy-to-github-pages
 [Angular]: <https://angular.io/>
 [Firebase]: <https://firebase.google.com/>
 [Firestore]: <https://firebase.google.com/products/firestore/>
+[Firebase Authentication]:<https://firebase.google.com/docs/auth>

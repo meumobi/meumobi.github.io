@@ -3,6 +3,8 @@ layout: post
 title: Getting started with Progressive Web Apps (PWA)
 categories: [PWA]
 tags: []
+last_modified_at: 2019-11-20T17:15:00Z
+
 author:
   name: Victor Dias
   email: victor.dias@meumobi.com
@@ -18,15 +20,17 @@ And you can now share the PWA [community-approved logo](https://medium.com/samsu
 
 > Progressive Web app = UX of apps + reach of the Web. 
 
-# PWA in few words
+/!\ This post was updated on Nov. 20, 2019.
+
+## PWA in few words
 > Progressive web apps (PWAs) are an open-source initiative driven by Google that uses modern web capabilities to deliver app-like experiences to users, promising a better experience than either native apps or the mobile web. Because the framework is still relatively new, it is not supported by all browsers nor does it support some native features.
 
 Source: [Can progressive web apps solve the app vs. browser dilemma?](https://www.mobilemarketer.com/news/can-progressive-web-apps-solve-the-app-vs-browser-dilemma/510344/)
 
-# Web Manifest and Service Workers
+## Web Manifest and Service Workers
 The web manifest and Service Workers are what officially make our app a PWA. Let’s take a look at these two features.
 
-## Web manifest
+### Web manifest
 A web app manifest file is a simple JSON file that follows the [W3C’s specification](https://w3c.github.io/manifest/). With it, it is possible to: 
 
 - run the web app in full-screen mode as a standalone application
@@ -72,24 +76,71 @@ Let’s break down this manifest file:
 
 When ready you can use a [Web Manifest Validator](https://manifest-validator.appspot.com/) to check everything is fine.
 
-## Service workers
-https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
+### Service workers
 A [Service worker](https://developers.google.com/web/fundamentals/primers/service-workers/) is a script that your browser runs in the background, separate from a web page, opening the door to features that don't need a web page or user interaction. Today, they already include features like push notifications and background sync. In the future, service workers will support other things like periodic sync or geofencing. 
 
-### Push notification
+#### Push notification
 Web Apps with Service workers can use Push Notifications to drive engagement, even when the browser app isn't open.
 
-### Caching
+#### Caching
 Service worker allows developers to cache assets when connected, and intercept failed calls to network when offline, so user experiencen be maintained.
 Faster loading of assets even when offline.
 
-# Audit your PWA
+## Perform audits with Lighthouse
+### Run online
 [Lighthouse](https://developers.google.com/web/tools/lighthouse/) is an open-source, automated tool for improving the quality of web pages. You can run it in Chrome DevTools against any web page. It has audits for performance, accessibility, progressive web apps, and more.
 
 
 ![Lighthouse]({{ site.BASE_PATH }}/assets/media/pwa/lighthouse-report.png)
 
-# CSS display-mode: standalone
+### Run in a local production server
+#### lighthouse cli
+To perform lighthouse audits locally we gonna install and use the Lighthouse command line utility.
+
+```
+$ npm install -g lighthouse
+```
+
+It’s really simple to use, just run `$ lighthouse URL-TO-TEST --view`. 
+
+Note that we run Lighthouse with the `--view` parameter to immediately open the HTML report in your browser.
+
+#### http-server
+Install [http-server](https://www.npmjs.com/package/http-server) package, a cli http-server, simple enough to be used for testing and local development.
+
+```
+$ npm install -g http-server
+```
+
+Using the http-server utility is realy easy, just run `$ http-server FOLDER-PATH -p PORT`
+
+Start the http-server by running `$ http-server ./www -p 8080` (this will serve our app in localhost on port 8080) 
+
+```
+$ http-server ./www -p 8080
+Starting up http-server, serving ./www
+Available on:
+  http://127.0.0.1:8080
+  http://192.168.1.10:8080
+```
+
+And then perform the audits with Lighthouse by running:
+
+$ lighthouse http://localhost:8080 --view
+
+Results should not be greate because PWA should be served on https, and locally you could only emulate http protocol.
+
+### Firebase serve hosting
+By running ionic build --prod we will be executing the build process with performance enhancements, and will get the outputs on our /www folder.
+
+https://firebase.google.com/docs/hosting/deploying#test_from_other_local_devices
+
+```
+$ firebase serve --host 0.0.0.0 --only hosting
+``` 
+`--only hosting:target-param` if you have additional sites on your firebase project, ex: --only hosting:admin
+
+## CSS display-mode: standalone
 The [display-mode](https://developer.mozilla.org/en-US/docs/Web/CSS/@media/display-mode) CSS @media media feature can be used to apply styles based on the display mode of an application. You can use it to provide a consistant user experience between launching a site from a URL and launching it from a desktop icon.
 
 This feature corresponds to the Web app manifest's display member. Both apply to the top-level browsing context and any child browsing contexts. The feature query applies regardless of whether a web app manifest is present.
@@ -102,29 +153,29 @@ Example:
 }
 ```
 
-# PWA tracking with Web Analytics
+## PWA tracking with Web Analytics
 
-## Track PWA users
+### Track PWA users
 You can track the usage of your application using standard Web Analytics tools like Google Analytics. To make PWA users and installs distinct, you should add source and campaign parameters to your manifest.json file’s start_url value:
 
 `"start_url": "/index.html?home_screen_launch=true"`
 
 You can easily navigate to the GA traffic acquisition section and find users who have accessed your application with this URL.
 
-## Track PWA install versions
+### Track PWA install versions
 Ideally you will dynamically generate your manifest file so that the date is always current. Adding the following snippet to your app url will allow you to identify users of your PWA based on the original installation date:
 
 `&utm_campaign=pwa_install_YYYYMMDD`
 
 Source: [Progressive Web App (PWA) Usage and tracking with Web Analytics](https://malloc.fi/pwa-usage-and-tracking-with-web-analytics)
 
-# PWA Cases
+## PWA Cases
 
 - [FeedGist: A Progressive Web App Case Study](https://www.biggerpicture.agency/insights/feedgist-a-progressive-web-app-case-study)
 - [A Beginner's Guide To Progressive Web Apps](https://www.smashingmagazine.com/2016/08/a-beginners-guide-to-progressive-web-apps/)
 - [Exploring PWA to Enhance eBay’s Mobile Experience](https://www.ebayinc.com/stories/news/exploring-progressive-web-apps-to-enhance-ebays-mobile-experience)
 
-# Furthermore
+## Furthermore
 
 - [PWA Police: List of PWA Bugs and workarounds](https://github.com/PWA-POLICE/pwa-bugs?utm_source=mobiledevweekly&utm_medium=email#problem--push-notifications-are-not-supported)
 - [Anatomy of a Progressive Web App](https://www.slideshare.net/mikelnorth/anatomy-of-a-progressive-web-app)
