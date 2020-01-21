@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Add Web Push Support on Ionic App with Firebase Cloud Messaging
+title: Add Web Push Support on Ionic PWA with Firebase Cloud Messaging and AngularFire
 categories: [Ionic, Firebase]
-tags: [Firebase, AngularFire, Push, FCM]
+tags: [Firebase, AngularFire, Push, FCM, PWA]
 author:
   name: Victor Dias
   email: victor.dias@meumobi.com
@@ -12,13 +12,14 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
+This post continune our serie on Ionic 4/Angular + Firebase Stack, as always we use AngularFire to connect our client App to Firebase SDK. There are a lot of post about this topic but few up-to-date using AngularFire, and it's the main motivation of this post because it exists a discussions about using or not AngularFire.
 
 ## workaround for using FCM with ngsw
-On @angularfire documentation you'll read an explicit advice to [not use AngularFireMessaging with Angular Service Worker (aka @angular/pwa)](https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md#angularfiremessaging)
+On AngularFire documentation you'll read an explicit advice to [not use AngularFireMessaging with Angular Service Worker (aka @angular/pwa)](https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md#angularfiremessaging)
 
 > AngularFireMessaging is not compatible with the Angular Service Worker
 
-Despite this alert we've found a lot of examples ([Jeff Delaney: Push Notifications with Ionic4 and Firebase Cloud Messaging](https://www.youtube.com/watch?v=m_P1Q0vhOHs), [Ionicthemes: Adding Push Notifications to our Ionic PWA](https://ionicthemes.com/tutorials/about/the-complete-guide-to-progressive-web-apps-with-ionic4)) of use of both technologies, all of theses examples are using a workaround that was debated on [github/@angularfire thread](https://github.com/angular/angularfire/issues/1923). Then feedbacks seems positives, and this is this workaround we'll follow on this post.
+Despite this alert we've found a lot of examples ([Jeff Delaney: Push Notifications with Ionic4 and Firebase Cloud Messaging](https://www.youtube.com/watch?v=m_P1Q0vhOHs), [Ionicthemes: Adding Push Notifications to our Ionic PWA](https://ionicthemes.com/tutorials/about/the-complete-guide-to-progressive-web-apps-with-ionic4)) of use of both technologies, all of theses examples are using a workaround that was debated on [github/@angularfire thread](https://github.com/angular/angularfire/issues/1923). Feedbacks and our own experience are positives, then this is this workaround we'll follow on this post.
 
 ## Repository & demo
 
@@ -41,12 +42,13 @@ And of course you'll also need a [Firebase] account.
 ## Methodology
 Each main section below corresponds to a visible milestone of the project, where you can validate work on progress running App.
 
-
+1. Create a project
 2. Run & deploy the application
-3. Create pages and routing
-4. Data modeling
-5. Add Firebase on project
-6. Observable data service
+3. Add Firebase to your Ionic/Angular project
+4. Make Ionic 4/Angular app a PWA
+5. Add FCM Service worker
+6. Adding Push config to the Web Manifest
+7. Requesting Permission
 
 By this way you can pickup what is interesting for you and/or run tutorial on several days always keeping a stable state of project, avoid big bang ;-)
 
@@ -103,7 +105,7 @@ $ ionic serve
 
 ### Add Firebase SDKs and initialize Firebase
 
-The official @angular/fire library has many modules to help us interact with the different Firebase features, it includes FCM ([Firebase Cloud Messaging]) through [AngularFireMessaging].
+The official [AngularFire](https://github.com/angular/angularfire/blob/master/docs/install-and-setup.md) library has many modules to help us interact with the different Firebase features, it includes FCM ([Firebase Cloud Messaging]) through [AngularFireMessaging].
 
 
 ```bash
@@ -151,15 +153,18 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 export class AppModule {}
 ```
 
+## Make Ionic 4/Angular app a PWA
+The two main requirements of a PWA are a [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers/) and a [Web Manifest](https://developers.google.com/web/fundamentals/web-app-manifest/). While it's possible to add both of these to an app manually, the Angular team has an [@angular/pwa](https://angular.io/guide/service-worker-getting-started) package that can be used to automate this.
+
+The @angular/pwa package will automatically add a service worker and an app manifest to the app. To add this package to the app, run:
+
+$ ng add @angular/pwa
+
+Once this package has been added run ionic build --prod and the www directory will be ready to deploy as a PWA.
+
 ## Add FCM Service worker
-
-
-[how to enable Angular service worker](https://angular.io/guide/service-worker-getting-started)
-[AngularFire](https://github.com/angular/angularfire/blob/master/docs/install-and-setup.md)
-
-
 ### firebase-messaging SW
-Open and edit `src/firebase-messaging-sw.js`. The versions of firebase should be the same of used on your ng project (see package.json).
+The [messaging service requires a firebase-messaging-sw.js file](https://firebase.google.com/docs/cloud-messaging/js/client#retrieve-the-current-registration-token). Create an empty file with that name and place it in the root of your domain, ie. `src/firebase-messaging-sw.js`.
 
 ```
 importScripts('https://www.gstatic.com/firebasejs/7.4.0/firebase-app.js');
@@ -175,8 +180,11 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 ```
 
+The versions of firebase on imports should be the same of used on your ng project (see package.json).
+
 ### Combine fb messaging and ng SWs
 
+Here is the workaround to allow AngularFire to work with @angular/pwa.
 Open and edit `src/combined-sw.js`
 
 ```
@@ -192,7 +200,6 @@ And update angular.json to copy these new files on build, add following lines on
 ```
 
 ### Register combined-sw on app.module
-
 On `src/app/appp.module.ts` replace
 ```
 ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
@@ -204,51 +211,48 @@ ServiceWorkerModule.register('combined-sw.js', { enabled: environment.production
 ```
 
 ## Adding Push config to the Web Manifest
-
 We need to add this arbitrary string to your manifest.webmanifest: `"gcm_sender_id": "103953800507"`. This value is the same for every single apps in the world, it identifies Google FCM as sender of the notifications.
 
-## Setting up the Firebase Messaging Service Worker
-To register to receive notifications you need to set up the Firebase Messaging Service Worker.
+## Configure Web Credentials with FCM
+[The FCM Web interface uses Web credentials](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm) called "Voluntary Application Server Identification," or [VAPID](https://labs.bawi.io/web-push-notifications-through-vapid-method-7d4d6927a006) keys, to authorize send requests to supported web push services. To tell your application to subscribe to the notifications, you will need to associate such a key with your project. [Find it on Firebase console/Project Settings/Cloud Messaging](https://stackoverflow.com/a/54996207/4982169). **I didn't find how/where to do such association, and works fine without**, if you have some insights to share about, please leave a comment, I'll be glad to update this section.
 
+## Requesting Permission
+Once you have the Firebase Messaging Service Worker setup and installed, you need to request permission to send a user notifications.
 
-> The messaging service requires a firebase-messaging-sw.js
+You can do it wherever/whenever you want, on this demo we'll do it on `src/app/home.home.page.ts`
 
-[Source: Retrieve the current registration token](https://firebase.google.com/docs/cloud-messaging/js/client#retrieve-the-current-registration-token)
+```
+export class HomePage {
 
-we created a service worker (firebase-messaging-sw.js) that will just hang out in the background (even after the ionic app has been closed by the user) waiting to detect new messages to notify the user.
+  constructor(
+    private afMessaging: AngularFireMessaging
+  ) {
+    this.listenFireMessaging();
+  }
 
-Step 5: Configure Web Credentials with FCM
-The FCM Web interface uses Web credentials called "Voluntary Application Server Identification," or "VAPID" keys, to authorize send requests to supported web push services.
-
-Step 6: Combine ngsw-worker.js and firebase-messaging-sw.js in a single Service Worker
-
-Step 7: Adding Push config to the Web Manifest
-Step 8: Configure “VAPID” keys with FCM
-
-## AngularFireMessaging
-
-https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md
-Step 9: import the NgModule
-
-Step 10: Setting up the Firebase Messaging Service Worker
-
-Step 11: Requesting permission
-Requesting permission, get token, listen for token refresh
-
-Step 12: Subscribing to foreground messages
-
-If you want to do several tests, you would like to toggle allow/block notifications, you can achieve it looking for notifications on chrome settings (usually on Site Settings). Look for the url you are tested and change permissions as you prefer.
+  requestPermission() {
+    this.afMessaging.requestToken
+      .subscribe(
+      (token) => { console.log(token); },
+      (error) => { console.error(error); }
+    );
+  }
+...
+}
+```
 
 ## Sending push notifications
-From Firebase console
+Now you are ready to send a notification to test. Remember that the Firebase Messaging Service Worker handles background push notifications, means when your website is not open on active tab of browser.
+Got to Firebase console / Messaging, click on "New Notification".
+
+## How to test
+If you want to do several tests, you would like to toggle allow/block notifications, you can achieve it looking for notifications on chrome settings (usually on Site Settings). Look for the url you are tested and change permissions as you prefer.
 
 ## Furthermore
 
 - [Angular-university.io: Angular Push Notifications: a Complete Step-by-Step Guide](https://blog.angular-university.io/angular-push-notifications/)
 - [Add Web Push Notifications to your Ionic PWA](https://medium.com/@david.dalbusco/add-web-push-notifications-to-your-ionic-pwa-358f6ec53c6f)
-https://ionicthemes.com/tutorials/about/the-complete-guide-to-progressive-web-apps-with-ionic4
-https://github.com/ionicthemes/ionic-pwa
-
+- [The Complete Guide To Progressive Web Apps with Ionic 4](https://ionicthemes.com/tutorials/about/the-complete-guide-to-progressive-web-apps-with-ionic4)
 
 [Node.js]: <https://nodejs.org/en/download/>
 [Git]: <http://git-scm.com/download>
