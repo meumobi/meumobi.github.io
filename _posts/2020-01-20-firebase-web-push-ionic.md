@@ -12,14 +12,15 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-This post continune our serie on Ionic 4/Angular + Firebase Stack, as always we use AngularFire to connect our client App to Firebase SDK. There are a lot of post about this topic but few up-to-date using AngularFire, and it's the main motivation of this post because it exists a discussions about using or not AngularFire.
+This post continues our serie on Ionic 4/Angular + Firebase Stack, as always we use AngularFire to connect our client App to Firebase SDK. There are a lot of posts about this topic but few up-to-date using AngularFire, and it's the main motivation of this post because it exists discussions about using or not AngularFire.
+![Firebase Web Push with Ionic]({{ site.BASE_PATH }}/assets/media/push/web-push.png)
 
 ## workaround for using FCM with ngsw
 On AngularFire documentation you'll read an explicit advice to [not use AngularFireMessaging with Angular Service Worker (aka @angular/pwa)](https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md#angularfiremessaging)
 
 > AngularFireMessaging is not compatible with the Angular Service Worker
 
-Despite this alert we've found a lot of examples ([Jeff Delaney: Push Notifications with Ionic4 and Firebase Cloud Messaging](https://www.youtube.com/watch?v=m_P1Q0vhOHs), [Ionicthemes: Adding Push Notifications to our Ionic PWA](https://ionicthemes.com/tutorials/about/the-complete-guide-to-progressive-web-apps-with-ionic4)) of use of both technologies, all of theses examples are using a workaround that was debated on [github/@angularfire thread](https://github.com/angular/angularfire/issues/1923). Feedbacks and our own experience are positives, then this is this workaround we'll follow on this post.
+Despite this alert we've found a lot of examples ([Jeff Delaney: Push Notifications with Ionic4 and Firebase Cloud Messaging](https://www.youtube.com/watch?v=m_P1Q0vhOHs), [Ionicthemes: Adding Push Notifications to our Ionic PWA](https://ionicthemes.com/tutorials/about/the-complete-guide-to-progressive-web-apps-with-ionic4)) of use of both technologies together, all of theses examples are using a workaround that was debated on [github/@angularfire thread](https://github.com/angular/angularfire/issues/1923). Feedbacks and our own experience are positives, then this is this workaround we'll follow on this post.
 
 ## Repository & demo
 
@@ -29,6 +30,10 @@ All source code can be found on GitHub: [https://github.com/meumobi/mmb-demos.fc
 
 ## What you'll build
 We are going to create a demo to show basic behaviors/actions related to web push.
+
+1. Request permission
+2. Get token
+3. Send push
 
 We'll use [Ionic] for UI with [Angular], [Firebase Cloud Messaging] as cross-platform messaging solution and [AngularFireMessaging], the official Angular library for Firebase.
 
@@ -95,7 +100,7 @@ You can test the App running `ionic serve` cmd:
 $ ionic serve
 ```
 
-## Add Firebase to your Ionic/Angular project
+## Add Firebase to your project
 
 ### Create a Firebase project
 [Create a Firebase project](https://firebase.google.com/docs/web/setup#create-firebase-project)
@@ -153,14 +158,16 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 export class AppModule {}
 ```
 
-## Make Ionic 4/Angular app a PWA
+## Make Ionic/Angular app a PWA
 The two main requirements of a PWA are a [Service Worker](https://developers.google.com/web/fundamentals/primers/service-workers/) and a [Web Manifest](https://developers.google.com/web/fundamentals/web-app-manifest/). While it's possible to add both of these to an app manually, the Angular team has an [@angular/pwa](https://angular.io/guide/service-worker-getting-started) package that can be used to automate this.
 
-The @angular/pwa package will automatically add a service worker and an app manifest to the app. To add this package to the app, run:
+The `@angular/pwa` package will automatically add a service worker and an app manifest to the app. To add this package to the app, run:
 
+```
 $ ng add @angular/pwa
+```
 
-Once this package has been added run ionic build --prod and the www directory will be ready to deploy as a PWA.
+Once this package has been added run `ionic build --prod` and the www directory will be ready to deploy as a PWA.
 
 ## Add FCM Service worker
 ### firebase-messaging SW
@@ -184,7 +191,7 @@ The versions of firebase on imports should be the same of used on your ng projec
 
 ### Combine fb messaging and ng SWs
 
-Here is the workaround to allow AngularFire to work with @angular/pwa.
+Here is the workaround to allow AngularFire to work with `@angular/pwa`.
 Open and edit `src/combined-sw.js`
 
 ```
@@ -192,7 +199,7 @@ importScripts('ngsw-worker.js');
 importScripts('firebase-messaging-sw.js');
 ```
 
-And update angular.json to copy these new files on build, add following lines on build/options/assets:
+And update `angular.json` to copy these new files on build, add following lines on build/options/assets:
 
 ```
 "src/combined-sw.js",
@@ -214,14 +221,15 @@ ServiceWorkerModule.register('combined-sw.js', { enabled: environment.production
 We need to add this arbitrary string to your manifest.webmanifest: `"gcm_sender_id": "103953800507"`. This value is the same for every single apps in the world, it identifies Google FCM as sender of the notifications.
 
 ## Configure Web Credentials with FCM
-[The FCM Web interface uses Web credentials](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm) called "Voluntary Application Server Identification," or [VAPID](https://labs.bawi.io/web-push-notifications-through-vapid-method-7d4d6927a006) keys, to authorize send requests to supported web push services. To tell your application to subscribe to the notifications, you will need to associate such a key with your project. [Find it on Firebase console/Project Settings/Cloud Messaging](https://stackoverflow.com/a/54996207/4982169). **I didn't find how/where to do such association, and works fine without**, if you have some insights to share about, please leave a comment, I'll be glad to update this section.
+[The FCM Web interface uses Web credentials](https://firebase.google.com/docs/cloud-messaging/js/client#configure_web_credentials_with_fcm) called "Voluntary Application Server Identification," or [VAPID](https://labs.bawi.io/web-push-notifications-through-vapid-method-7d4d6927a006) keys, to authorize send requests to supported web push services. To tell your application to subscribe to the notifications, you will need to associate such a key with your project. [Find VAPID Key on Firebase console:Project Settings/Cloud Messaging](https://stackoverflow.com/a/54996207/4982169).
+**I didn't find how/where to do such association, and works fine without**, if you have some insights to share about, please leave a comment, I'll be glad to update this section.
 
 ## Requesting Permission
 Once you have the Firebase Messaging Service Worker setup and installed, you need to request permission to send a user notifications.
 
-You can do it wherever/whenever you want, on this demo we'll do it on `src/app/home.home.page.ts`
+You can do it wherever/whenever you want, on this demo we'll do it on `src/app/home/home.page.ts`
 
-```
+```typescript
 export class HomePage {
 
   constructor(
@@ -242,8 +250,13 @@ export class HomePage {
 ```
 
 ## Sending push notifications
+### Firebase console
 Now you are ready to send a notification to test. Remember that the Firebase Messaging Service Worker handles background push notifications, means when your website is not open on active tab of browser.
-Got to Firebase console / Messaging, click on "New Notification".
+
+Go to Firebase console: Messaging, click on "New Notification", et voila!.
+
+### Postman
+You can also [use Postman to send notification through fcm API](https://medium.com/@abdulahad.momin07/push-notification-on-ionic-4-using-firebase-fcm-with-postman-request-15c0b33d7bbb), I recommend this way if you want to need more options for customizations.
 
 ## How to test
 If you want to do several tests, you would like to toggle allow/block notifications, you can achieve it looking for notifications on chrome settings (usually on Site Settings). Look for the url you are tested and change permissions as you prefer.
