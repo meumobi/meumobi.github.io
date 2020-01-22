@@ -1,6 +1,9 @@
 Install [Docker](https://docs.docker.com/v17.12/install/)
 Install [Google Clould SDK](https://cloud.google.com/sdk/)
 
+$ which gcloud
+/Users/vdias/Downloads/google-cloud-sdk/bin/gcloud
+
 $ gcloud init
 
 You are logged in as: [victor.dias@meumobi.com].

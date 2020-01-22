@@ -234,9 +234,7 @@ export class HomePage {
 
   constructor(
     private afMessaging: AngularFireMessaging
-  ) {
-    this.listenFireMessaging();
-  }
+  ) { }
 
   requestPermission() {
     this.afMessaging.requestToken
@@ -260,6 +258,13 @@ You can also [use Postman to send notification through fcm API](https://medium.c
 
 ## How to test
 If you want to do several tests, you would like to toggle allow/block notifications, you can achieve it looking for notifications on chrome settings (usually on Site Settings). Look for the url you are tested and change permissions as you prefer.
+
+### Firebase SDK issue: 'token-unsubscribe-failed'
+If during your tests you face following error message on your logs, it's due to a [Firebase SDK issue](https://github.com/firebase/firebase-js-sdk/issues/2364), I temporary recommend this [workaround](https://github.com/firebase/firebase-js-sdk/issues/2364#issuecomment-570820017) shared on github.
+
+```
+A problem occured while unsubscribing the user from FCM: FirebaseError: Messaging: A problem occured while unsubscribing the user from FCM: Internal error encountered. (messaging/token-unsubscribe-failed).
+```
 
 ## Furthermore
 

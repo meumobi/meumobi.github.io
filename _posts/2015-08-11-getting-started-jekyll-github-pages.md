@@ -155,14 +155,26 @@ $('div.article_body a')
 
 Source: [http://mrloh.se/2015/05/bending-markdown-for-jekyll-and-github-pages/](http://mrloh.se/2015/05/bending-markdown-for-jekyll-and-github-pages/)
 
+### Comment
+
+[Kramdown comment syntax](https://kramdown.gettalong.org/syntax.html#extensions)
+
+```
+{::comment}
+ here's my comment
+{:/comment}
+```
+
 ## Jekyll Themes
 
 - [themes.jekyllrc.org](http://themes.jekyllrc.org/)
 - [jekyllthemes.io](https://jekyllthemes.io/)
 - [jekyllthemes.org](http://jekyllthemes.org/)
 
-## Top Resources
+## Furthermore
 
-- [http://joshualande.com/jekyll-github-pages-poole/](http://joshualande.com/jekyll-github-pages-poole/)
 - [http://www.chrisgmyr.com/2015/02/finally-moved-my-blog-to-jekyll/](http://www.chrisgmyr.com/2015/02/finally-moved-my-blog-to-jekyll/)
 - [Build a Jekyll blog in minutes](https://github.com/barryclark/jekyll-now)
+- [GitHub Help. Working with GitHub Pages](https://help.github.com/en/github/working-with-github-pages)
+- [Jekyllrb: GitHub Pages](https://jekyllrb.com/docs/github-pages/)
+- [Official GitHub Pages](https://pages.github.com/)

@@ -174,6 +174,8 @@ $ JEKYLL_ENV=production bundle exec jekyll serve
 ## Responsive images
 [jekyll-picture-tag](https://github.com/rbuchberger/jekyll-picture-tag) is a liquid tag that adds responsive images to your Jekyll static site. It automatically creates resized, reformatted source images.
 
+OBS: this plugin is very powerful but you need [ImageMagick](https://imagemagick.org/script/download.php) installed on server hosting your website. Then if you host your website on github or firebase it is useless.
+
 1. Add the plugin gem to your site’s `Gemfile`  
 ```ruby
 group :jekyll_plugins do

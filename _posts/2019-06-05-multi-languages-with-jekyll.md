@@ -85,7 +85,6 @@ languages: ["en", "pt-pt", "pt-br"]
 In code, these specific files should be referenced via baseurl_root. E.g.
 `<link rel="stylesheet" href="{{ "/css/bootstrap.css" | prepend: site.baseurl_root }}"/>`
 
-
 ### Usage
 
 ### Install
@@ -211,10 +210,11 @@ Examples: console.log(navigator.languages); // ["fr", "fr-FR", "en-US", "en"]
 [Source]()https://www.w3.org/International/questions/qa-html-language-declarations#contentvsattribute
 
 ## Choosing language value
-To be sure that all user agents recognize which language you mean, you need to follow a standard approach when providing language attribute values. You also need to consider how to refer in a standard way to dialectal differences between languages, such as the difference between US English and British English
+To be sure that all user agents recognize which language you mean, you need to follow a standard approach when providing language attribute values. You also need to consider how to refer in a standard way to dialectal differences between languages, such as the difference between US English and British English.
 
 [Source](https://www.w3.org/International/questions/qa-html-language-declarations#langvalues)
 
+The golden rule when creating language tags is to keep the tag as short as possible. Avoid region, script or other subtags except where they add useful distinguishing information.
 
 ## SEO
 ### Sitemap
