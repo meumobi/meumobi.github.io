@@ -596,6 +596,10 @@ Now you can work with it just like any other github repo. To pull in patches fro
 
 [Source](https://stackoverflow.com/a/5181968/4982169)
 
+## Update list of remotes
+$ git fetch
+$ git remote prune origin
+
 ## Links
 
 - [http://rogerdudler.github.io/git-guide/](http://rogerdudler.github.io/git-guide/)
