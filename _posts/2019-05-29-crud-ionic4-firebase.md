@@ -3,7 +3,7 @@ layout: post
 title: 'Create a CRUD App with Ionic 4, Firestore and AngularFire 5.2+'
 categories: [Ionic]
 tags: [Ionic-v4, AngularFire, Firebase, Angular, Firestore]
-last_modified_at: 2019-09-02T17:15:00Z
+last_modified_at: 2020-02-10T17:15:00Z
 author:
   name: Victor Dias
   email: victor.dias@meumobi.com
@@ -22,13 +22,13 @@ During latest months we've explored deeply how Ionic4/Angular and Firebase can h
 - [CRUD APP with Ionic 4, Firestore and AngularFire 5.2+]({% post_url 2019-05-29-crud-ionic4-angulafire5-app %})
 
  ```
-/!\ This post was updated on Sep 10, 2019 and tested with these packages:
+/!\ This post was updated on Feb 10, 2020 and tested with these packages:
 
-@angular/cli@8.3.3
+@angular/cli@8.3.25
 cordova@9.0.0 
-@ionic/angular@4.9.0
-@angular/fire@5.2.1
-firebase@6.6.0
+@ionic/angular@4.11.10
+@angular/fire@5.4.2
+firebase@7.8.1
 
 Update Notes: Updated code snippets for Angular v8
 
@@ -170,16 +170,16 @@ By this way you can pickup what is interesting for you and/or run tutorial on se
 Install both [Ionic] and [Cordova].
 
 ```terminal
-$ npm install cordova ionic typescript @angular/cli -g
+$ npm install cordova @ionic/cli typescript @angular/cli -g
 ...
 
-$ npm ls -g cordova ionic npm typescript @angular/cli --depth 0
-/Users/victor.dias/.nvm/versions/node/v12.6.0/lib
-├── @angular/cli@8.3.3 
+$ npm ls -g cordova @ionic/cli npm typescript @angular/cli --depth 0
+├── @angular/cli@8.3.25 
+├── @ionic/cli@6.0.1 
 ├── cordova@9.0.0 
-├── ionic@5.2.7 
-├── npm@6.9.0 
-└── typescript@3.6.2 
+├── npm@6.13.6 
+├── phonegap@9.0.0
+└── typescript@3.7.3 
 ```
 
 ### Create a new Ionic v4 application

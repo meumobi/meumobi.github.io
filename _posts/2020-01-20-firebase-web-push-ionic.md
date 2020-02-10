@@ -247,6 +247,8 @@ export class HomePage {
 }
 ```
 
+OBS: Since [firebase v7.6.0](https://firebase.google.com/support/release-notes/js#version_760_-_december_12_2019) `getToken()` automatically requests notification permission if permission was set to "default".
+
 ## Sending push notifications
 ### Firebase console
 Now you are ready to send a notification to test. Remember that the Firebase Messaging Service Worker handles background push notifications, means when your website is not open on active tab of browser.
