@@ -3,8 +3,6 @@ layout: post
 title: 'Implementing the Master-Detail Pattern with Ionic v4'
 categories: [Ionic]
 tags: [tutorial, Ionic-v4, master-detail]
-redirect_from:
-- /ionic/2018/10/18/create-crud-app-ionic4-angularfire5
 author:
   name: Victor Dias
   email: victor.dias@meumobi.com

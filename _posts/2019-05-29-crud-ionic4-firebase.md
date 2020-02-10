@@ -4,6 +4,9 @@ title: 'Create a CRUD App with Ionic 4, Firestore and AngularFire 5.2+'
 categories: [Ionic]
 tags: [Ionic-v4, AngularFire, Firebase, Angular, Firestore]
 last_modified_at: 2020-02-10T17:15:00Z
+redirect_from:
+- /ionic/2018/10/18/create-crud-app-ionic4-angularfire5
+- /ionic/2019/05/29/crud-ionic4-angulafire5-app
 author:
   name: Victor Dias
   email: victor.dias@meumobi.com
