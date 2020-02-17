@@ -16,13 +16,14 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-During latest months we've explored deeply how Ionic4/Angular and Firebase can help to develop high scalable (web) Apps. This post is part of the ongoing Ionic4/Angular with Firebase serie, where we cover common use cases. Here is the full series:
+During latest months we've explored deeply how Ionic4/Angular and Firebase can help to develop high scalable (web) Apps. This post is part of the ongoing Ionic4/Angular with Firebase serie, where we cover common use cases. Here is the full serie:
 
 - [Master-detail on Ionic4]({% post_url 2018-10-18-implementing-master-detail-ionic4 %})
 - [Login flow on Ionic4]({% post_url 2018-10-19-login-flow-ionic4 %})
 - [Login flow with Firebase custom auth]({% post_url 2019-07-03-login-flow-with-firebase-custom-auth %})
 - [master-detail native App deeplink]({% post_url 2019-08-19-ionic-master-detail-deeplinks %})
 - [CRUD APP with Ionic 4, Firestore and AngularFire 5.2+]({% post_url 2019-05-29-crud-ionic4-firebase %})
+- [Add Web Push Support on Ionic PWA with Firebase Cloud Messaging and AngularFire]({% post_url 2020-01-20-firebase-web-push-ionic %})
 
  ```
 /!\ This post was updated on Feb 10, 2020 and tested with these packages:
