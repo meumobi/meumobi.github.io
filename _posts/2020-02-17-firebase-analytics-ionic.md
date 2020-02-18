@@ -39,6 +39,7 @@ There's no difference between iOS and Android in terms of implementation, then w
 
 ## What you'll need
 ### Prerequisites
+#### Dev tools
 We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova].
 
 ```sh
@@ -52,6 +53,9 @@ $ npm ls -g cordova @ionic/cli npm typescript --depth 0
 ├── phonegap@9.0.0
 └── typescript@3.7.5
 ```
+
+#### Firebase account
+If you don’t have a Firebase account and project setup yet, the first thing we’ll need to do is to create a Firebase account and then [create a Firebase project](https://firebase.google.com/docs/web/setup#create-firebase-project). Both are free.
 
 ## Implementation path
 
@@ -134,12 +138,8 @@ export class AppModule {}
 ```
 
 ## Connect the app to Firebase
-### Create a Firebase project
-[Create a Firebase project](https://firebase.google.com/docs/web/setup#create-firebase-project)
-
 ### Register the app with Firebase
-[Register your app with Firebase](https://firebase.google.com/docs/web/setup#register-app)
-Register Android and iOS Apps on firebase and download resp. `google-services.json` and `GoogleService-info.plist`, save them on root of project.
+Register [Android](https://firebase.google.com/docs/android/setup#register-app) and/or [iOS](https://firebase.google.com/docs/ios/setup) Apps on firebase and download resp. `google-services.json` and `GoogleService-info.plist`, save them on root of project.
 
 ![firebase-console-register-android-app]({{ site.BASE_PATH }}/assets/media/firebase/firebase-console-register-android-app.png)
 
@@ -156,28 +156,42 @@ $ ionic g service core/analytics/analytics
 ```
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { Injectable } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AnalyticsService {
 
-  constructor (private firebaseX: FirebaseX) {}
+  constructor (
+    private firebaseX: FirebaseX,
+    private platform: Platform
+  ) {}
 
+    // Tracks a custom event in Firebase Analytics
     logEvent(name: string, properties: object) {
-      this.firebaseX.logEvent(name, properties); // "select_content", {content_type: "page_view", item_id: "home"}
+      this.platform.ready().then(() => {
+        this.firebaseX.logEvent(name, properties); // Ex: "select_content", {content_type: "page_view", item_id: "home"}
+      });
     }
 
     setUserProperty(key: string, value: string) {
-      this.firebaseX.setUserProperty(key, value);
+      this.platform.ready().then(() => {
+        this.firebaseX.setUserProperty(key, value);
+      });
     }
 
+    // Tracks an 'screen_view' event in Firebase Analytics
     trackScreen(name: string) {
-      this.firebaseX.setScreenName(name);
+      this.platform.ready().then(() => {
+        this.firebaseX.setScreenName(name);
+      });
     }
 
     setUserId(uid: string) {
-      this.firebaseX.setUserId(uid);
+      this.platform.ready().then(() => {
+        this.firebaseX.setUserId(uid);
+      });
     }
 }
 ```
@@ -280,6 +294,11 @@ So during your tests or at the begining of Analytics integration some data may b
 ### Introduction
 > Google Analytics [tracks screen](https://firebase.google.com/docs/analytics/screenviews) transitions and attaches information about the current screen to events, enabling you to track metrics such as user engagement or user behavior per screen. Much of this data collection happens automatically, but you can also manually track screen names.
 
+Because Ionic apps are Single Page Applications (SPAs) running in a WebView, the concept of a screen view happens when a new Component loads and is displayed to the user on the screen.
+
+Thanks to Lifecycle Hooks in Angular we can hook into the moment a Component is initialized with the `ngOnInit` lifecycle hook and set the screen name with the Firebase Analytics Ionic native wrapper to instruct Firebase to track the screen_view event. Also all the future events tracked in this component will have the context of this screen to help identify where does the users use the app more.
+When you use firebaseAnalytics.trackScreen(screenName), besides from tracking a screen_view event, that screenName will be used as the firebase_screen parameter for all the future events tracked, so it’s important to always set the current screen for every component.
+
 ### Use case: Track speaker-list and speaker-detail
 We can track speaker-list and speaker-detail pages as show below:
 
@@ -340,14 +359,57 @@ Then on `src/app/providers/user-data.ts`:
 
 > Setting a user ID is never required for Analytics to work correctly. If you're only interested in finding events belonging to the same user for the same app on a single device, you can use the `user_pseudo_id`. This value is generated automatically by Analytics and is stored within BigQuery for each event.
 
+## Debugging in Firebase
+### DebugView
+> Generally, events logged by your app are batched together over the period of approximately one hour and uploaded together. This approach conserves the battery on end users’ devices and reduces network data usage. However, for the purposes of validating your analytics implementation (and, in order to view your analytics in the DebugView report), you can enable Debug mode on your development device to upload events with a minimal delay.
+
+Means you can [enable debug mode](https://firebase.google.com/docs/analytics/debugview) on your app build and follow on Firebase console > DebugView on "real-time like" events tracked. This feature is very useful and easy to setup, don't miss it.
+
+![firebase_console-analytics-debug_view]({{ site.BASE_PATH }}/assets/media/firebase/firebase_console-analytics-debug_view.png)
+
+### Enable debug mode on your device
+To use DebugView, you must first enable Debug mode on your device:
+
+#### Android
+To enable Analytics Debug mode on an emulated Android device, execute the following command line:
+
+```bash
+adb shell setprop debug.firebase.analytics.app <package_name>
+```
+
+This behavior persists until you explicitly disable Debug mode by executing the following command line:
+
+```bash
+adb shell setprop debug.firebase.analytics.app .none.
+```
+
+#### iOS
+To enable Analytics Debug mode on your development device, specify the following command line argument in Xcode :
+
+```bash
+-FIRDebugEnabled
+```
+
+This behavior persists until you explicitly disable Debug mode by specifying the following command line argument:
+
+```bash
+-FIRDebugDisabled
+```
+
 {::comment}
 ## Fine-grain analytics data
 By default, Firebase does not store fine-grain analytics data - only a sample is taken and detailed event data is then discarded. The Firebase Analytics console is designed to give you a coarse overview of analytics data.
 
 If you want to analyse detailed event-level analytics, you should consider [exporting Firebase Analytics data to BigQuery](https://firebase.google.com/docs/projects/bigquery-export). The easiest way to set this up is by [streaming Firebase Analytics data into BigQuery](https://cloud.google.com/bigquery/streaming-data-into-bigquery). Note that until you set this up, all fine-grain event-level data is discarded by Firebase.
 
-## Furthermore
 {:/comment}
+
+Hope this article helps you, any update or feedback for this post please leave it in the comments.
+
+## Furthermore
+
+- [Firebase Event Analytics with Google BigQuery](https://towardsdatascience.com/firebase-event-analytics-with-google-bigquery-ec756230f768)
+- [How to migrate Ionic 3 apps from Google Analytics to Firebase Analytics](https://jojoscode.com/how-to-migrate-ionic-3-apps-from-google-analytics-to-firebase-analytics/)
 
 [Node.js]: <https://nodejs.org/en/download/>
 [Git]: <http://git-scm.com/download>
