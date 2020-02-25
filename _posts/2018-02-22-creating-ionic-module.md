@@ -11,10 +11,9 @@ author:
   bio: Life, Universe, Everything
   email_md5: 8200df29874231d4d8c2c7beae170b31
 ---
-![Ionic logo]({{ site.BASE_PATH}}/assets/media/ionic/ionic.jpg)
-
 Sometimes you found yourself writing same code to solve same problems. To avoid this situation a lot o frameworks allow to produce independent and re-usable modules. And ionic allows too.
 So let's do it.
+![Ionic logo]({{ site.BASE_PATH}}/assets/media/ionic/ionic.jpg)
 
 I did a FilesProvider to manipulate files in an app and now we will start a simple module to share this service between all our ionic apps.
 

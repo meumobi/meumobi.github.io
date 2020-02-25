@@ -12,7 +12,7 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-If you plan to launch a multi-language website running on Jekyll, you certainly need to pay 
+If you plan to launch a multi-language website running on Jekyll, you certainly need to pay attention to:
 
 - language switcher
   - static switcher based on user click

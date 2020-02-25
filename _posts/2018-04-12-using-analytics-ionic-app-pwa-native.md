@@ -11,18 +11,19 @@ author:
   bio: Life, Universe, Everything
   email_md5: 8200df29874231d4d8c2c7beae170b31
 ---
+Sharing the same code between PWA and Native (iOS/Android) is a practice we have been using on our Ionic apps. An essencial service for many projects is Google Analytics (GA). We did a deep search to find the best option for our scenario. There was a main solution out there.
+
+## Ionic Native Google Analytics [Plugin](https://ionicframework.com/docs/native/google-analytics/)
+It's easy to add to your project, there are a lot of good tutorials like [this](https://www.techdiary.io/ionic2-app-metrics-using-google-analytics/). If you use just for native apps, it can be the best option. Otherwise for PWA the plugin just works when the app is compiled for browser platform and in this situation it produces a bigger webapp than necessary (6mb more for just one feature). Besides the size, browser platform will be depreceated according this comment of an Ionic Developer Team member.
+
 *UPDATED: July 25th, 2019*  
 ![Ionic PWA Analytics]({{ site.BASE_PATH}}/assets/media/ionic/pwa_ionic_ga.png)
-
-Sharing the same code between PWA and Native (iOS/Android) is a practice we have been using on our Ionic apps. An essencial service for many projects is Google Analytics (GA). We did a deep search to find the best option for our scenario. There was a main solution out there.
-#### Ionic Native Google Analytics [Plugin](https://ionicframework.com/docs/native/google-analytics/)
-It's easy to add to your project, there are a lot of good tutorials like [this](https://www.techdiary.io/ionic2-app-metrics-using-google-analytics/). If you use just for native apps, it can be the best option. Otherwise for PWA the plugin just works when the app is compiled for browser platform and in this situation it produces a bigger webapp than necessary (6mb more for just one feature). Besides the size, browser platform will be depreceated according this comment of an Ionic Developer Team member.
 
 ## How we did using raw GA
 
 I've used this [project](https://github.com/meumobi/meu-starter.crud-angularfirestore.ionic-v4) for tests :) feel free to clone/fork/contribute
 
-#### index.html - added GA code snippet
+### index.html - added GA code snippet
 ```html
 ...
 <script>
@@ -34,7 +35,7 @@ I've used this [project](https://github.com/meumobi/meu-starter.crud-angularfire
 ...
 ```
 
-#### src/app/analytics.service.ts
+### src/app/analytics.service.ts
 Install [@types/google.analytics](https://www.npmjs.com/package/@types/google.analytics) in order to allow works with js library in typescript.
 ```bash
 $ npm install --save @types/google.analytics
@@ -93,7 +94,7 @@ export class AnalyticsService {
 ```
 How to start tracking by id was inspired by this [article](https://www.27partners.com/2016/07/using-google-analytics-in-an-ionic-app-without-a-plugin/) who explains how solve some problems in native client.
 
-#### src/app/app.module.ts
+### src/app/app.module.ts
 ```ts
 ...
 import { AnalyticsService } from './analytics.service';
@@ -108,7 +109,7 @@ import { AnalyticsService } from './analytics.service';
 })
 ```
 
-#### src/app/app.component.ts
+### src/app/app.component.ts
 ```ts
 ...
 import { AnalyticsService } from './analytics.service';
@@ -151,7 +152,7 @@ export class AppComponent {
 
 ```
 
-### Track Screen title
+## Track Screen title
 Sometimes besides the URL, you need to show more meaningful infos of your app on anlytics. 
 In our case it's easier to understand `Awesome new!` than `/item/detail/123456` when you are reading analytics data.
 So on items list, for each link we pass the title of item in `state` attribute on template.
@@ -161,7 +162,7 @@ So on items list, for each link we pass the title of item in `state` attribute o
 </a>
 ``` 
 
-#### example.ts - tracking some event
+### example.ts - tracking some event
 ```ts
 import { AnalyticsService } from './analytics.service';
 export class ExamplePage {	
@@ -174,7 +175,7 @@ export class ExamplePage {
 }
 ``` 
 
-## Links
+## Furthermore
 - [How to Implement Google Analytics in an Angular2 App?](https://unyscape.com/how-to-implement-google-analytics-in-an-angular2-app/);
 - [Using Google Analytics in an Ionic app without a plugin](https://www.27partners.com/2016/07/using-google-analytics-in-an-ionic-app-without-a-plugin/);
 - [Ionic Native Google Analytics Plugin](https://ionicframework.com/docs/native/google-analytics/);

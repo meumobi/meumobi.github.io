@@ -11,9 +11,8 @@ author:
   bio: Life, Universe, Everything
   email_md5: 8200df29874231d4d8c2c7beae170b31
 ---
+Securately manage our passwords demands careful attention. So to avoid this, a lot of services allow us to access their resources sending a unique link to our email. Firebase released a feature for it.
 ![Firebase Logo]({{ site.BASE_PATH}}/assets/media/firebase/firebase-logo.png)
-
-Securately manage our passwords demands careful attention. So to avoid this, a lot of services allow us to access their resources sending a unique link to our email. Firebase released a feature for it. 
 
 ## Passwordless Sign-in Flow
 

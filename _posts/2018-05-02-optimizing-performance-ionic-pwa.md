@@ -15,13 +15,13 @@ author:
 Thanks to latest releases it's easy now with [Ionic v3.x to build a PWA](http://meumobi.github.io/ionic/pwa/2018/03/26/using-ionic-app-sources-as-pwa.html). But as shown on [Lighthouse tool](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk), out of the box performance is not extraordinary. 
 ![Ionic PWA Bad Performance]({{ site.BASE_PATH}}/assets/media/ionic/Lighthouse_Report-ionic v3 PWA.png)
 
-# Measure performance
+## Measure performance
 Performance is one of the most important points on the [PWA checklist](https://developers.google.com/web/progressive-web-apps/checklist). To understand and improve performance we've decided to work on popular ionic starter blank. We'll not add any feature, but follow some best pratices to try to reach better lighthouse performance rating.
 To not influence results with our local environment we'll use lighthouse provided by cloud service [webpagetest.org](https://www.webpagetest.org/)
 
 ![WebPagetest meu-starter]({{ site.BASE_PATH}}/assets/media/ionic/WebPagetest_meu-starter.png)
 
-## Runtime environment
+### Runtime environment
 
 We've selected the `Mobile Regular 3G` test configuration corresponding to runtime environment described below:
 
@@ -34,9 +34,9 @@ We've selected the `Mobile Regular 3G` test configuration corresponding to runti
 On this post we'll create a new Ionic project from blank starter and measure benefits of each tips recommended to improve performance.
 These tips could significantly improve 1st load time, reducing css or main.js, but for next loads performance is driven by the use of service-workers responsible for cache.
 
-# Setup project
+## Setup project
 
-## local env
+### local env
 
 I've upgraded the cli to next major release Ionic v4, some commands could be slightly different on v3.
 
@@ -53,7 +53,7 @@ local packages:
    Ionic Framework    : ionic-angular 3.9.2
 ```
 
-## Start blank project
+### Start blank project
 
 ```
 $ ionic start meu-starter.ionic-v3
@@ -63,9 +63,9 @@ $ ionic start meu-starter.ionic-v3
 ? Install the free Ionic Pro SDK and connect your app: No
 ```
 
-# Setup PWA
+## Setup PWA
 
-## Remove cordova.js and enable service worker
+### Remove cordova.js and enable service worker
 Update `src/index.html` 
 
 ```
@@ -84,7 +84,7 @@ Update `src/index.html`
 
 And finally run the build with ionic cli `$ ionic build --prod` and deploy the app on firebase hosting to test it with Lighthouse.
 
-## Lighthouse audit report
+### Lighthouse audit report
 
 |Ionic v3: PWA Performance|
 |---|
@@ -102,7 +102,7 @@ $ du -ach www/assets/fonts | grep total
 2.2M	total
 ```
 
-# Optimization-1: Build for one platform only
+## Optimization-1: Build for one platform only
 
 Ionic uses [modes](https://ionicframework.com/docs/theming/platform-specific-styles/) to customize the look of components. Each platform has a default mode, but this can be overridden. For example, an app being viewed on an Android platform will use the `md` (Material Design) mode. The `<ion-app>` will have `class="md"` added to it by default and all of the components will use Material Design styles:
 
@@ -153,7 +153,7 @@ And add this new config file to package.json
 |---|---|
 |236K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
 
-# Optimization-2: Remove iOS fonts
+## Optimization-2: Remove iOS fonts
 Open `src/theme/variables.scss` and remove `@import "noto-sans";`
 
 And add this new config file to package.json
@@ -169,7 +169,7 @@ And add this new config file to package.json
 |---|---|
 |235K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js<br/>2.2M www/assets/fonts|
 
-# Optimization-3: Custom icons
+## Optimization-3: Custom icons
 Build custom icons lib with only the icons you need.
 To remove default [ionicons](https://ionicframework.com/docs/ionicons/)
 open `src/theme/variables.scss` and remove `@import "ionic.ionicons";`
@@ -186,7 +186,7 @@ $ ls -slh www/build| awk '{print $6,$10}'
 528K vendor.js
 ```
 
-# Optimization-4: Remove useless CSS
+## Optimization-4: Remove useless CSS
 A lot of styles on css bundle are for [components](https://github.com/ionic-team/ionic/tree/master/core/src/components) that we do not even use.
 
 Open `sass.js` and modify the `excludeFiles` section once again with the following:
@@ -204,7 +204,7 @@ For the `blank` app we only need to keep: `app`, `content` and `toolbar` but of 
 |---|---|
 |86K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
 
-# Remove unused $colors
+## Remove unused $colors
 
 Remove all unused colors from the $colors array in `src/theme/variables.scss`. Ideally you will only have one or two colors left.
 
@@ -219,7 +219,7 @@ $colors: (
 |---|---|
 |65K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
 
-# Optimization-5:  run purify-css
+## Optimization-5:  run purify-css
 
 ```
 $ npm install purify-css -g
@@ -236,7 +236,7 @@ $ purifycss www/build/main.css www/build/*.js --info --min --out www/build/main.
 |---|---|
 |30K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
 
-# Optimization-6: Removing Cordova plugins
+## Optimization-6: Removing Cordova plugins
 
 ```
 $ npm uninstall --save @ionic-native/core @ionic-native/splash-screen @ionic-native/status-bar
@@ -284,7 +284,7 @@ export class MyApp {
 |---|---|
 |30K main.css<br/>5.3K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>514K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
 
-# Optimization-7: Add lazy-loading
+## Optimization-7: Add lazy-loading
 
 [Ionic and Lazy Loading Pt 1](https://blog.ionicframework.com/ionic-and-lazy-loading-pt-1/)
 [Ionic and Lazy Loading Pt 2](https://blog.ionicframework.com/ionic-and-lazy-loading-pt-2/)
@@ -294,7 +294,7 @@ export class MyApp {
 |---|---|
 |5.0K 0.js<br/>30K main.css<br/>3.8K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>514K vendor.js<br/>1016K www/assets/fonts|420K main.css<br/>5.4K main.js<br/>95K polyfills.js<br/>15K sw-toolbox.js<br/>528K vendor.js|
 
-# Conclusion
+## Conclusion
 
 ![Lighthouse results after optimizing]({{ site.BASE_PATH}}/assets/media/ionic/Lighthouse_Report-optimized v3.png)
 
@@ -302,7 +302,7 @@ export class MyApp {
 
 Source: [github.com/ionic-team/ionic-app-scripts](https://github.com/ionic-team/ionic-app-scripts/issues/1134#issuecomment-316755306)
 
-# Furthermore
+## Furthermore
 
 - [Optimized Ionic-Angular CSS Bundle for PWA](https://julienrenaux.fr/2017/07/20/optimized-ionic-angular-css-bundle-for-pwas/)
 - [CASE STUDY: STONE FEST 21 – PWA](https://chrisgriffith.wordpress.com/2017/08/24/case-study-stone-fest-21-pwa/)

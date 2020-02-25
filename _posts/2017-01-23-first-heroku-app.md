@@ -12,9 +12,7 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-Create Account, https://dashboard.heroku.com/
-
-By default, your app is deployed on a free dyno. Free dynos will sleep after a half hour of inactivity (if they don’t receive any traffic). This causes a delay of a few seconds for the first request upon waking. Subsequent requests will perform normally.
+Create Account on [Heroku](https://dashboard.heroku.com/), by default, your app is deployed on a free dyno. Free dynos will sleep after a half hour of inactivity (if they don’t receive any traffic). This causes a delay of a few seconds for the first request upon waking. Subsequent requests will perform normally.
 
 https://devcenter.heroku.com/articles/getting-started-with-php#scale-the-app
 
