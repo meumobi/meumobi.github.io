@@ -12,7 +12,7 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-[It was a trending topic](http://meumobi.github.io/ionic/2017/08/09/managing-environment-ionic.html) during long months on Ionic community. A lot of ways were explored and issues open to add it natively on Ionic framework. Finally the Ionic team decided to [migrate to angular-cli on v4](https://github.com/ionic-team/ionic-app-scripts/issues/762#issuecomment-351907363) and re-use the [angular-cli native solution to manage environment variables]((https://medium.com/beautiful-angular/angular-2-and-environment-variables-59c57ba643be)).
+[It was a trending topic](http://meumobi.github.io/ionic/2017/08/09/managing-environment-ionic.html) during long months on Ionic community. A lot of ways were explored and issues open to add it natively on Ionic framework. Finally the Ionic team decided to [migrate to angular-cli on v4](https://github.com/ionic-team/ionic-app-scripts/issues/762#issuecomment-351907363) and re-use the [angular-cli native solution to manage environment variables](https://medium.com/beautiful-angular/angular-2-and-environment-variables-59c57ba643be).
 
 So, we wanted to have environment variables work in Ionic v3 exactly like how they do in Angular CLI, whilst also supporting Karma and Protractor tests. [more details](https://github.com/ionic-team/ionic-app-scripts/issues/762#issuecomment-367862651)
 

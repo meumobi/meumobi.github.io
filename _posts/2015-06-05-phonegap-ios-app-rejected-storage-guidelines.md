@@ -16,7 +16,7 @@ After months developing mobile Apps, using PhoneGap, we've experienced today our
 
 > Please verify that only the content that the user creates using your app, e.g., documents, new files, edits, etc. is backed up by iCloud as required by the iOS Data Storage Guidelines.
 
-# Avoid iOS App downloaded files to be backuped
+## Avoid iOS App downloaded files to be backuped
 Humm.. that's right. Our PhoneGap App uses [Cordova File Plugin] to store downloaded files on cordova.file.documentsDirectory. And as correctly explained on [Cordova File Plugin] doc, the documentsDirectory is Synced.
 We've checked it following these instructions: 
 
@@ -25,12 +25,12 @@ We've checked it following these instructions:
 - If necessary, tap "Show all apps"
 - Check your app's storage, download files to see it growing
 
-## How to fix it
+### How to fix it
 **we've replaced cordova.file.documentsDirectory by cordova.file.dataDirectory**
 
 Et voila!! Our [infoMobi] users will enjoy downloading files for offline read.
 
-# Avoid iOS App WebStorage to be backuped
+## Avoid iOS App WebStorage to be backuped
 During our investigation we've seen that localStorage by default is also backuped on cloud, see [Cordova iOS Configuration]. It can lead to an issue if localStorage of app is synced between multiples devices. [Apple's Q&A] explains
 
 > only user data may be stored to the iCloud. Data that is needed for offline purposes may not be stored in the iCloud. 
@@ -45,7 +45,7 @@ More details about [localStorage management on iOS]:
 
 > Since the Documents directory is specific for each app, it will be automatically saved to iCloud.
 
-## How to fix it
+### How to fix it
 To disable web storage backup to iCloud, set the BackupWebStorage preference to "local" in config.xml to allow only local backups via iTunes sync. Set to "none" prevent web storage backups.
 
 ```xml

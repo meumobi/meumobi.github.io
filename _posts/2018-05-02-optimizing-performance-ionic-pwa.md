@@ -16,7 +16,7 @@ Thanks to latest releases it's easy now with [Ionic v3.x to build a PWA](http://
 ![Ionic PWA Bad Performance]({{ site.BASE_PATH}}/assets/media/ionic/Lighthouse_Report-ionic v3 PWA.png)
 
 # Measure performance
-Performance is one of the most important points on the [PWA checklist]((https://developers.google.com/web/progressive-web-apps/checklist)). To understand and improve performance we've decided to work on popular ionic starter blank. We'll not add any feature, but follow some best pratices to try to reach better lighthouse performance rating.
+Performance is one of the most important points on the [PWA checklist](https://developers.google.com/web/progressive-web-apps/checklist). To understand and improve performance we've decided to work on popular ionic starter blank. We'll not add any feature, but follow some best pratices to try to reach better lighthouse performance rating.
 To not influence results with our local environment we'll use lighthouse provided by cloud service [webpagetest.org](https://www.webpagetest.org/)
 
 ![WebPagetest meu-starter]({{ site.BASE_PATH}}/assets/media/ionic/WebPagetest_meu-starter.png)

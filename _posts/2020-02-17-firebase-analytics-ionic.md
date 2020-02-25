@@ -12,7 +12,7 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-The aim of this tutorial is to show how to integrate [Firebase Analytics] on a Ionic/Angular Native App.
+The aim of this tutorial is to show how to integrate [Firebase Analytics] on a Ionic/Angular Native App, to start using the [all in one (Web + App) Analytics tool](https://www.blog.google/products/marketingplatform/analytics/new-way-unify-app-and-website-measurement-google-analytics/).
 ![firebase-console-analytics-first_open]({{ site.BASE_PATH }}/assets/media/firebase/firebase-console-analytics-first_open.png)
 
 It's a first post of a serie about Firebase Analytics, in which we pretend to cover following topics:
@@ -26,16 +26,6 @@ It's a first post of a serie about Firebase Analytics, in which we pretend to co
 ## Repository & demo
 
 All source code can be found on GitHub: [https://github.com/meumobi/mmb-demos.firebase-analytics-ionic](https://github.com/meumobi/mmb-demos.firebase-analytics-ionic)
-
-## What you'll build
-To explore Analytics capabilities we'll use the conference starter ("A kitchen-sink application that shows off all Ionic has to offer"). It contains out-of-the-box a lot of useful pages to illustrate following features:
-
-- Log Events
-- Set User Properties
-- Track Screens
-- Set a User ID
-
-There's no difference between iOS and Android in terms of implementation, then we'll focus on this tutorial on Android, because it's easier to build and test. But if you use these instructions on iOS App should works fine too.
 
 ## What you'll need
 ### Prerequisites
@@ -56,6 +46,16 @@ $ npm ls -g cordova @ionic/cli npm typescript --depth 0
 
 #### Firebase account
 If you don’t have a Firebase account and project setup yet, the first thing we’ll need to do is to create a Firebase account and then [create a Firebase project](https://firebase.google.com/docs/web/setup#create-firebase-project). Both are free.
+
+## What you'll build
+To explore Analytics capabilities we'll use the conference starter ("A kitchen-sink application that shows off all Ionic has to offer"). It contains out-of-the-box a lot of useful pages to illustrate following features:
+
+- Log Events
+- Set User Properties
+- Track Screens
+- Set a User ID
+
+There's no difference between iOS and Android in terms of implementation, then we'll focus on this tutorial on Android, because it's easier to build and test. But if you use these instructions on iOS App should works fine too.
 
 ## Implementation path
 
@@ -108,7 +108,7 @@ $ ionic cordova run android
 
 ## Add Cordova plugin to support Firebase Analytics
 ### Install cordova-plugin-firebasex and its @ionic-native wrapper
-Install [cordova-plugin-firebasex](https://github.com/dpa99c/cordova-plugin-firebasex) and the Firebase Analytics Ionic native wrapper ([@ionic-native/firebase-x](https://ionicframework.com/docs/native/firebase-x)).
+Install [cordova-plugin-firebasex](https://github.com/dpa99c/cordova-plugin-firebasex) and the Firebase-X Ionic native wrapper ([@ionic-native/firebase-x](https://ionicframework.com/docs/native/firebase-x)).
 
 ```
 $ cordova plugin add cordova-plugin-firebasex
@@ -138,7 +138,6 @@ export class AppModule {}
 ```
 
 ## Connect the app to Firebase
-### Register the app with Firebase
 Register [Android](https://firebase.google.com/docs/android/setup#register-app) and/or [iOS](https://firebase.google.com/docs/ios/setup) Apps on firebase and download resp. `google-services.json` and `GoogleService-info.plist`, save them on root of project.
 
 ![firebase-console-register-android-app]({{ site.BASE_PATH }}/assets/media/firebase/firebase-console-register-android-app.png)
@@ -228,6 +227,7 @@ Analytics automatically logs some [events](https://support.google.com/analytics/
 |app_update|when the app is updated to a new version and launched again|previous_app_version|
 |first_open|the first time a user launches an app after installing or re-installing it|previoius_gmp_app_id, updated_with_analytics, previous_first_open_count, system_app, system_app_update, deferred_analytics_collection, reset_analytics_cause|
 |notification_open|when a user opens a notification sent by FCM.|message_name, message_time, message_device_time, message_id, topic, label, message_channel|
+|user_engagement (app, web)|periodically, while the app is in the foreground|engagement_time_msec|
 
 ### Suggested events and prescribed parameters
 To help you get started, the Analytics SDK defines a number of [suggested events](https://support.google.com/analytics/answer/9322688) that are common among different types of apps.

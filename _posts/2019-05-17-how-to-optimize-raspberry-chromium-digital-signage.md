@@ -46,8 +46,8 @@ Routine
 3. Select Modern with Fonts
 4. Toggle Play/Stop
 5. Wait to complete first loop
-6. Start [Record profile]((https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/)) when second loop starts
-7. Stop [Record profile]((https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/))
+6. Start [Record profile](https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/) when second loop starts
+7. Stop [Record profile](https://developers.google.com/web/tools/chrome-devtools/evaluate-performance/)
 8. Save Profile...
 
 The results are
