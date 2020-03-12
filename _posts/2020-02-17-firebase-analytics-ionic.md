@@ -410,6 +410,8 @@ Hope this article helps you, any update or feedback for this post please leave i
 
 - [Firebase Event Analytics with Google BigQuery](https://towardsdatascience.com/firebase-event-analytics-with-google-bigquery-ec756230f768)
 - [How to migrate Ionic 3 apps from Google Analytics to Firebase Analytics](https://jojoscode.com/how-to-migrate-ionic-3-apps-from-google-analytics-to-firebase-analytics/)
+- [Fully functional implementation of Google Analytics in a WebView](https://github.com/firebase/analytics-webview)
+- [gtag.js documentation to learn of the different configuration options](https://developers.google.com/gtagjs/reference/api#config)
 
 [Node.js]: <https://nodejs.org/en/download/>
 [Git]: <http://git-scm.com/download>

@@ -141,17 +141,14 @@ And Import it on App Module with required AngularFire modules.
 ```js
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
-import { AngularFireMessaging } from '@angular/fire/messaging';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 ...
 
 @NgModule({
   imports: [
     ...
     AngularFireModule.initializeApp(environment.firebase),
-  ],
-  providers: [
-    ...
-    AngularFireMessaging,
+    AngularFireMessagingModule
   ],
   ...
 })
