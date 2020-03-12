@@ -12,17 +12,30 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-Everybody daily face huge number of permission requests to receive push. But, as mobile Web/Native App developer do we know/understand how it works beyond the screen? is it a notification message, data message or in-app message ? We'll try to define these options and show how to implement them on Ionic/Angular app with Firebase Cloud Messagging.
+Push notification is a great feature to re-engage users on mobile App, and Web since the raise of APIs [Push](https://caniuse.com/#feat=push-api) and [Service workers](https://caniuse.com/#feat=serviceworkers). There are plenty of successful use cases as chats, deliveries, appointments, meetings, etc. where notification make the difference.
+Firebase Cloud Messaging (FCM) provides a complete API and single interface to manage Android and iOS notifications for native Apps and Web. On this post we'll focus on Push Notification Support on Native Ionic App with FCM.
+
+## Message types
+With FCM, you can send two [types of messages](https://firebase.google.com/docs/cloud-messaging/concept-options#notifications_and_data_messages) to clients:
+
+- **Notification messages**, sometimes thought of as "display messages." These are handled by the FCM SDK automatically.
+- **Data messages**, which are handled by the client app.
+
+Use notification messages when you want FCM to handle displaying a notification on your client app's behalf. Use data messages when you want to process the messages on your client app.
+
+Notification messages contain a predefined set of user-visible keys. Data messages, by contrast, contain only your user-defined custom key-value pairs.
+
+Notification messages are delivered to the notification tray when the app is in the background. For apps in the foreground, messages are handled by a callback function.
+
+Notification messages can contain an optional data payload.
 
 [FCM](https://firebase.google.com/docs/cloud-messaging) Key capabilities
 
-Send notification messages or data messages	Send notification messages that are displayed to your user. Or send data messages and determine completely what happens in your application code.
+Send notification messages or data messages	Send notification messages that are displayed to your user. Or send 
 
 Versatile message targeting	Distribute messages to your client app in any of 3 ways—to single devices, to groups of devices, or to devices subscribed to topics.
 
 Send messages from client apps	Send acknowledgments, chats, and other messages from devices back to your server over FCM’s reliable and battery-efficient connection channel.
-
-## Implementation path
 
 This post is part of the ongoing Ionic4/Angular with Firebase serie, where we cover common use cases. Here is the full serie:
 
@@ -39,6 +52,44 @@ Demo app is deployed on [firebase-native-push-ionic4.web.app](https://firebase-n
 
 All source code can be found on GitHub: [https://github.com/meumobi/mmb-demos.firebase-native-push-ionic4](https://github.com/meumobi/mmb-demos.firebase-native-push-ionic4)
 
+If you want to test FCM using this project, you'll need to do the following:
+
+==> check README of project
+iOS
+
+- Change the package ID in the config.xml to a package ID which is associated with your Apple Developer Team and for which you have set appropriate capabilities (i.e. enabled Push Notifications).
+- Set up a Firebase project and add an iOS app which is configured for your package ID.
+- Upload an auth key or APNS certificate for the package ID to the Firebase project
+- Download the GoogleService-Info.plist for your app and overwrite the one bundled with this project.
+- Build and run your project on an iOS device (iOS Simulator cannot receive push notifications).
+
+Android
+
+- Change the package ID in the config.xml to another package ID.
+- Set up a Firebase project and add an Android app which is configured for your package ID.
+- Download the google-services.json for your app and overwrite the one bundled with this project.
+- Build and run your project on an Android device.
+
+## What you'll need
+### Prerequisites
+#### Dev tools
+We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova].
+
+```sh
+$ npm install cordova @ionic/cli typescript -g
+...
+$ npm ls -g cordova @ionic/cli npm typescript --depth 0
+/Users/vdias/.nvm/versions/node/v12.11.0/lib
+├── @ionic/cli@6.1.0 
+├── cordova@9.0.0 
+├── npm@6.13.6 
+├── phonegap@9.0.0
+└── typescript@3.7.5
+```
+
+#### Firebase account
+If you don’t have a Firebase account and project setup yet, the first thing we’ll need to do is to create a Firebase account and then [create a Firebase project](https://firebase.google.com/docs/web/setup#create-firebase-project). Both are free.
+
 ## What you'll build
 We are going to create a demo to show basic behaviors/actions related to native push.
 
@@ -53,11 +104,7 @@ We'll use [Ionic] for UI with [Angular], [Firebase Cloud Messaging] as cross-pla
 
 <!-- Add screenshots here -->
 
-## What you'll need
-We need to have [Node.js] and [Git] installed in order to install [Ionic]. And of course you'll also need a [Firebase] account.
-
-## Methodology
-Each main section below corresponds to a visible milestone of the project, where you can validate work on progress running App.
+## Implementation path
 
 1. Create a project
 2. Register Apps (iOS, Android) on Firebase console
@@ -84,24 +131,98 @@ when your app is in the background or not running, the OS will display a system 
 
 ```
 $ ionic start mmb-demos.firebase-native-push-ionic blank --type=angular --cordova --package-id=com.meumobi.demos.push
+$ cd ./mmb-demos.firebase-native-push-ionic
 ```
 
 Because Android package name can't use dash (hyphen), and iOS not allows underscore, then we set a package-id slightly different than project name
 
-## Register Apps on Firebase console
-Register Android and iOS Apps on firebase and download resp. `google-services.json` and `GoogleService-info.plist`
-
 ## Run & deploy the application
+### Prepare platform
+```
+$ ionic cordova prepare android
+> cordova platform add android --save
+...
+> ng run app:ionic-cordova-build --platform=android
+...
+> cordova prepare android
+...
+```
 
-## Add Firebase to your project
+You only need to run prepare platform the 1st time, for next builds only run app as described below.
 
-### Create a Firebase project
-[Create a Firebase project](https://firebase.google.com/docs/web/setup#create-firebase-project)
+### Run App
+```
+$ ionic cordova run android
+> ng run app:ionic-cordova-build --platform=android
+...
+> cordova build android --device
+...
+> native-run android --app platforms/android/app/build/outputs/apk/debug/app-debug.apk --device
+...
 
-### Register your app with Firebase
-[Register your app with Firebase](https://firebase.google.com/docs/web/setup#register-app)
+## Add Cordova plugin to support FCM
+### Choose the right Cordova plugin
+If you search on [@ionic-native](https://ionicframework.com/docs/native) you'll find several Cordova plugins to handle push notification, I've checked the main repos focused on FCM:
 
-### Add Firebase SDKs and initialize Firebase
+- [@ionic-native/firebase](https://ionicframework.com/docs/native/firebase)
+  - lib: [cordova-plugin-firebase](https://github.com/arnesson/cordova-plugin-firebase): 968 stars, 73 contributors, last commit 5 Apr. 2019, 406K Google results
+- [@ionic-native/fcm](https://ionicframework.com/docs/native/fcm)
+  - lib: [cordova-plugin-fcm-with-dependecy-updated](https://github.com/andrehtissot/cordova-plugin-fcm-with-dependecy-updated): 80 stars, 17 contributors, last commit 10 Dec. 2019, 1840 Google results
+  - [Example by Riley Lambert](https://morioh.com/p/c0bc44ba6fcb)
+  - [Example by DjamWare](https://www.djamware.com/post/5c6ccd1f80aca754f7a9d1ec/push-notification-using-ionic-4-and-firebase-cloud-messaging)
+  - [Example by JaveBratt](https://javebratt.com/ionic-push-notification/)
+- [@ionic-native/firebase-messaging](https://ionicframework.com/docs/native/firebase-messaging)
+  - lib: [cordova-plugin-firebase-messaging](https://github.com/chemerisuk/cordova-plugin-firebase-messaging): 89 stars, 5 contributors, last commit 27 Dec. 2019, 640 Google results
+- [@ionic-native/firebase-x](https://ionicframework.com/docs/native/firebase-x)
+  - lib: [cordova-plugin-firebasex](https://github.com/dpa99c/cordova-plugin-firebasex): 224 stars, 91 contributors, last commit 3 Dec. 2019, 222 Google results
+
+![npm_trends_cordova_native_push_plugin]({{ site.BASE_PATH }}/assets/media/firebase/npm_trends_cordova_native_push_plugin.png)
+npm_trends_cordova_native_push_plugin.png
+
+Source: [npm trends: cordova fcm plugin](https://www.npmtrends.com/cordova-plugin-firebase-vs-cordova-plugin-fcm-with-dependecy-updated-vs-cordova-plugin-firebase-messaging-vs-cordova-plugin-firebasex)
+
+Since the breaking change released by Google Firebase on Jun 17th, 2019 the "Official" [cordova-plugin-firebase](https://github.com/arnesson/cordova-plugin-firebase) (at least most used by community) [stop working](https://github.com/arnesson/cordova-plugin-firebase/issues/1057) and 2 forks raised [cordova-plugin-firebase-lib](https://github.com/wizpanda/cordova-plugin-firebase-lib) maintained by [Wiz Panda](https://www.wizpanda.com/) and [cordova-plugin-firebasex](https://ionicframework.com/docs/native/firebase-x) maintain by [Dave Alden](https://github.com/dpa99c). Both maintainers discussed in a [thread](https://github.com/dpa99c/cordova-plugin-firebasex/issues/47) and together decided to archive cordova-plugin-firebase-lib and divert the developers to Firebase X.
+
+### Install cordova-plugin-firebasex and its @ionic-native wrapper
+
+Install [cordova-plugin-firebasex](https://github.com/dpa99c/cordova-plugin-firebasex) and the Firebase-X Ionic native wrapper ([@ionic-native/firebase-x](https://ionicframework.com/docs/native/firebase-x)).
+
+```
+$ cordova plugin add cordova-plugin-firebasex
+$ npm install @ionic-native/firebase-x --save
+```
+
+### Register the plugin in an NgModule as a provider
+Register the plugin in an NgModule as a provider, for example on `src/app/app.module.ts`:
+
+```js
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { FirebaseX } from '@ionic-native/firebase-x/ngx';
+
+@NgModule({
+...
+  providers: [
+    InAppBrowser,
+    SplashScreen,
+    StatusBar,
+    FirebaseX,
+  ],
+...
+})
+
+export class AppModule {}
+```
+
+## Connect the app to Firebase
+Register [Android](https://firebase.google.com/docs/android/setup#register-app) and/or [iOS](https://firebase.google.com/docs/ios/setup) Apps on firebase and download resp. `google-services.json` and `GoogleService-info.plist`, save them on root of project.
+
+![firebase-console-register-android-app]({{ site.BASE_PATH }}/assets/media/firebase/firebase-console-register-android-app.png)
+
+At this stage if you run the app on device you should track on Firebase Console > Analytics Dashboard an auto collected event 'first_open' as shown below.
+
+{::comment}
+### Add Firebase and AngularFire SDKs
 
 The official [AngularFire](https://github.com/angular/angularfire/blob/master/docs/install-and-setup.md) library has many modules to help us interact with the different Firebase features, it includes FCM ([Firebase Cloud Messaging]) through [AngularFireMessaging](https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md).
 
@@ -110,6 +231,7 @@ The official [AngularFire](https://github.com/angular/angularfire/blob/master/do
 $ npm install @angular/fire firebase --save
 ```
 
+###  Initialize Firebase on NgModule
 Copy your firebase config (get from firebase console) to  
 **src/environments/environment.ts**
 
@@ -150,41 +272,7 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 })
 export class AppModule {}
 ```
-
-## Add Cordova plugin to handle messages
-### Plenty of Cordova plugins to handle FCM
-If you search on [@ionic-native](https://ionicframework.com/docs/native) you'll find several Cordova plugins to handle push notification, I've checked the main repos focused on FCM:
-
-- [@ionic-native/firebase](https://ionicframework.com/docs/native/firebase)
-  - lib: [cordova-plugin-firebase](https://github.com/arnesson/cordova-plugin-firebase): 968 stars, 73 contributors, last commit 5 Apr. 2019, 406K Google results
-- [@ionic-native/fcm](https://ionicframework.com/docs/native/fcm)
-  - lib: [cordova-plugin-fcm-with-dependecy-updated](https://github.com/andrehtissot/cordova-plugin-fcm-with-dependecy-updated): 80 stars, 17 contributors, last commit 10 Dec. 2019, 1840 Google results
-  - [Example by Riley Lambert](https://morioh.com/p/c0bc44ba6fcb)
-  - [Example by DjamWare](https://www.djamware.com/post/5c6ccd1f80aca754f7a9d1ec/push-notification-using-ionic-4-and-firebase-cloud-messaging)
-  - [Example by JaveBratt](https://javebratt.com/ionic-push-notification/)
-- [@ionic-native/firebase-messaging](https://ionicframework.com/docs/native/firebase-messaging)
-  - lib: [cordova-plugin-firebase-messaging](https://github.com/chemerisuk/cordova-plugin-firebase-messaging): 89 stars, 5 contributors, last commit 27 Dec. 2019, 640 Google results
-- [@ionic-native/firebase-x](https://ionicframework.com/docs/native/firebase-x)
-  - lib: [cordova-plugin-firebasex](https://github.com/dpa99c/cordova-plugin-firebasex): 224 stars, 91 contributors, last commit 3 Dec. 2019, 222 Google results
-
-Since the breaking change released by Google Firebase on Jun 17th, 2019 the "Official" [cordova-plugin-firebase](https://github.com/arnesson/cordova-plugin-firebase) (at least most used by community) [stop working](https://github.com/arnesson/cordova-plugin-firebase/issues/1057) and 2 forks raised [cordova-plugin-firebase-lib](https://github.com/wizpanda/cordova-plugin-firebase-lib) maintained by [Wiz Panda](https://www.wizpanda.com/) and [cordova-plugin-firebasex](https://ionicframework.com/docs/native/firebase-x) maintain by [Dave Alden](https://github.com/dpa99c). Both maintainers discussed in a [thread](https://github.com/dpa99c/cordova-plugin-firebasex/issues/47) and together decided to archive cordova-plugin-firebase-lib and divert the developers to Firebase X.
-
-### Install cordova-plugin-firebasex
-
-```
-$ cordova plugin add cordova-plugin-firebasex
-$ npm install @ionic-native/firebase-x --save
-```
-
-import { FirebaseX } from "@ionic-native/firebase-x/ngx";
-constructor(private firebase: FirebaseX)
-
-
-
-
-> Most importantly, I specified that you had to register the plugin in an NgModule as a provider
-
-Source: https://github.com/dpa99c/cordova-plugin-firebasex/pull/265
+{:/comment}
 
 ## Create FcmService
 
@@ -198,7 +286,6 @@ CREATE src/app/core/push-notification/fcm.service.ts (132 bytes)
 ```
 import { Injectable } from '@angular/core';
 import { FirebaseX } from '@ionic-native/firebase-x/ngx';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Platform } from '@ionic/angular';
 import { Observable } from 'rxjs';
 
@@ -209,7 +296,6 @@ export class FcmService {
 
   constructor(
     private firebase: FirebaseX,
-    private db: AngularFirestore,
     private platform: Platform
   ) { }
 
@@ -234,6 +320,7 @@ export class FcmService {
     return hasPermission;
   }
 
+/*
   private saveTokenToFirestore(token): Promise<void> {
     if (!token) { return; }
 
@@ -246,6 +333,7 @@ export class FcmService {
 
     return devicesRef.doc(token).set(docData);
   }
+*/
 
   listenToNotifications(): Observable<any> {
     return this.firebase.onMessageReceived();
@@ -278,109 +366,39 @@ export class AppComponent implements OnInit {
 }
 ```
 
+## Customize notifications
+### Icon
 
+### Color
 
-Run App on local device
-```
-$ ionic cordova prepare android
-> cordova platform add android --save
-...
-> ng run app:ionic-cordova-build --platform=android
-...
-> cordova prepare android
-cordova-plugin-androidx-adapter: Processed 24 Java source files in 699ms
-cordova-plugin-firebasex: Preparing Firebase on Android
-$
-```
-`ng run app:ionic-cordova-build` Generate ES5 bundles
-
-[cordova prepare](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/#cordova-prepare-command) copy files into platform(s) for building
-[cordova platform add](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/#cordova-platform-command) install plugin and add them on package.json, ex.:
-
-```
-Discovered saved plugin "cordova-plugin-firebasex". Adding it to the project
-Installing "cordova-plugin-firebasex" for android
-Installing "cordova-plugin-androidx" for android
-Installing "cordova-plugin-androidx-adapter" for android
-Subproject Path: CordovaLib
-Subproject Path: app
-Adding cordova-plugin-firebasex to package.json
-```
-
-To run app on connected device requires native-run `npm i -g native-run`
-OBS: -l option for livereload
-$ ionic cordova run android -l
-> ng run app:ionic-cordova-serve --host=localhost --port=8100 --platform=android
-> cordova build android --device
-> native-run android --app platforms/android/app/build/outputs/apk/debug/app-debug.apk --device --forward 8100:8100
-
-$ ionic cordova run android
-> ng run app:ionic-cordova-build --platform=android
-> cordova build android --device
-> native-run android --app platforms/android/app/build/outputs/apk/debug/app-debug.apk --device
-
-$ ionic cordova run ios
-> ng run app:ionic-cordova-build --platform=ios
-> cordova build ios --device
-> $ native-run ios --app platforms/ios/build/device/mmb-demos.firebase-native-push-ionic4.ipa --device
-
-$ ionic cordova platform remove android
-> cordova platform remove android
-
-$ rm -rf plugins/
-
-$ adb devices -l
-$ adb install -r platforms/android/build/outputs/apk/android-debug.apk
-=============
-
-
-
-$ ionic cordova prepare ios
-> cordova platform add ios --save
-
-
-Running command: pod install --verbose
-Failed to install 'cordova-plugin-firebasex': Error: pod: Command failed with exit code 31
-
-$ cd platforms/ios
-$ rm Podfil.lock
-$ vi Podfile (set all firebase same version)
-$ cd ../..
-
-
-
-FirebaseAnalytics 5.8.1
-FirebaseDynamicLinks 3.4.3
-FirebaseCore 5.4.1
-FirebaseAuth 5.4.2
-FirebaseMessaging 3.5.0
-FirebasePerformance 2.2.4
-FirebaseRemoteConfig 3.1.0
-
-
-Installing Firebase 6.13.0 (was 6.3.0)
-Installing FirebaseABTesting (3.1.2)
-Installing FirebaseAnalytics 6.1.6 (was 6.0.2 and source changed to `https://cdn.cocoapods.org/` from `trunk`)
-Installing FirebaseAuth (6.4.2)
-Installing FirebaseAuthInterop (1.0.0)
-Installing FirebaseCore 6.4.0 (was 6.0.3 and source changed to `https://cdn.cocoapods.org/` from `trunk`)
-Installing FirebaseCoreDiagnostics (1.2.0)
-Installing FirebaseCoreDiagnosticsInterop (1.2.0)
-Installing FirebaseDynamicLinks 4.0.6 (was 4.0.1 and source changed to `https://cdn.cocoapods.org/` from `trunk`)
-Installing FirebaseMessaging (4.1.10)
-Installing FirebasePerformance (3.1.7)
-Installing FirebaseRemoteConfig (4.4.6)
-
-
-https://ionicframework.com/docs/building/ios
-
-
-### Deeplink: go to a specific page when clicking on a notification
+## Deeplink: go to a specific page when clicking on a notification
 
 https://forum.ionicframework.com/t/go-to-a-specific-page-when-clicking-on-a-notification/123738
 https://enappd.com/blog/implement-ionic-4-firebase-push/34/
 
-## Good pratices for good notifications
+### Create a new page: about
+$ ionic g page about
+
+Edit `src/app/about/about.page.html` to add a back button on header:
+
+
+```
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>about</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+</ion-content>
+```
+
+
+## Good practices for good notifications
 
 It's up to you to use this post to "artificially re-engage users and force content down their throat" as said by [Stéphanie Walter](https://twitter.com/walterstephanie) on its great post [The Ultimate Guide to Not F#!@ing Up Push Notifications](https://stephaniewalter.design/blog/the-ultimate-guide-to-not-fck-up-push-notifications/), but I recommend to read about good practices and respect some basic rules:
 
@@ -393,6 +411,8 @@ Source: [Five Mistakes in Designing Mobile Push Notifications](https://www.nngro
 - [Ionic Native With Firebase FCM Push Notifications](https://angularfirebase.com/lessons/ionic-native-with-firebase-fcm-push-notifications-ios-android/)
 - [How to add Push Notifications in your Cordova application using Firebase](https://medium.com/@felipepucinelli/how-to-add-push-notifications-in-your-cordova-application-using-firebase-69fac067e821)
 - [Push Notification on Ionic 4 using Firebase (FCM) with Postman Request](https://medium.com/@abdulahad.momin07/push-notification-on-ionic-4-using-firebase-fcm-with-postman-request-15c0b33d7bbb)
+- [Firebase Cloud Messaging important REST API’s](https://medium.com/@selvaganesh93/firebase-cloud-messaging-important-rest-apis-be79260022b5)
+- [Ionic 5 Firebase FCM Push Notification Tutorial with Example](https://www.positronx.io/ionic-firebase-fcm-push-notification-tutorial-with-example/)
 
 [Node.js]: <https://nodejs.org/en/download/>
 [Git]: <http://git-scm.com/download>
@@ -515,8 +535,11 @@ Object Prototype
 
 
 ## Testing
+[Node script to use HTTP v!](https://github.com/dpa99c/cordova-plugin-firebasex-test/blob/master/scripts/sendMessage.js)
 [Migrate from legacy HTTP to HTTP v1](https://firebase.google.com/docs/cloud-messaging/migrate-v1)
 [Build app server send requests](https://firebase.google.com/docs/cloud-messaging/send-message)
 
 
 [Messages sent to an FCM TOPICS are public](https://stackoverflow.com/a/42291098/4982169)
+
+
