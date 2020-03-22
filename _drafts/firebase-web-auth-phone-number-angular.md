@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Firebase Phone Authentication with Angular
-categories: []
+categories: [Firebase]
 tags: [Firebase, Ionic, Analytics, Authentication, Phone, Angular]
 author:
   name: Victor Dias
@@ -12,24 +12,27 @@ author:
   email_md5: 1cd012be2382e755aa763c66acc7cfa6
 ---
 
-The aim of this tutorial is to show how to acheive user authentication by sending an SMS message to the user's phone. The user signs in using a one-time code contained in the SMS message.
+The aim of this tutorial is to show how to acheive user authentication by phone number, with [Firebase Authentication] and [Angular]. The user signs in using a one-time code contained in the SMS message.
 
-We'll do it for a [Ionic], [Angular] web app, through [Firebase Authentication], and explain later how to add a Factory provider to handle web and native apps with same source code.
-to validate phone numbers we'll use [ngx-intl-tel-input](https://www.npmjs.com/package/ngx-intl-tel-input), 
+We'll do it for **[web](https://firebase.google.com/docs/auth/web/phone-auth) and native apps** with [Ionic]. But, if you are only interested by web or native, no worry you can pick-up the service you want. We use [Factory Provider](https://angular.io/guide/dependency-injection-providers#factory-providers) to inject the right verifyNumber service according to App platform (cordova or not). We'll first develop the web service and later add the native one.
+To integrate [Firebase Authentication], we use [AngularFire] for web and [cordova-plugin-firebasex](https://www.npmjs.com/package/cordova-plugin-firebasex) for native. 
+
+As extra, we'll show how to **easily handle international phone numbers** with [ngx-intl-tel-input](https://www.npmjs.com/package/ngx-intl-tel-input).
+
+Then, let's go!
 
 ## Repository & demo
 
 All source code can be found on GitHub: [https://github.com/meumobi/mmb-demos.firebase-phone-authentication-angular](https://github.com/meumobi/mmb-demos.firebase-phone-authentication-angular)
 
 ## What you'll need
-### Prerequisites
-#### Dev tools
+### Dev tools
 We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova].
 
 ```sh
-$ npm install cordova @ionic/cli typescript -g
+$ npm install @ionic/cli cordova typescript @angular/cli -g
 ...
-$ npm ls -g cordova @ionic/cli npm typescript --depth 0
+$ npm ls -g npm @ionic/cli cordova typescript @angular/cli --depth 0
 /Users/vdias/.nvm/versions/node/v12.11.0/lib
 ├── @ionic/cli@6.2.0 
 ├── cordova@9.0.0 
@@ -38,29 +41,33 @@ $ npm ls -g cordova @ionic/cli npm typescript --depth 0
 └── typescript@3.8.3
 ```
 
-#### Firebase account
+### Firebase account
 If you don’t have yet, the first thing you’ll need to do is to create a Firebase account and then [create a Firebase project](https://firebase.google.com/docs/web/setup#create-firebase-project). Both are free.
 
 ## What you'll build
 
-To explore Analytics capabilities we'll use the conference starter ("A kitchen-sink application that shows off all Ionic has to offer"). It contains out-of-the-box a lot of useful pages to illustrate following features:
-
-- Login form to type and validate phone number.
-- Validate verification code
-
-There's no difference between iOS and Android in terms of implementation, then we'll focus on this tutorial on Android, because it's easier to build and test. But if you use these instructions on iOS App should works fine too.
+- Login form to type and **validate phone number** with [ngx-intl-tel-input](https://www.npmjs.com/package/ngx-intl-tel-input).
+- **VerifyPhoneNumber Factory Provider** to handle web and native Apps
+- **VerifyPhoneNumber-web** service with `@angular/fire/auth` to verify phone number ownership by sending a sms with verification code and confirm code.
+- **VerifyPhoneNumber-native** service with `firebase-x`
 
 ## Implementation path
 
-1. Create a Ionic/Angular project
-2. Add Firebase SDK and initialize it
-3. Create SignInService
-4. Add login page
+### Web version
 
-For native
+1. Create a Ionic/Angular project
+2. Connect web app to Firebase
+3. Add login page
+4. Create auth.service.provider and auth-web.service
+
+### Native version
+
+The native version follows steps of web, that means you should have complete previous tasks (except `Connect web app to Firebase` and `auth-web.service`) to proceed. 
+
+1. Connect Native apps to Firebase
+- download `google-services.json` and `GoogleService-info.plist`
 2. Install cordova-plugin-firebasex
-3. Connect apps to Firebase
-  - download `google-services.json` and `GoogleService-info.plist`
+3. Add auth-native.service
 
 ## Create a project
 
@@ -71,7 +78,7 @@ $ cd ./mmb-demos.firebase-phone-authentication-angular
 
 Then open the `config.xml` and update the widget@id with your own. We'll use this id later to register the app on firebase.
 
-## Add Firebase to your project
+## Connect web app to Firebase
 
 ### Create a Firebase project
 [Create a Firebase project](https://firebase.google.com/docs/web/setup#create-firebase-project)
@@ -128,8 +135,72 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 export class AppModule {}
 ```
 
+## Add login page
+
+```bash
+$ ionic g page login
+```
+
+### Install ngx-intl-tel-input
+[ngx-intl-tel-input](https://www.npmjs.com/package/ngx-intl-tel-input), an Angular package for entering and validating international telephone numbers.
+
+#### Install dependencies
+I've tried following [install instructions](https://www.npmjs.com/package/ngx-intl-tel-input#installation) but raise 2 errors, I fixed as described below:
+
+- First, to prevent error "Cannot read property 'kind' of undefined" when I add `ngx-bootstrap`. I followed another method suggested by [official install instructions of ngx-bootstrap](https://valor-software.com/ngx-bootstrap/#/documentation#installation-instructions), and use npm command.
+- Then I add `@angular/animations` to prevent `Cannot find module '@angular/animations'` errors on compilation. Need to choose a version compatible with your angular version, v8 here.
+
+So the results was:
+
+```bash
+$ npm install intl-tel-input@14.1.0 google-libphonenumber ngx-bootstrap bootstrap --save
++ ngx-bootstrap@5.5.0
++ google-libphonenumber@3.2.7
++ intl-tel-input@14.1.0
+$ npm i @angular/animations@8
++ bootstrap@4.4.1
++ @angular/animations@8.2.14
+```
+
+#### Add Dependency Style
+Add following styles on your angular.json, for build and test:
+
+```
+"./node_modules/bootstrap/dist/css/bootstrap.min.css",
+"./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+"./node_modules/intl-tel-input/build/css/intlTelInput.css",
+```
+
+#### Install library
+And finally, install the `ngx-intl-tel-input` lib.
+
+```bash
+$ npm install ngx-intl-tel-input --save
++ ngx-intl-tel-input@2.3.1
+```
+
+### Import modules
+Add `BsDropDownModule` and `NgxIntlTelInputModule` to your module, for example on `src/app/app.module.ts`:
+
+```ts
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+...
+@NgModule({
+  declarations: [AppComponent],
+  entryComponents: [],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    BsDropdownModule.forRoot(),
+    NgxIntlTelInputModule,
+  ],
+...
+```
+
 ## Sign-in service for web
-https://firebase.google.com/docs/auth/web/phone-auth
 [AngularFire](https://www.npmjs.com/package/@angular/fire) provides [AngularFireAuth](https://github.com/angular/angularfire/blob/master/docs/auth/getting-started.md) service to dynamically import the firebase/auth library and provide a promisified version of the [Firebase Auth SDK (firebase.auth.Auth)](https://firebase.google.com/docs/reference/js/firebase.auth.Auth).
 
 In our component we can then dependency inject AngularFireAuth and make calls against the SDK:
@@ -144,60 +215,6 @@ import { AngularFireAuth } from '@angular/fire/auth';
 constructor(afAuth: AngularFireAuth) {
   
 }
-```
-
-## Sign-in page
-
-```bash
-$ ionic g page login
-```
-
-### Install ngx-intl-tel-input
-[ngx-intl-tel-input](https://www.npmjs.com/package/ngx-intl-tel-input), an Angular package for entering and validating international telephone numbers.
-
-$ npm install ngx-intl-tel-input --save
-
-### Install dependencies
-```bash
-$ npm install intl-tel-input@14.1.0 google-libphonenumber ngx-intl-tel-input --save
-+ intl-tel-input@14.1.0
-+ google-libphonenumber@3.2.7
-+ ngx-intl-tel-input@2.3.1
-$ $ npm i typescript@3.5 --save
-+ typescript@3.5.3
-$ ng add ngx-bootstrap --component dropdowns
-$ npm i @angular/animations@8
-+ @angular/animations@8.2.14
-```
-
-In order to make it working I need to add some commands not referenced on official docs:
-
-- First, I upgrade typescript to v3.5.x to prevent error "Cannot read property 'kind' of undefined" when I add `ngx-bootstrap`.
-- Then I add `@angular/animations` to prevent `Cannot find module '@angular/animations'` errors on compilation.
-
-https://valor-software.com/ngx-bootstrap/#/dropdowns
-
-
-
-npm install ngx-intl-tel-input --save
-### Add Dependency Style
-
-### Import modules
-
-```ts
-...
-@NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    BsDropdownModule.forRoot(),
-    NgxIntlTelInputModule,
-  ],
-...
 ```
 
 
@@ -224,3 +241,4 @@ npm install ngx-intl-tel-input --save
 [Firebase Analytics]: <https://firebase.google.com/docs/analytics>
 [Firebase Cloud Messaging]: <https://firebase.google.com/docs/cloud-messaging>
 [AngularFireMessaging]: <https://github.com/angular/angularfire/blob/master/docs/messaging/messaging.md>
+[AngularFire]:<https://github.com/angular/angularfire>
