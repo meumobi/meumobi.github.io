@@ -28,8 +28,7 @@ It's a first post of a serie about Firebase Analytics, in which we pretend to co
 All source code can be found on GitHub: [https://github.com/meumobi/mmb-demos.firebase-analytics-ionic](https://github.com/meumobi/mmb-demos.firebase-analytics-ionic)
 
 ## What you'll need
-### Prerequisites
-#### Dev tools
+### Dev tools
 We need to have [Node.js] and [Git] installed in order to install both [Ionic] and [Cordova].
 
 ```sh
@@ -44,7 +43,7 @@ $ npm ls -g cordova @ionic/cli npm typescript --depth 0
 └── typescript@3.7.5
 ```
 
-#### Firebase account
+### Firebase account
 If you don’t have a Firebase account and project setup yet, the first thing we’ll need to do is to create a Firebase account and then [create a Firebase project](https://firebase.google.com/docs/web/setup#create-firebase-project). Both are free.
 
 ## What you'll build

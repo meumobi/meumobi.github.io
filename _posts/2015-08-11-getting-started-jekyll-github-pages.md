@@ -170,6 +170,7 @@ Source: [http://mrloh.se/2015/05/bending-markdown-for-jekyll-and-github-pages/](
 - [themes.jekyllrc.org](http://themes.jekyllrc.org/)
 - [jekyllthemes.io](https://jekyllthemes.io/)
 - [jekyllthemes.org](http://jekyllthemes.org/)
+- [JAMStack](https://jamstackthemes.dev/)
 
 ## Furthermore
 
