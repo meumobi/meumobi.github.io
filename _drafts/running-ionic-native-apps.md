@@ -49,9 +49,9 @@ $ rm -rf plugins/
 The config of the plugin is saved on package.json, if we want to update the config and re-install it then
 
 $ cordova plugin rm cordova-plugin-firebasex --nosave
-$ cordova prepare
+$ cordova prepare [PLATFORM]
 
-The --nosave flag prevents deleting specified plugin from the package.json file.
+The --nosave flag prevents deleting specified plugin and options from the package.json file.
 [Plugins are automatically restored from package.json](https://cordova.apache.org/docs/en/latest/platform_plugin_versioning_ref/#restoring-plugins) and config.xml when executing the cordova prepare command.
 
 ## Generate resources

@@ -81,3 +81,4 @@ It is quite normal and common that everybody makes mistakes. Even experienced An
 - [Angular Style Guide](https://angular.io/guide/styleguide)
 - [Angular Development Best Practices](https://code-maze.com/angular-best-practices/)
 - [RxJS best practices in Angular](https://blog.strongbrew.io/rxjs-best-practices-in-angular/)
+- [Cheatsheet for developing ⚡lightning⚡ fast progressive Angular applications.](https://github.com/mgechev/angular-performance-checklist)

@@ -5,6 +5,10 @@
 ## How to test my logic with a try catch block
 force error and expect toThrow()
 
-
+```ts
+it('Transform ISO 8601 datetime to default format', () => {
+  expect(() => pipe.transform('1994-12-01T14:32:02.135-02:00', 'zz1')).toThrow();
+});
+```
 
 https://codecraft.tv/courses/angular/unit-testing/overview/

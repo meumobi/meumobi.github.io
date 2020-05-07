@@ -102,6 +102,7 @@ firebase deploy --only functions:function1,functions:function2
 - [Cloud Firestore triggers](https://firebase.google.com/docs/functions/firestore-events)
 - [Google Cloud tutorials: Send Emails from Cloud Functions with SendGrid Tutorial](https://cloud.google.com/functions/docs/tutorials/sendgrid)
 - [Testing firebase cloud functions locally using cloud functions shell](https://medium.com/@moki298/test-your-firebase-cloud-functions-locally-using-cloud-functions-shell-32c821f8a5ce)
+- [Understanding Firebase Cloud Functions and Triggers](https://fullstackgcp.com/understanding-firebase-cloud-functions-and-triggers-cloud-high-voltage-cjyju2w9x000heds15ex7b4bq)
 
 [SendGrid]: <https://sendgrid.com/>
 [Node.js]: <https://nodejs.org/en/download/>
