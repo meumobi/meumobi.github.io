@@ -62,6 +62,13 @@ console.log('custom format: ', customFormat(locale));
 // → "D [de] MMMM"
 ```
 
+OBS: If you have no idea about which locale format to use you can have a look on momentjs localeData as inspiration:
+
+```js
+console.log(moment.localeData('pt-br').longDateFormat('LL'));
+// → D [de] MMMM [de] YYYY
+```
+
 ### Display formatted date
 
 When you get the required format you can use you prefered library to format date, for instance with momentjs:
