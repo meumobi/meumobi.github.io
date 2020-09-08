@@ -66,8 +66,9 @@ The native version follows steps of web, that means you should have complete pre
 
 1. Connect Native apps to Firebase
 - download `google-services.json` and `GoogleService-info.plist`
-2. Install cordova-plugin-firebasex
-3. Add auth-native.service
+1. Configure your app SHA-1 hash in the android app configuration in the Firebase console.
+1. Install cordova-plugin-firebasex
+1. Add auth-native.service
 
 ## Create a project
 
@@ -217,6 +218,7 @@ constructor(afAuth: AngularFireAuth) {
 }
 ```
 
+## Sign-in service for native
 
 # Furthermore
 - [Javebratt: Firebase Phone Number Authentication](https://javebratt.com/firebase-phone-authentication/)

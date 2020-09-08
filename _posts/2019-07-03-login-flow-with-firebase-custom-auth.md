@@ -108,7 +108,7 @@ You should set the engine on
 }
 
 ```
-I've some errors on deploy, and so far the workaround for me is remove project node_modules before functions, I did't figure out why.
+I've some errors on deploy, and so far the workaround for me is remove project node_modules before functions, I didn't figure out why.
 `$ rm -rf node_modules`  
 Deploy CF and after reinstall the modules
 `$ npm i`
