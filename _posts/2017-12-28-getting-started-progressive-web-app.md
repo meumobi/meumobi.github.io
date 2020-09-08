@@ -188,3 +188,5 @@ Source: [Progressive Web App (PWA) Usage and tracking with Web Analytics](https:
 - [Getting Started with Service Workers](https://alligator.io/js/service-workers/)
 - [Building a progressive web app (PWA): No React, no Angular, no Vue](https://blog.logrocket.com/building-a-progressive-web-app-pwa-no-react-no-angular-no-vue-aefdded3b5e)
 - [Building A PWA Using Angular 6](https://www.smashingmagazine.com/2018/09/pwa-angular-6)
+- [Angular Service Worker - Step-By-Step Guide for turning your Application into a PWA](https://blog.angular-university.io/angular-service-worker/)
+- [Build a production ready PWA with Angular and Firebase](https://itnext.io/build-a-production-ready-pwa-with-angular-and-firebase-8f2a69824fcc)

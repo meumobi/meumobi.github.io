@@ -34,6 +34,7 @@ $ ionic cordova run android
 ...
 > native-run android --app platforms/android/app/build/outputs/apk/debug/app-debug.apk --device
 ...
+``
 
 ## Reset platform
 
@@ -209,3 +210,12 @@ Running command: pod install --verbose
 Removing "cordova-plugin-firebasex"
 Removing plugin cordova-plugin-firebasex from config.xml file...
 Removing cordova-plugin-firebasex from package.json
+
+
+
+-<ion-avatar tappable routerLink="/profiles/edit/{{ profile.id }}">
++https://cocoapods.org/
++$ sudo gem install cocoapods
++
++$ ionic cordova prepare ios
++> cordova platform add ios --save

@@ -23,3 +23,4 @@ For details about how to use it I recommend reading my previous post [Getting st
 - [enappd: All PWA features in Ionic 4](https://enappd.com/blog/pwa-features-in-ionic-4/102/)
 - [Angular-university.io: Angular Push Notifications: a Complete Step-by-Step Guide](https://blog.angular-university.io/angular-push-notifications/)
 - [Add Web Push Notifications to your Ionic PWA](https://medium.com/@david.dalbusco/add-web-push-notifications-to-your-ionic-pwa-358f6ec53c6f)
+- [Build a Progressive Web App (PWA) with Ionic 4/Ionic Framework and Firebase Hosting](https://medium.com/@AnkitMaheshwariIn/build-a-progressive-web-app-pwa-with-ionic-4-ionic-framework-and-firebase-48183519c01)
