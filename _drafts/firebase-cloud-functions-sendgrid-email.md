@@ -5,7 +5,26 @@
 To have an idea of what could be done with cloud functions I recommend to have a look on [Cloud Functions for Firebase use cases](https://firebase.google.com/docs/functions/use-cases) or [Cloud Functions for Firebase samples](Collection of sample apps showcasing popular use cases using Cloud Functions for Firebase).
 
 
+## Use Email messaging
+### Sendgrid
+Pricing
+Free: 40,000 emails for your first 30 days, then send 100/day, forever
+Essentials: Starting at $14.95/mo plus $10/mo per 10,000 contacts
 
+### Mandrill
+Pricing
+Free: 2K subscribers and 12K emails/m
+Grow: $75.00 /month for 10K subscribers, unlimited emails
+
+### Mailgun
+Pricing
+Free: first 10,000 emails free, first 100 validations free
+Production: 79 US$/m 100,000 emails, 1,000 validations
+
+### Mailjet
+Pricing
+Free: 6,000 emails per month, 200 emails per day
+Basic: $9.65/mo for 30,000 emails per month, No daily sending limit
 ## Repository & demo
 
 All source code can be found on GitHub: [https://github.com/meumobi/mmb-demos.firebase-function-sendgrid-email](https://github.com/meumobi/mmb-demos.firebase-function-sendgrid-email)
@@ -96,6 +115,20 @@ When deploying functions, you can target specific functions. For example:
 firebase deploy --only functions:function1
 
 firebase deploy --only functions:function1,functions:function2
+
+## Monitoring cloud functions
+https://cloud.google.com/functions/docs/monitoring
+https://console.cloud.google.com/errors
+
+
+## CORS issue with onCall cloud function
+
+Could happens if we edit cf on Google cloud console. Should [update permissions to allow allUsers](https://github.com/firebase/firebase-functions/issues/645#issuecomment-605835353).
+
+## Throw an error within onCall cloud function
+
+https://firebase.google.com/docs/functions/callable#handle_errors
+https://stackoverflow.com/a/60214499/4982169
 
 ## Furthermore
 

@@ -600,6 +600,10 @@ Now you can work with it just like any other github repo. To pull in patches fro
 $ git fetch
 $ git remote prune origin
 
+## Contribute to an Open Source project on github
+
+https://www.sammyk.me/how-to-contribute-to-an-open-source-project-on-github
+
 ## Links
 
 - [http://rogerdudler.github.io/git-guide/](http://rogerdudler.github.io/git-guide/)
