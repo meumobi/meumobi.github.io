@@ -151,6 +151,21 @@ with {_id: 0} the _id is not fetched
 
 Source: https://stackoverflow.com/a/25825788/4982169
 
+and to get latest inserted record
+
+> db.skins.find().sort({_id:-1}).limit(1);
+
+
+## How to get the last N records in mongodb?
+
+If you use the auto created _id field it has a date embedded in it, so you can use that to order by
+
+> db.foo.find().sort({_id:1});
+
+The 1 will sort ascending (oldest to newest) and -1 will sort descending (newest to oldest.)
+
+[Source](https://stackoverflow.com/questions/4421207/how-to-get-the-last-n-records-in-mongodb)
+
 # How to get mongo command results in to a flat file
 
 $ mongo db < script.js > output.txt

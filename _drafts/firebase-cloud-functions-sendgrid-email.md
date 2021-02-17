@@ -130,12 +130,55 @@ Could happens if we edit cf on Google cloud console. Should [update permissions 
 https://firebase.google.com/docs/functions/callable#handle_errors
 https://stackoverflow.com/a/60214499/4982169
 
+```ts
+import * as functions from 'firebase-functions';
+...
+
+export const helloWorld = functions.https.onRequest((request, response) => {
+  try {
+    throw new Error("User's email must be provided.");
+  } catch (error) {
+    const entry = Object.assign(
+      {
+        severity: 'ERROR',
+        message: error.message,
+        trace: error.stack,
+      },
+    );
+
+    functions.logger.write(entry);
+  }
+
+/*   OR if strack trace is not important
+
+  catch (error) {
+    functions.logger.error(error.message);
+  } */
+
+  response.send("Hello from Firebase!");
+});
+```
+
+## firebase serve --only functions hot reload
+
+https://github.com/firebase/firebase-tools/issues/758
+
+```json
+  "scripts": {
+...
+    "serve": "tsc -w | firebase serve --only functions",
+...
+  },
+```
+
+
 ## Furthermore
 
 - [Cloud Firestore triggers](https://firebase.google.com/docs/functions/firestore-events)
 - [Google Cloud tutorials: Send Emails from Cloud Functions with SendGrid Tutorial](https://cloud.google.com/functions/docs/tutorials/sendgrid)
 - [Testing firebase cloud functions locally using cloud functions shell](https://medium.com/@moki298/test-your-firebase-cloud-functions-locally-using-cloud-functions-shell-32c821f8a5ce)
 - [Understanding Firebase Cloud Functions and Triggers](https://fullstackgcp.com/understanding-firebase-cloud-functions-and-triggers-cloud-high-voltage-cjyju2w9x000heds15ex7b4bq)
+- [Firebase Cloud Functions — Firestore Triggers](https://itnext.io/cloud-functions-firestore-triggers-d6fa30169ec8)
 
 [SendGrid]: <https://sendgrid.com/>
 [Node.js]: <https://nodejs.org/en/download/>

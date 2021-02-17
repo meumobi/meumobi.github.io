@@ -604,8 +604,32 @@ $ git remote prune origin
 
 https://www.sammyk.me/how-to-contribute-to-an-open-source-project-on-github
 
+## How to amend several commits in Git to change author
+
+First set your git author settings
+
+```sh
+git config --global user.name "John Doe"
+git config --global user.email johndoe@example.com
+```
+
+Then to reset the author for all commits after the given SHA
+
+```sh
+git rebase -i YOUR_SHA -x "git commit --amend --reset-author -CHEAD"
+```
+
+Or if you only want to change the author for the last N commits:
+
+```sh
+$ git rebase -i HEAD~N -x "git commit --amend --reset-author -CHEAD"
+```
+
+[Source](https://stackoverflow.com/a/25815116)
+
 ## Links
 
 - [http://rogerdudler.github.io/git-guide/](http://rogerdudler.github.io/git-guide/)
 - [http://www.miximum.fr/enfin-comprendre-git.html](http://www.miximum.fr/enfin-comprendre-git.html)
 - [Essential Git commands – Andy Walpole](https://andywalpole.me/blog/148397/essential-git-commands)
+- [How to Use GitHub: Fork, Branch, Track, Squash and Pull Request](https://www.gun.io/blog/how-to-github-fork-branch-and-pull-request)

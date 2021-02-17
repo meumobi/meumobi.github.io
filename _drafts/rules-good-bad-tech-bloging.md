@@ -25,3 +25,8 @@ The filename can give Google clues about the subject matter of the image. Try to
 **Prefer**
 ![Android universal-link intent prompt]({{ site.BASE_PATH}}/assets/media/deep/…...png)
 
+## Cloud APIs for mockup
+
+https://api.chucknorris.io/
+https://randomuser.me/
+https://jsonplaceholder.typicode.com/
