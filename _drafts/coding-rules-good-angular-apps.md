@@ -60,6 +60,7 @@ and good example on "Multiple executions" section https://dev.to/blacksonic/clar
 [Understanding RxJs multicast operators](https://netbasal.com/understanding-rxjs-multicast-operators-77b3f60af0a2)
 https://github.com/angular/angular/issues/9641#issuecomment-298914994
 https://medium.com/angular-in-depth/rxjs-how-to-use-refcount-73a0c6619a4e
+[The magic of RXJS sharing operators and their differences](https://itnext.io/the-magic-of-rxjs-sharing-operators-and-their-differences-3a03d699d255)
 
 ### Naming boolean variables
 There is a convention to prefix boolean variables and function names with "is" or "has". You know, something like isLoggedIn, hasAccess or things like that.
